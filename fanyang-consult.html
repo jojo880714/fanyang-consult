@@ -1,0 +1,3971 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280">
+<title>放洋留遊學｜EP 語言學校諮詢工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- =========================================================
+     SITE_CONFIG  ──  系統注入區（只改這兩行即可）
+     ========================================================= -->
+<script id="SITE_CONFIG">
+window.SITE_CONFIG = {
+  style: 'A',                                    // 'A' | 'B' | 'C' | 'D'
+  campuses: ['canary', 'dublin', 'malta'],       // 最多 5 個
+};
+</script>
+
+<style>
+/* ============== Reset & Base ============== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{
+  font-family:'Noto Sans TC',system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--ink);
+  font-weight:400;line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+select,input{font-family:inherit}
+
+/* ============== Tokens ============== */
+:root{
+  --rose:#C8436A; --rose-d:#8C2445; --rose-l:#FBE9EF; --rose-m:#F2B3C5;
+  --gold:#C4893C; --gold-l:#F7EDD8;
+  --bg:#F5F0E8; --sur:#FFFCF8; --sur2:#EDE8DF;
+  --ink:#1C0F12; --ink2:#3D2828; --ink3:#6B5050; --ink4:#9B8484;
+  --line:rgba(28,15,18,0.10); --line2:rgba(28,15,18,0.18);
+  --r:10px; --r-lg:14px; --r-sm:6px;
+  --top-bar-h:52px;
+  --display:'Cormorant Garamond',Georgia,serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+  --sans:'Noto Sans TC',system-ui,sans-serif;
+  --shadow-s:0 1px 3px rgba(28,15,18,0.06),0 2px 8px rgba(28,15,18,0.04);
+  --shadow-m:0 4px 16px rgba(28,15,18,0.08),0 1px 4px rgba(28,15,18,0.04);
+}
+
+/* ============== Layout shell ============== */
+.wrap{max-width:1080px;margin:0 auto;padding:0 48px}
+.wrap-wide{max-width:1200px;margin:0 auto;padding:0 48px}
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+section:last-child{border-bottom:none}
+
+/* 情感型 section 給更大空間 */
+#sec01{padding:100px 0}
+#sec04{padding:88px 0}
+#sec08{padding:88px 0}
+#sec11{padding:88px 0}
+#sec13{padding:88px 0}
+
+.sec-h{margin-bottom:32px}
+.sec-eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:0.14em;
+  color:var(--rose);text-transform:uppercase;margin-bottom:8px;font-weight:500;
+}
+.sec-title{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:clamp(32px,3.5vw,44px);line-height:1.15;color:var(--ink);letter-spacing:-0.01em;
+}
+/* 情感型 section 標題更大 */
+#sec01 .sec-title,
+#sec04 .sec-title,
+#sec08 .sec-title,
+#sec11 .sec-title{font-size:clamp(40px,4vw,56px)}
+/* 資訊型 section 標題略小 */
+#sec05 .sec-title,
+#sec06 .sec-title,
+#sec07 .sec-title,
+#sec10 .sec-title,
+#sec12 .sec-title{font-size:clamp(28px,3vw,38px)}
+.sec-sub{margin-top:10px;color:var(--ink3);font-size:15px;max-width:760px}
+
+/* ============== Advisor bar ============== */
+#advisor-bar{
+  position:sticky;top:0;z-index:50;
+  min-height:var(--top-bar-h);
+  background:var(--ink);color:#fff;
+  display:flex;align-items:center;gap:14px;padding:6px 20px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  font-size:13px;flex-wrap:wrap;
+}
+.ab-brand{
+  font-family:var(--display);font-style:italic;font-weight:700;font-size:18px;
+  color:#fff;letter-spacing:0.01em;padding-right:14px;
+  border-right:1px solid rgba(255,255,255,0.15);
+  white-space:nowrap;
+}
+.ab-group{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,0.65);white-space:nowrap}
+.ab-label{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+.ab-pills{display:flex;gap:4px}
+.ab-pill{
+  padding:4px 11px;border-radius:999px;font-size:12px;font-weight:500;
+  background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.75);
+  transition:all .15s ease;border:1px solid transparent;
+}
+.ab-pill:hover{background:rgba(255,255,255,0.14);color:#fff}
+.ab-pill.is-on{background:var(--rose);color:#fff;border-color:var(--rose)}
+.ab-checks{display:flex;gap:10px;flex-wrap:wrap;max-width:520px}
+.ab-check{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;
+  color:rgba(255,255,255,0.75);cursor:pointer;user-select:none;
+  padding:3px 10px;border-radius:999px;background:rgba(255,255,255,0.06);
+  transition:all .15s ease;
+}
+.ab-check input{accent-color:var(--rose);width:13px;height:13px}
+.ab-check.is-off{opacity:0.45;text-decoration:line-through}
+.ab-spacer{flex:1}
+.ab-toggle{
+  display:inline-flex;align-items:center;gap:8px;font-size:12px;
+  color:rgba(255,255,255,0.75);cursor:pointer;
+}
+.ab-toggle input{
+  appearance:none;width:32px;height:18px;background:rgba(255,255,255,0.18);
+  border-radius:999px;position:relative;cursor:pointer;transition:.15s;
+}
+.ab-toggle input::before{
+  content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;
+  background:#fff;border-radius:50%;transition:.15s;
+}
+.ab-toggle input:checked{background:var(--rose)}
+.ab-toggle input:checked::before{transform:translateX(14px)}
+
+/* Demo mode hides advisor-only */
+body.demo-mode .advisor-only{display:none !important}
+body.demo-mode .area-layout{grid-template-columns:1fr}
+
+/* ============== Section 01 — Hero ============== */
+#sec01{
+  background:var(--ink);color:#fff;padding:88px 0;
+  position:relative;overflow:hidden;border-bottom:none;
+}
+#sec01::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 800px 400px at 50% 60%,rgba(200,67,106,0.18),transparent 70%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  position:absolute;top:24px;right:32px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.16em;
+  color:var(--rose-m);text-transform:uppercase;
+}
+.hero-line{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:clamp(44px,5.5vw,72px);line-height:1.08;color:rgba(255,255,255,0.96);
+  text-align:center;letter-spacing:-0.01em;
+}
+.hero-line .accent{color:var(--rose-m);font-style:italic}
+.hero-cities{
+  margin-top:28px;text-align:center;
+  font-family:var(--sans);font-size:14px;color:rgba(255,255,255,0.6);
+  letter-spacing:0.06em;
+}
+.hero-cities span{display:inline-block;margin:0 12px}
+.hero-foot{
+  margin-top:60px;text-align:center;
+  border-top:1px solid rgba(255,255,255,0.14);
+  padding-top:24px;max-width:380px;margin-left:auto;margin-right:auto;
+  font-size:13px;color:rgba(255,255,255,0.55);letter-spacing:0.04em;
+}
+
+/* ============== Section 02 — Card grid ============== */
+.cards-grid{display:grid;gap:20px}
+.cards-grid.cols-1{max-width:480px;margin:0 auto;grid-template-columns:1fr}
+.cards-grid.cols-2{grid-template-columns:1fr 1fr}
+.cards-grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.cards-grid.cols-many{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+
+.card{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:24px;display:flex;flex-direction:column;gap:14px;
+  box-shadow:var(--shadow-s);transition:border-color .2s ease,box-shadow .2s ease;
+}
+.card:hover{border-color:var(--rose-m);box-shadow:var(--shadow-m)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card-city{font-family:var(--display);font-style:italic;font-weight:600;font-size:32px;line-height:1.1;color:var(--ink)}
+.card-region{font-size:12px;color:var(--ink3);margin-top:4px;letter-spacing:0.04em}
+.card-divider{height:1px;background:var(--line);margin:2px 0}
+
+/* Age badge */
+.badge-age{
+  display:inline-flex;align-items:center;padding:3px 9px;border-radius:999px;
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:0.02em;
+}
+.badge-age.age-16{background:#E5F4E8;color:#2A6B3A}
+.badge-age.age-18{background:#E1ECF7;color:#1D4F87}
+.badge-age.age-30,
+.badge-age.age-30plus{
+  background:var(--rose-l);color:var(--rose-d);
+  border:1.5px solid var(--rose-m);font-weight:700;
+  padding:3px 10px;font-size:12px;
+}
+
+/* 30+ age-limit emphasis banners (Styles A/C/D + sec03) */
+.age-requirement-banner,
+.age-gate-notice{
+  display:flex;align-items:center;gap:7px;
+  background:var(--rose-l);
+  border:1px solid var(--rose-m);
+  border-radius:var(--r-sm);
+  padding:7px 12px;
+  font-size:12px;color:var(--rose-d);
+  font-weight:500;margin-bottom:12px;line-height:1.4;
+}
+.age-req-icon{font-size:14px;flex-shrink:0}
+.tbl-age-warning{
+  font-size:10px;color:var(--rose-d);margin-top:4px;
+  display:inline-flex;align-items:center;gap:3px;
+}
+
+/* Style A — personas + stats + features */
+.personas{display:flex;flex-wrap:wrap;gap:6px}
+.persona-tag{
+  background:var(--rose-l);color:var(--rose-d);
+  padding:4px 10px;border-radius:999px;font-size:11px;font-weight:500;
+}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0}
+.stat-box{
+  background:var(--sur2);border-radius:var(--r);padding:10px 8px;text-align:center;
+}
+.stat-label{font-size:10px;color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:4px}
+.stat-val{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--ink)}
+.feat-list{display:flex;flex-direction:column;gap:8px}
+.feat-item{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink2);line-height:1.5}
+.feat-item::before{
+  content:'✓';color:var(--rose);font-weight:700;flex-shrink:0;
+  margin-top:1px;font-size:13px;
+}
+
+/* Style B — fee focus */
+.fee-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:4px 0}
+.fee-cell{}
+.fee-label{font-size:11px;color:var(--ink3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px}
+.fee-val{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--ink)}
+.fee-bar{height:6px;background:var(--sur2);border-radius:999px;overflow:hidden;margin:2px 0}
+.fee-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#5BA75E 0%,#E0A03D 55%,#C8436A 100%)}
+.fee-level{font-size:11px;color:var(--ink3);display:flex;justify-content:space-between;margin-top:4px}
+.fee-estimate{
+  background:var(--sur2);border-radius:var(--r);padding:10px 12px;
+  font-size:13px;color:var(--ink2);font-family:var(--mono);
+}
+
+/* Style C — mood focus */
+.mood-tag{
+  font-family:var(--display);font-style:italic;font-size:15px;color:var(--rose);
+  letter-spacing:0.06em;text-transform:uppercase;font-weight:600;
+}
+.mood-desc{font-size:13px;color:var(--ink3);line-height:1.6}
+.icon-pills{display:flex;flex-wrap:wrap;gap:6px}
+.icon-pill{
+  background:var(--sur2);color:var(--ink2);
+  padding:5px 10px;border-radius:999px;font-size:11px;
+}
+.quote-box{
+  background:var(--sur2);border-left:3px solid var(--rose);
+  padding:12px 14px;border-radius:0 var(--r) var(--r) 0;
+  font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink2);
+  line-height:1.5;
+}
+.card-foot{font-size:12px;color:var(--ink3);font-family:var(--mono);margin-top:auto;padding-top:8px;border-top:1px solid var(--line)}
+
+/* Style D — info dense */
+.kv-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px}
+.kv{font-size:12px}
+.kv-l{color:var(--ink3);margin-bottom:2px;text-transform:uppercase;letter-spacing:0.04em;font-size:10px}
+.kv-v{font-family:var(--mono);color:var(--ink);font-weight:500}
+.row-tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag-line{font-size:11px;color:var(--ink3);margin-bottom:4px;letter-spacing:0.04em}
+.mini-tag{
+  background:var(--sur2);color:var(--ink2);
+  padding:3px 8px;border-radius:4px;font-size:11px;
+  font-family:var(--mono);
+}
+.mini-tag.is-special{background:var(--rose-l);color:var(--rose-d)}
+.mini-tag.is-special::before{content:'★ ';color:var(--gold)}
+.mini-tag.is-home::before{content:'🏠 '}
+.mini-tag.is-dorm::before{content:'🏫 '}
+.mini-tag.is-apt::before{content:'🏢 '}
+.mini-tag.is-hotel::before{content:'🏨 '}
+.mini-tag.is-hostel::before{content:'🛏 '}
+
+/* ============== Section 03 — Comparison table ============== */
+.tbl-wrap{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;box-shadow:var(--shadow-s);
+}
+.tbl-scroll{overflow-x:auto}
+.cmp-tbl{
+  width:100%;border-collapse:collapse;font-size:13px;
+  min-width:760px;
+}
+.cmp-tbl th,.cmp-tbl td{
+  padding:14px 18px;text-align:left;vertical-align:middle;
+  border-bottom:1px solid var(--line);
+}
+.cmp-tbl thead th{
+  background:var(--sur2);color:var(--ink);font-weight:500;font-size:13px;
+  border-bottom:1px solid var(--line2);
+  white-space:nowrap;
+}
+.cmp-tbl thead th .th-flag{font-size:20px;margin-right:6px;vertical-align:middle}
+.cmp-tbl tbody tr:hover{background:rgba(200,67,106,0.025)}
+.cmp-tbl tbody tr:last-child td{border-bottom:none}
+.cmp-tbl .col-label{
+  position:sticky;left:0;background:var(--sur);z-index:2;
+  font-weight:500;color:var(--ink3);font-size:12px;
+  letter-spacing:0.04em;text-transform:uppercase;
+  border-right:1px solid var(--line);min-width:140px;
+}
+.cmp-tbl thead .col-label{background:var(--sur2)}
+.cmp-tbl tbody tr:hover .col-label{background:#FAF2F4}
+
+.tbl-mini-bar{display:flex;align-items:center;gap:8px}
+.tbl-mini-bar-wrap{flex:1;height:5px;background:var(--sur2);border-radius:999px;overflow:hidden;min-width:60px;max-width:140px}
+.tbl-mini-bar-fill{height:100%;background:var(--rose);border-radius:999px}
+.tbl-cost-bar{height:6px;background:var(--sur2);border-radius:999px;overflow:hidden;min-width:80px;max-width:160px}
+.tbl-cost-bar-fill{height:100%;background:linear-gradient(90deg,#5BA75E,#E0A03D 55%,#C8436A);border-radius:999px}
+
+.age-bar{display:flex;align-items:center;gap:2px;font-family:var(--mono);font-size:11px}
+.age-bar-seg{height:8px;border-radius:2px}
+.age-seg-16{background:#A7D7B0;width:18px}
+.age-seg-18{background:#9DBEE2;width:30px}
+.age-seg-30{background:var(--rose-m);width:36px}
+.age-bar-seg.dim{opacity:0.18}
+
+.tbl-lang-tag{
+  display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;
+  background:var(--sur2);color:var(--ink2);
+  font-family:var(--mono);
+}
+.tbl-lang-tag.is-bilingual{background:var(--rose-l);color:var(--rose-d)}
+
+.visa-mini{display:flex;flex-wrap:wrap;gap:4px}
+.visa-mini span{
+  background:var(--sur2);color:var(--ink2);
+  padding:2px 7px;border-radius:4px;font-size:11px;
+}
+
+/* ============== Section 04 — City vibes ============== */
+.vibe-card{
+  border-radius:var(--r-lg);padding:32px 26px 28px;color:#fff;
+  position:relative;overflow:hidden;min-height:280px;
+  display:flex;flex-direction:column;gap:18px;
+  box-shadow:var(--shadow-m);
+}
+.vibe-card::before{
+  content:'';position:absolute;inset:0;
+  background:var(--vibe-glow);pointer-events:none;
+}
+.vibe-card>*{position:relative;z-index:1}
+.vibe-region{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.1em;
+  color:rgba(255,255,255,0.7);text-transform:uppercase;
+}
+.vibe-mood{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:34px;line-height:1.15;color:#fff;letter-spacing:-0.005em;
+}
+.vibe-scene{
+  font-size:14px;color:rgba(255,255,255,0.78);line-height:1.6;
+  border-left:2px solid rgba(255,255,255,0.3);padding-left:12px;
+  font-style:italic;
+}
+.vibe-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.vibe-pill{
+  background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.92);
+  padding:5px 11px;border-radius:999px;font-size:11px;
+  border:1px solid rgba(255,255,255,0.12);
+}
+
+/* ============== Section 05 — Courses ============== */
+.course-cols{display:grid;gap:18px}
+.course-col{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:20px;
+}
+.course-col-head{
+  display:flex;align-items:baseline;gap:8px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px;
+}
+.course-col-head .ch-name{font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;color:var(--ink)}
+.course-col-head .ch-flag{font-size:18px}
+.course-list{display:flex;flex-direction:column;gap:10px}
+.course-item{
+  border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;
+  transition:border-color .15s ease;background:var(--sur);
+}
+.course-item.is-special{border-color:var(--rose-m);background:#FFF8FA}
+.course-head{
+  display:flex;justify-content:space-between;align-items:flex-start;gap:10px;cursor:pointer;
+}
+.course-name{
+  font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;flex:1;
+}
+.course-item.is-special .course-name::before{content:'★ ';color:var(--gold)}
+.course-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.course-tag{
+  background:var(--sur2);color:var(--ink3);
+  padding:2px 7px;border-radius:4px;font-size:10px;font-family:var(--mono);
+}
+.course-price{
+  font-family:var(--mono);font-size:13px;color:var(--rose);font-weight:500;
+  flex-shrink:0;text-align:right;
+}
+/* .course-desc moved to refactor v2 block (grid animation) */
+.course-item .toggle-arrow{
+  width:14px;height:14px;color:var(--ink4);transition:transform .2s;
+  display:inline-block;text-align:center;line-height:14px;font-size:10px;
+}
+.course-item.is-open .toggle-arrow{transform:rotate(180deg);color:var(--rose)}
+
+/* ============== Section 06 — Accommodation ============== */
+.accomm-cols{display:grid;gap:18px}
+.accomm-col{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;
+}
+.accomm-list{display:flex;flex-direction:column;gap:10px}
+.accomm-item{
+  border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;
+  display:flex;flex-direction:column;gap:6px;
+}
+.accomm-line1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.accomm-name{font-size:13px;font-weight:500;color:var(--ink)}
+.accomm-type-badge{
+  font-size:11px;padding:2px 8px;border-radius:999px;font-family:var(--mono);
+}
+.accomm-type-home{background:#FDEEDD;color:#8A4810}
+.accomm-type-dorm{background:#DDE7F5;color:#1D4F87}
+.accomm-type-apt{background:#E5F1E7;color:#2A6B3A}
+.accomm-type-hotel{background:var(--rose-l);color:var(--rose-d)}
+.accomm-type-hostel{background:#EBE2F2;color:#5A3A8C}
+.accomm-meta{font-size:11px;color:var(--ink3);font-family:var(--mono)}
+.accomm-price{font-family:var(--mono);font-size:13px;color:var(--rose);font-weight:500}
+.accomm-desc{font-size:12px;color:var(--ink3);line-height:1.5}
+.accomm-summary{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--line);
+  font-size:12px;color:var(--ink3);line-height:1.6;
+}
+.accomm-summary b{color:var(--ink2);font-weight:500}
+
+/* ============== Section 07 — Fee calculator ============== */
+#sec07{background:linear-gradient(180deg,#F5F0E8 0%,#EDE5D8 100%)}
+.calc-shared{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:18px 22px;margin-bottom:22px;display:flex;align-items:center;gap:18px;
+  flex-wrap:wrap;
+}
+.calc-shared-label{font-size:13px;color:var(--ink2);font-weight:500}
+.weeks-pills{display:flex;flex-wrap:wrap;gap:6px}
+.weeks-pill{
+  padding:6px 13px;border-radius:999px;font-family:var(--mono);font-size:12px;
+  background:var(--sur2);color:var(--ink2);border:1px solid transparent;
+  transition:all .15s;
+}
+.weeks-pill:hover{background:var(--rose-l);color:var(--rose-d)}
+.weeks-pill.is-on{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+.calc-cols{display:grid;gap:18px}
+.calc-card{
+  background:linear-gradient(180deg,#1C0F12 0%,#2A1820 100%);
+  color:#fff;border-radius:var(--r-lg);padding:24px 22px;
+  display:flex;flex-direction:column;gap:14px;
+  box-shadow:var(--shadow-m);
+}
+.calc-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.calc-city{font-family:var(--display);font-style:italic;font-weight:600;font-size:26px;color:#fff}
+.calc-flag{font-size:20px}
+.calc-controls{display:flex;flex-direction:column;gap:10px}
+.calc-ctrl-row{display:flex;flex-direction:column;gap:4px}
+.calc-ctrl-row label{font-size:11px;color:rgba(255,255,255,0.55);letter-spacing:0.06em;text-transform:uppercase}
+.calc-ctrl-row select{
+  background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);
+  padding:8px 12px;border-radius:var(--r-sm);font-size:13px;
+  font-family:var(--sans);
+}
+.calc-ctrl-row select:focus{outline:none;border-color:var(--rose-m)}
+.calc-ctrl-row select option{background:#1C0F12;color:#fff}
+.calc-breakdown{
+  background:rgba(255,255,255,0.05);border-radius:var(--r);
+  padding:14px 16px;display:flex;flex-direction:column;gap:8px;
+}
+.calc-line{display:flex;justify-content:space-between;align-items:center;font-size:13px}
+.calc-line-l{color:rgba(255,255,255,0.6)}
+.calc-line-v{font-family:var(--mono);color:#fff;font-weight:500}
+.calc-divider{height:1px;background:rgba(255,255,255,0.10);margin:4px 0}
+.calc-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding-top:6px;
+}
+.calc-total .l{font-size:13px;color:rgba(255,255,255,0.85)}
+.calc-total .v{font-family:var(--mono);font-size:22px;color:var(--rose-m);font-weight:500}
+.calc-twd{
+  text-align:right;font-size:12px;color:rgba(255,255,255,0.55);
+  font-family:var(--mono);margin-top:2px;
+}
+.calc-living{
+  border-top:1px solid rgba(255,255,255,0.10);padding-top:12px;margin-top:6px;
+  font-size:11px;color:rgba(255,255,255,0.65);line-height:1.6;
+}
+.calc-living-row{
+  display:flex;justify-content:space-between;align-items:center;
+  color:rgba(255,255,255,0.45);margin-bottom:5px;
+  font-family:var(--mono);gap:8px;
+}
+.calc-living-grand{
+  color:rgba(255,255,255,0.7);
+  font-weight:500;font-size:12px;
+  padding-top:6px;margin-top:4px;
+  border-top:1px dashed rgba(255,255,255,0.1);
+}
+.calc-living-note{
+  font-size:10px;color:rgba(255,255,255,0.30);
+  margin-top:6px;line-height:1.5;font-family:var(--sans);
+}
+.calc-rate-note{
+  margin-top:14px;text-align:center;font-size:12px;color:var(--ink3);
+  font-family:var(--mono);letter-spacing:0.04em;
+}
+
+/* ============== Section 08 — A day there ============== */
+.day-cols{display:grid;gap:22px}
+.day-col{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;
+}
+.day-timeline{position:relative;padding-left:24px;margin-top:14px}
+.day-timeline::before{
+  content:'';position:absolute;left:6px;top:8px;bottom:8px;width:1px;
+  background:linear-gradient(180deg,var(--rose-m),var(--line));
+}
+.day-item{position:relative;padding-bottom:18px}
+.day-item:last-child{padding-bottom:0}
+.day-item::before{
+  content:'';position:absolute;left:-22px;top:5px;width:9px;height:9px;
+  background:var(--rose);border:2px solid var(--sur);border-radius:50%;
+  box-shadow:0 0 0 1px var(--rose-m);
+}
+.day-time{
+  font-family:var(--mono);font-size:11px;color:var(--rose);font-weight:500;
+  letter-spacing:0.06em;margin-bottom:3px;
+}
+.day-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px}
+.day-desc{font-size:13px;color:var(--ink3);line-height:1.6}
+
+/* ============== Section 09 — Personas ============== */
+.persona-cols{display:grid;gap:18px}
+.persona-col{display:flex;flex-direction:column;gap:14px}
+.persona-col-head{
+  font-family:var(--display);font-style:italic;font-weight:600;font-size:20px;color:var(--ink);
+  padding-bottom:8px;border-bottom:1px solid var(--line);
+  display:flex;align-items:baseline;gap:6px;
+}
+.persona-card{
+  background:var(--rose-l);border:1px solid var(--rose-m);border-radius:var(--r);
+  padding:16px 18px;display:flex;flex-direction:column;gap:8px;
+}
+.persona-role{
+  font-size:14px;font-weight:500;color:var(--rose-d);line-height:1.5;
+}
+.persona-why{font-size:13px;color:var(--ink2);line-height:1.6}
+.persona-tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.persona-mini{
+  background:rgba(200,67,106,0.12);color:var(--rose-d);
+  padding:3px 9px;border-radius:4px;font-size:11px;font-weight:500;
+}
+
+/* ============== Section 10 — CEFR ============== */
+.cefr-tbl{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  overflow:hidden;
+}
+.cefr-row{
+  display:grid;grid-template-columns:80px 100px 1fr 160px 160px;
+  align-items:center;gap:18px;padding:16px 22px;
+  border-bottom:1px solid var(--line);
+}
+.cefr-row:last-child{border-bottom:none}
+.cefr-row.cefr-head{
+  background:var(--sur2);font-size:11px;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:0.06em;font-weight:500;padding:12px 22px;
+}
+.cefr-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:48px;height:30px;border-radius:6px;
+  font-family:var(--mono);font-size:14px;font-weight:500;color:#fff;
+}
+.cefr-a1{background:#9DBEE2}.cefr-a2{background:#5B8EC8}
+.cefr-b1{background:#5BA75E}.cefr-b2{background:#3D8A40}
+.cefr-c1{background:var(--rose)}.cefr-c2{background:var(--rose-d)}
+.cefr-name{font-size:13px;color:var(--ink2);font-weight:500}
+.cefr-bar-wrap{
+  height:8px;background:var(--sur2);border-radius:999px;overflow:hidden;
+  position:relative;
+}
+.cefr-bar-fill{
+  height:100%;background:linear-gradient(90deg,#9DBEE2,#5BA75E,var(--rose));
+  border-radius:999px;width:0;transition:width 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.cefr-row.cefr-anim .cefr-bar-fill{width:var(--w)}
+.cefr-hrs,.cefr-test{font-family:var(--mono);font-size:12px;color:var(--ink3)}
+
+.cefr-calc{
+  margin-top:22px;background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:20px 22px;
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.cefr-calc-l{font-size:13px;color:var(--ink2);font-weight:500}
+.cefr-calc select{
+  background:var(--sur2);border:1px solid var(--line);
+  padding:7px 12px;border-radius:var(--r-sm);font-size:13px;color:var(--ink);
+}
+.cefr-calc-result{
+  margin-left:auto;font-family:var(--mono);font-size:14px;color:var(--rose);
+  font-weight:500;
+}
+.cefr-calc-result b{color:var(--rose-d);font-size:18px;margin:0 4px}
+.cefr-note{
+  margin-top:14px;text-align:center;font-size:12px;color:var(--ink3);
+  font-family:var(--mono);
+}
+
+/* ============== Section 11 — Bring home (asymmetric in v2 block) ============== */
+.gift-card{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:28px 24px;display:flex;flex-direction:column;gap:10px;
+}
+.gift-emoji{font-size:38px;line-height:1}
+.gift-title{font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;color:var(--ink);margin-top:4px}
+.gift-desc{font-size:13px;color:var(--ink3);line-height:1.7}
+
+/* ============== Section 12 — Before you go ============== */
+.before-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px}
+.before-card{
+  background:var(--sur);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px;
+}
+.before-h{
+  font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;
+  color:var(--ink);margin-bottom:12px;
+}
+.before-eyebrow{
+  font-family:var(--mono);font-size:11px;color:var(--rose);
+  letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;
+}
+.visa-list{display:flex;flex-direction:column;gap:10px}
+.visa-row{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:10px 0;border-bottom:1px dashed var(--line);font-size:13px;
+}
+.visa-row:last-child{border-bottom:none}
+.visa-country{color:var(--ink2);display:flex;align-items:center;gap:8px}
+.visa-val{font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:right}
+.accred-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.accred-badge{
+  background:var(--gold-l);color:#7A5310;
+  padding:5px 11px;border-radius:4px;font-size:12px;
+  font-family:var(--mono);font-weight:500;
+}
+.support-list{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+.support-item{font-size:13px;color:var(--ink2);line-height:1.6}
+.support-item b{display:block;color:var(--rose-d);font-weight:500;margin-bottom:2px}
+
+/* ============== Section 13 — CTA ============== */
+#sec13{
+  background:linear-gradient(135deg,#8C2445 0%,#C8436A 100%);
+  color:#fff;padding:100px 0;border-bottom:none;
+  position:relative;overflow:hidden;
+}
+#sec13::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 600px 300px at 80% 30%,rgba(255,255,255,0.10),transparent 60%);
+}
+.cta-wrap{position:relative;z-index:1;text-align:center}
+.cta-line{
+  font-family:var(--display);font-style:italic;font-weight:600;font-size:54px;
+  line-height:1.15;color:#fff;letter-spacing:-0.005em;max-width:900px;margin:0 auto;
+}
+.cta-sub{
+  margin-top:16px;font-size:15px;color:rgba(255,255,255,0.78);
+  letter-spacing:0.02em;
+}
+.cta-btns{margin-top:38px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn-primary{
+  background:#fff;color:var(--rose-d);
+  padding:15px 30px;border-radius:999px;font-size:15px;font-weight:500;
+  text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+.btn-secondary{
+  background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.5);
+  padding:15px 30px;border-radius:999px;font-size:15px;font-weight:500;
+  display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+  transition:all .15s ease;
+}
+.btn-secondary:hover{background:rgba(255,255,255,0.10);border-color:#fff}
+
+/* ============== Refactor v2 — new modules ============== */
+
+/* Generic content tabs (sec05/06/area/climate/spend) */
+.content-tabs{
+  display:flex;gap:6px;margin-bottom:24px;
+  border-bottom:1px solid var(--line);padding-bottom:0;flex-wrap:wrap;
+}
+.content-tab{
+  display:flex;align-items:center;gap:7px;
+  font-size:13px;font-weight:500;
+  color:var(--ink3);padding:8px 16px;
+  border-radius:var(--r-sm) var(--r-sm) 0 0;
+  background:none;border:none;
+  border-bottom:2px solid transparent;
+  margin-bottom:-1px;transition:all .15s;cursor:pointer;
+  font-family:var(--sans);
+}
+.content-tab:hover{color:var(--ink);background:var(--sur2)}
+.content-tab.is-on{color:var(--rose-d);border-bottom-color:var(--rose);background:var(--sur)}
+.tab-panel{display:none}
+.tab-panel.is-on{display:block}
+
+/* Section 05 — compact courses */
+.course-compact-grid{display:flex;flex-direction:column;gap:8px}
+.course-compact{
+  display:grid;grid-template-columns:1fr auto;
+  grid-template-rows:auto auto;gap:0 16px;
+  padding:12px 16px;
+  border:1px solid var(--line);border-radius:var(--r);
+  background:var(--sur);transition:border-color .15s;
+}
+.course-compact.is-special{
+  border-color:var(--rose-m);background:#FFF8FA;
+  border-left:3px solid var(--rose);
+}
+.cc-left{grid-column:1}
+.cc-right{
+  grid-column:2;grid-row:1;
+  display:flex;flex-direction:column;
+  align-items:flex-end;gap:4px;
+}
+.cc-detail{
+  grid-column:1 / -1;grid-row:2;display:none;
+  font-size:12px;color:var(--ink3);line-height:1.65;
+  padding-top:10px;margin-top:8px;border-top:1px dashed var(--line);
+}
+.cc-detail.is-open{display:block}
+.cc-name{
+  font-size:13px;font-weight:500;color:var(--ink);line-height:1.4;
+  margin-bottom:5px;
+}
+.course-compact.is-special .cc-name{color:var(--rose-d)}
+.cc-tags{display:flex;flex-wrap:wrap;gap:4px}
+.cc-price{
+  font-family:var(--mono);font-size:13px;
+  color:var(--rose);font-weight:500;white-space:nowrap;
+}
+.cc-expand{
+  font-size:11px;color:var(--ink4);
+  font-family:var(--sans);cursor:pointer;
+  transition:color .12s;white-space:nowrap;padding:0;
+}
+.cc-expand:hover{color:var(--rose)}
+
+/* Section 06 — compact accommodation */
+.accomm-compact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:12px;margin-bottom:16px;
+}
+.accomm-compact{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:16px;
+  display:flex;flex-direction:column;gap:5px;
+  transition:border-color .15s;
+}
+.accomm-compact:hover{border-color:var(--rose-m)}
+.ac-type-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;padding:3px 8px;
+  border-radius:4px;width:fit-content;margin-bottom:4px;
+  letter-spacing:0.04em;text-transform:uppercase;
+}
+.ac-home{background:#FEF3E2;color:#7C3A00}
+.ac-dorm{background:#E8F5E3;color:#1F5209}
+.ac-hostel{background:#EEF2FF;color:#3730A3}
+.ac-apt{background:#F5F3FF;color:#6D28D9}
+.ac-hotel{background:#FFF7ED;color:#9A3412}
+.ac-name{font-size:13px;font-weight:500;color:var(--ink);line-height:1.35}
+.ac-meta{font-size:11px;color:var(--ink4);line-height:1.5}
+.ac-price{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--ink);margin-top:2px}
+.ac-desc{font-size:12px;color:var(--ink3);line-height:1.55}
+.accomm-summary-bar{
+  background:var(--sur2);border-radius:var(--r);
+  padding:10px 16px;font-size:13px;color:var(--ink2);
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+}
+.accomm-summary-bar strong{font-family:var(--mono);color:var(--ink);font-weight:500}
+.accomm-twd{font-size:11px;color:var(--ink3);font-family:var(--mono);margin-left:4px}
+
+/* Advisor bar — phase indicator */
+.ab-phase-row{display:flex;align-items:center;gap:0}
+.ab-phase{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;color:rgba(255,255,255,0.45);
+  padding:4px 8px;border-radius:var(--r-sm);
+  transition:all .15s;white-space:nowrap;
+  font-family:var(--sans);
+}
+.ab-phase:hover{color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.06)}
+.ab-phase.is-active{color:#fff}
+.ab-phase.is-done{color:rgba(255,255,255,0.3)}
+.ab-phase-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  flex-shrink:0;transition:background .15s;
+}
+.ab-phase.is-active .ab-phase-dot{background:var(--rose)}
+.ab-phase.is-done .ab-phase-dot{background:rgba(255,255,255,0.15)}
+.ab-phase-line{width:16px;height:1px;background:rgba(255,255,255,0.12)}
+.ab-phase-time{
+  font-size:9px;color:rgba(255,255,255,0.25);
+  font-family:var(--mono);letter-spacing:0.04em;margin-left:2px;
+}
+.ab-phase.is-active .ab-phase-time{color:rgba(255,255,255,0.5)}
+.ab-phase-label{}
+
+/* Photo system placeholders */
+.photo-slot{
+  position:relative;overflow:hidden;border-radius:var(--r-lg);
+}
+.photo-coming-badge{
+  position:absolute;bottom:10px;right:12px;
+  font-size:10px;font-family:var(--mono);
+  color:rgba(255,255,255,0.55);letter-spacing:0.06em;
+  display:flex;align-items:center;gap:5px;
+  background:rgba(0,0,0,0.28);padding:3px 8px;border-radius:20px;
+  pointer-events:none;
+}
+
+/* Section break (dark, between sec06 + sec07) */
+.section-break{padding:52px 0;background:var(--ink);border:none}
+.break-quote{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:clamp(22px,2.5vw,32px);color:rgba(255,255,255,0.75);
+  text-align:center;max-width:680px;margin:0 auto;line-height:1.5;
+  border:none;padding:0;
+}
+
+/* Stat-break (between sec05 + sec06) */
+.stat-break{
+  background:var(--sur2);padding:32px 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.stat-break-grid{display:flex;gap:0;justify-content:center}
+.stat-break-item{
+  flex:1;text-align:center;padding:0 24px;
+  border-right:1px solid var(--line);
+}
+.stat-break-item:last-child{border-right:none}
+.stat-break-flag{font-size:24px;margin-bottom:6px}
+.stat-break-city{
+  font-size:11px;color:var(--ink4);
+  letter-spacing:0.06em;text-transform:uppercase;
+  font-family:var(--mono);margin-bottom:8px;
+}
+.stat-break-num{
+  font-family:var(--mono);font-size:20px;
+  font-weight:500;color:var(--ink);
+}
+.stat-break-lbl{font-size:11px;color:var(--ink3);margin-top:4px}
+
+/* Section 11 — Gift intro + asymmetric grid */
+.gift-intro{
+  font-family:var(--display);font-style:italic;
+  font-size:clamp(24px,2.8vw,36px);
+  color:var(--ink);line-height:1.5;
+  margin-bottom:48px;padding-bottom:40px;
+  border-bottom:1px solid var(--line);text-align:center;
+}
+.gift-intro span{color:var(--rose-d)}
+.gift-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:16px;
+}
+.gift-card:first-child{
+  grid-row:1 / 3;background:var(--ink);
+  border-color:transparent;padding:36px 32px;
+}
+.gift-card:first-child .gift-emoji{font-size:48px}
+.gift-card:first-child .gift-title{font-size:28px;color:#fff}
+.gift-card:first-child .gift-desc{
+  font-size:14px;color:rgba(255,255,255,0.65);line-height:1.8;
+}
+.gift-card:not(:first-child){padding:20px 18px}
+.gift-card:not(:first-child) .gift-emoji{font-size:28px}
+.gift-card:not(:first-child) .gift-title{font-size:17px}
+.gift-card:not(:first-child) .gift-desc{font-size:13px}
+.gift-card{
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.gift-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 32px rgba(200,67,106,0.12),var(--shadow-m);
+}
+
+/* Section 04 — vibe grid layouts */
+.vibe-grid{display:grid;gap:18px}
+.vibe-grid-1{grid-template-columns:1fr}
+.vibe-grid-2{grid-template-columns:3fr 2fr}
+.vibe-grid-3{grid-template-columns:1fr 1fr}
+.vibe-grid-3 .vibe-card:first-child{grid-column:1 / -1}
+.vibe-grid-4{grid-template-columns:repeat(3,1fr)}
+.vibe-grid-4 .vibe-card:first-child{grid-column:1 / -1}
+.vibe-grid-5{grid-template-columns:repeat(6,1fr)}
+.vibe-grid-5 .vibe-card:nth-child(1),
+.vibe-grid-5 .vibe-card:nth-child(2){grid-column:span 3}
+.vibe-grid-5 .vibe-card:nth-child(n+3){grid-column:span 2}
+.vibe-card-hero{min-height:360px}
+.vibe-card-hero .vibe-mood{font-size:clamp(36px,3.5vw,48px)}
+.vibe-card{min-height:220px;cursor:default}
+
+/* Section 08 — Tab + full-width timeline */
+.day-tab-row{
+  display:flex;gap:8px;margin-bottom:36px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:16px;
+}
+.day-tab{
+  padding:7px 16px;border-radius:var(--r-sm);
+  font-size:13px;font-weight:500;color:var(--ink3);
+  background:none;border:1px solid transparent;
+  cursor:pointer;transition:all .15s;
+  font-family:var(--sans);display:inline-flex;align-items:center;gap:6px;
+}
+.day-tab.is-on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.day-tab:hover:not(.is-on){background:var(--sur2);color:var(--ink)}
+.day-timeline-full{
+  display:grid;grid-template-columns:120px 1fr;gap:0;position:relative;
+}
+.day-timeline-full::before{
+  content:'';position:absolute;left:119px;top:16px;bottom:16px;
+  width:1px;background:linear-gradient(180deg,var(--rose-m),var(--line));
+}
+.day-row{display:contents}
+.day-time-col{
+  font-family:var(--mono);font-size:12px;
+  color:var(--rose);font-weight:500;
+  padding:20px 24px 20px 0;text-align:right;line-height:1.4;
+}
+.day-content-col{
+  padding:16px 0 16px 32px;border-bottom:1px solid var(--line);
+}
+.day-row:last-child .day-content-col{border-bottom:none}
+.day-row .day-title{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.day-row .day-desc{font-size:13px;color:var(--ink3);line-height:1.75;max-width:640px}
+
+/* Section 09 — alternating persona rows */
+.persona-section-row{
+  display:grid;grid-template-columns:220px 1fr;
+  gap:32px;align-items:start;padding:36px 0;
+  border-bottom:1px solid var(--line);
+}
+.persona-section-row:last-child{border-bottom:none}
+.persona-section-row.is-reverse{grid-template-columns:1fr 220px}
+.persona-section-row.is-reverse .persona-col-head-side{order:2;text-align:right}
+.persona-section-row.is-reverse .persona-cards-side{order:1}
+.persona-col-head-side{
+  font-family:var(--display);font-style:italic;
+  font-weight:600;font-size:28px;color:var(--ink);
+  display:flex;flex-direction:column;gap:8px;padding-top:8px;
+}
+.persona-col-head-side .persona-col-region{
+  font-family:var(--sans);font-style:normal;font-size:12px;
+  color:var(--ink3);letter-spacing:0.06em;text-transform:uppercase;
+  font-weight:500;
+}
+.persona-col-flag{font-size:32px;font-style:normal}
+.persona-cards-side{display:flex;flex-direction:column;gap:12px}
+
+/* Course accordion animation */
+.course-desc{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows 0.25s ease;overflow:hidden;
+  padding:0;margin:0;
+}
+.course-desc-inner{
+  overflow:hidden;font-size:12px;color:var(--ink3);line-height:1.6;
+  padding-top:10px;border-top:1px dashed var(--line);
+}
+.course-item.is-open .course-desc{grid-template-rows:1fr}
+.course-item.is-open .course-desc .course-desc-inner{margin-top:10px}
+.course-item.is-open .course-desc{grid-template-rows:1fr}
+
+/* Comparison table — scroll mask */
+.tbl-wrap{position:relative}
+.tbl-wrap::after{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:48px;
+  background:linear-gradient(to right,transparent,rgba(255,252,248,0.92));
+  pointer-events:none;border-radius:0 var(--r-lg) var(--r-lg) 0;
+  transition:opacity .3s;
+}
+.tbl-wrap.scrolled-end::after{opacity:0}
+.tbl-scroll{
+  overflow-x:auto;position:relative;
+  -webkit-overflow-scrolling:touch;
+}
+.cmp-tbl tr.is-highlight td{background:rgba(200,67,106,0.03)}
+.cmp-tbl tr.is-highlight .col-label{background:rgba(200,67,106,0.05);color:var(--rose-d)}
+
+/* Section 07 — weeks select + rate-inline */
+.weeks-select{
+  background:var(--sur);color:var(--ink);
+  border:1px solid var(--line2);
+  padding:8px 32px 8px 14px;border-radius:var(--r-sm);
+  font-size:14px;font-family:var(--mono);
+  font-weight:500;cursor:pointer;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239B8484' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  min-width:100px;
+}
+.weeks-select:focus{outline:none;border-color:var(--rose)}
+.calc-rate-inline{
+  font-size:10px;color:rgba(255,255,255,0.35);
+  font-family:var(--mono);margin-top:3px;letter-spacing:0.04em;
+}
+
+/* Sec07 — tab panel wrapper */
+.calc-tab-panels{
+  background:var(--sur);
+  border:1px solid var(--line);
+  border-top:none;
+  border-radius:0 0 var(--r-lg) var(--r-lg);
+  padding:24px;
+}
+.calc-tab-panels .calc-card{
+  background:transparent;border:none;padding:0;box-shadow:none;
+  color:var(--ink);
+}
+.calc-tab-panels .calc-card .calc-city,
+.calc-tab-panels .calc-card .calc-flag{color:var(--ink)}
+.calc-tab-panels .calc-controls{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:0;
+}
+.calc-tab-panels .calc-ctrl-row label{color:var(--ink3)}
+.calc-tab-panels .calc-ctrl-row select{
+  background:var(--sur2);color:var(--ink);
+  border:1px solid var(--line);
+}
+.calc-tab-panels .calc-ctrl-row select option{background:var(--sur);color:var(--ink)}
+.calc-tab-panels .calc-breakdown{
+  background:var(--ink);color:#fff;
+  border-radius:var(--r-lg);padding:18px 20px;margin-top:16px;
+}
+.calc-tab-panels .calc-head{display:none}
+.calc-not-included{
+  font-size:11px;color:rgba(255,255,255,0.4);line-height:1.65;
+  padding-top:10px;margin-top:10px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  font-family:var(--mono);letter-spacing:0.02em;
+}
+.calc-ni-cta{
+  display:inline-block;margin-left:6px;
+  color:var(--rose-m);font-weight:500;
+}
+
+/* Section 12 — uneven 3-col */
+.before-grid{grid-template-columns:5fr 4fr 4fr;align-items:start}
+
+/* Section 02 — cards align start */
+.cards-grid{align-items:start}
+
+/* ============== Section sec_area ============== */
+.area-layout{
+  display:grid;grid-template-columns:1fr 320px;
+  gap:28px;align-items:start;
+}
+.area-left{display:flex;flex-direction:column;gap:28px}
+.area-block-title{
+  font-size:12px;font-weight:700;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:0.08em;
+  margin-bottom:14px;
+}
+.walk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.walk-item{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r);padding:10px 12px;
+}
+.walk-icon{font-size:20px;flex-shrink:0;line-height:1.2}
+.walk-label{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:1px}
+.walk-dist{font-family:var(--mono);font-size:10px;color:var(--rose);margin-bottom:2px}
+.walk-desc{font-size:11px;color:var(--ink3);line-height:1.5}
+.map-note{
+  font-size:12px;color:var(--ink3);line-height:1.6;
+  padding:10px 14px;background:var(--sur2);
+  border-radius:var(--r-sm);border-left:3px solid var(--rose-m);
+}
+.nearby-grid{display:flex;flex-direction:column;gap:8px}
+.nearby-card{
+  display:grid;grid-template-columns:1fr auto;
+  grid-template-rows:auto auto;gap:2px 12px;
+  padding:12px 14px;background:var(--sur);
+  border:1px solid var(--line);border-radius:var(--r);
+  transition:border-color .15s;
+}
+.nearby-card:hover{border-color:var(--rose-m)}
+.nearby-name{font-size:13px;font-weight:500;color:var(--ink)}
+.nearby-dist{
+  font-family:var(--mono);font-size:11px;color:var(--rose);
+  text-align:right;align-self:center;white-space:nowrap;
+}
+.nearby-why{grid-column:1 / -1;font-size:12px;color:var(--ink3);line-height:1.5}
+.area-photos{display:flex;flex-direction:column;gap:8px}
+.area-photo-slot{border-radius:var(--r-lg);overflow:hidden;position:relative;width:100%}
+
+/* ============== Section sec_climate ============== */
+.climate-chart{
+  display:flex;gap:4px;align-items:flex-end;
+  padding:16px 0;border-bottom:1px solid var(--line);
+  margin-bottom:10px;
+}
+.climate-col{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;gap:4px;padding:4px 2px;
+  border-radius:var(--r-sm);position:relative;cursor:default;
+}
+.climate-col.is-best{background:rgba(61,154,94,0.07)}
+.climate-col.is-avoid{background:rgba(200,67,106,0.05)}
+.climate-icon{font-size:14px;line-height:1}
+.climate-bar-wrap{height:80px;display:flex;align-items:flex-end}
+.climate-bar{width:20px;border-radius:3px 3px 0 0;min-height:8px;transition:height .4s}
+.climate-temp{font-family:var(--mono);font-size:10px;color:var(--ink2)}
+.climate-month{font-size:10px;color:var(--ink4)}
+.climate-dot{width:5px;height:5px;border-radius:50%;position:absolute;bottom:2px}
+.best-dot{background:#3D9A5E;width:6px;height:6px;border-radius:50%;display:inline-block}
+.avoid-dot{background:var(--rose);width:6px;height:6px;border-radius:50%;display:inline-block}
+.climate-legend{
+  display:flex;gap:16px;margin-bottom:16px;
+  font-size:11px;color:var(--ink3);
+}
+.cli-leg{display:flex;align-items:center;gap:5px}
+.climate-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.climate-card{padding:14px 16px;border-radius:var(--r-lg);border:1px solid var(--line)}
+.climate-best{background:rgba(61,154,94,0.06);border-color:rgba(61,154,94,0.2)}
+.climate-avoid{background:rgba(200,67,106,0.04);border-color:rgba(200,67,106,0.15)}
+.climate-note{background:var(--sur2)}
+.climate-card-label{font-size:11px;font-weight:700;margin-bottom:6px;letter-spacing:0.04em}
+.climate-card-text{font-size:12px;color:var(--ink3);line-height:1.65}
+
+/* ============== Section sec_spend ============== */
+.spend-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  margin-bottom:20px;
+}
+.spend-item{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:16px 14px;
+  display:flex;flex-direction:column;gap:4px;
+  transition:border-color .15s;
+}
+.spend-item:hover{border-color:var(--rose-m)}
+.spend-icon{font-size:24px;margin-bottom:4px}
+.spend-label{font-size:12px;color:var(--ink3)}
+.spend-val{font-family:var(--mono);font-size:17px;font-weight:500;color:var(--ink)}
+.spend-feel{
+  font-size:11px;color:var(--rose-d);
+  background:var(--rose-l);padding:2px 7px;
+  border-radius:4px;width:fit-content;margin-top:2px;
+}
+.spend-summary{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  background:var(--ink);border-radius:var(--r-lg);
+  padding:20px 24px;color:#fff;
+}
+.spend-summary-label{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em}
+.spend-summary-val{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--rose-m)}
+.spend-summary-twd{font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px}
+.spend-saving-label{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em}
+.spend-saving-text{font-size:13px;color:rgba(255,255,255,0.75);line-height:1.65}
+
+/* ============== Section sec_flight ============== */
+.flight-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:14px;
+}
+.flight-card{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:18px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .15s;
+}
+.flight-card:hover{border-color:var(--rose-m)}
+.flight-flag{font-size:32px;flex-shrink:0}
+.flight-body{flex:1;display:flex;flex-direction:column;gap:7px}
+.flight-city{font-family:var(--display);font-style:italic;font-size:20px;font-weight:600;color:var(--ink)}
+.flight-route{font-family:var(--mono);font-size:11px;color:var(--ink4)}
+.flight-info-row{display:flex;gap:14px}
+.fi-label{font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px}
+.fi-val{font-size:12px;font-weight:500;color:var(--ink2)}
+.flight-carriers{display:flex;flex-wrap:wrap;gap:4px}
+.flight-carrier-tag{
+  font-size:11px;padding:2px 8px;
+  background:var(--sur2);color:var(--ink3);
+  border-radius:4px;border:1px solid var(--line);
+}
+.flight-tip{font-size:12px;color:var(--ink3);line-height:1.55}
+.flight-arrival{
+  font-size:11px;color:var(--rose-d);
+  background:var(--rose-l);padding:6px 10px;
+  border-radius:var(--r-sm);line-height:1.5;
+}
+
+/* ============== Section sec_photos masonry ============== */
+.photo-plan-note{
+  display:inline-block;font-size:12px;color:var(--rose-d);
+  background:var(--rose-l);padding:3px 10px;
+  border-radius:20px;margin-left:8px;font-family:var(--mono);
+}
+.photo-pending-notice{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--gold-l);
+  border:1px solid rgba(196,137,60,0.3);
+  border-radius:var(--r-lg);
+  padding:14px 18px;margin-bottom:24px;
+  font-size:12px;color:var(--ink3);line-height:1.65;
+}
+.photo-pending-notice span{font-size:24px;flex-shrink:0;line-height:1}
+.photo-pending-notice strong{color:var(--ink)}
+.photo-pending-notice code{
+  font-family:var(--mono);font-size:11px;
+  background:rgba(196,137,60,0.18);padding:1px 5px;
+  border-radius:3px;
+}
+.masonry-grid{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:120px;gap:6px;padding:0 32px;
+}
+.masonry-item{
+  position:relative;overflow:hidden;
+  border-radius:var(--r-lg);cursor:default;
+}
+.masonry-tall{grid-row:span 2}
+.masonry-wide{grid-column:span 2}
+.masonry-sq{grid-row:span 1;grid-column:span 1}
+.masonry-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.45) 0%,transparent 60%);
+  padding:12px;display:flex;flex-direction:column;
+  justify-content:flex-end;opacity:0;transition:opacity .2s;
+}
+.masonry-item:hover .masonry-overlay{opacity:1}
+.masonry-city{font-size:12px;font-weight:500;color:#fff}
+.masonry-slot-label{font-size:10px;color:rgba(255,255,255,0.6);font-family:var(--mono)}
+
+/* Section fade-in on scroll (includes section-break + stat-break) */
+section,
+.section-break,
+.stat-break{
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s ease,transform .4s ease;
+}
+section.is-visible,
+.section-break.is-visible,
+.stat-break.is-visible{
+  opacity:1;transform:translateY(0);
+}
+
+/* ============== Utility ============== */
+.hidden{display:none !important}
+.scrollx{overflow-x:auto}
+
+/* RWD（平板） */
+@media (max-width:1100px){
+  .wrap,.wrap-wide{padding:0 24px}
+  .cards-grid.cols-3{grid-template-columns:1fr 1fr}
+  .cards-grid.cols-many{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .gift-grid{grid-template-columns:1fr 1fr}
+  .before-grid{grid-template-columns:1fr}
+  .hero-line{font-size:54px}
+  .cta-line{font-size:38px}
+  .sec-title{font-size:34px}
+  .course-cols,.accomm-cols,.calc-cols,.day-cols,.persona-cols,.vibe-grid{grid-template-columns:1fr !important}
+  .cefr-row{grid-template-columns:60px 80px 1fr;gap:10px}
+  .cefr-row > .cefr-hrs,.cefr-row > .cefr-test{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============== Advisor Bar ============== -->
+<div id="advisor-bar">
+  <div class="ab-brand">放洋留遊學</div>
+
+  <div class="ab-group">
+    <span class="ab-label">卡片樣式</span>
+    <div class="ab-pills" id="abStylePills">
+      <button class="ab-pill" data-style="A" title="A：決策型 — 人物標籤 + 關鍵數字 + 特色清單">A</button>
+      <button class="ab-pill" data-style="B" title="B：費用型 — 課程費 / 住宿費 / 相對費用水位">B</button>
+      <button class="ab-pill" data-style="C" title="C：氛圍型 — 城市感受 + 場景引言">C</button>
+      <button class="ab-pill" data-style="D" title="D：資訊密集型 — 所有規格一格看完">D</button>
+    </div>
+  </div>
+
+  <div class="ab-group">
+    <span class="ab-label">展示校區</span>
+    <div class="ab-checks" id="abCampusChecks"></div>
+  </div>
+
+  <div class="ab-group">
+    <span class="ab-label">檢視</span>
+    <div class="ab-pills" id="abViewPills">
+      <button class="ab-pill" data-view="cards">卡片</button>
+      <button class="ab-pill" data-view="table">表格</button>
+    </div>
+  </div>
+
+  <div class="ab-group ab-group-phase">
+    <span class="ab-label">諮詢進度</span>
+    <div class="ab-phase-row" id="abPhaseRow"><!-- rendered by JS --></div>
+  </div>
+
+  <div class="ab-spacer"></div>
+
+  <label class="ab-toggle">
+    <input type="checkbox" id="demoToggle">
+    <span>展示模式</span>
+  </label>
+</div>
+
+<!-- ============== Sections (rendered by JS) ============== -->
+<section id="sec01"></section>
+<section id="sec02"></section>
+<section id="sec03"></section>
+<section id="sec04"></section>
+<section id="sec_photos" class="advisor-only"></section>
+<section id="sec_area"></section>
+<section id="sec_flight"></section>
+<section id="sec_climate"></section>
+<section id="sec_spend"></section>
+<section id="sec08"></section>
+<section id="sec05"></section>
+
+<div class="stat-break">
+  <div class="wrap">
+    <div class="stat-break-grid" id="statBreakGrid"></div>
+  </div>
+</div>
+
+<section id="sec06"></section>
+
+<div class="section-break">
+  <div class="wrap">
+    <blockquote class="break-quote">
+      「語言不是你學的東西——是你在那裡呼吸的空氣。」
+    </blockquote>
+  </div>
+</div>
+
+<section id="sec07"></section>
+<section id="sec09"></section>
+<section id="sec10"></section>
+<section id="sec11"></section>
+<section id="sec12"></section>
+<section id="sec13"></section>
+
+<!-- ============== CAMPUS_DATA ============== -->
+<script id="CAMPUS_DATA">
+window.CAMPUS_DATA = {
+  canary: {
+    name:'倫敦 Canary Wharf', region:'英國', flag:'🇬🇧', cur:'£',
+    addr:'Import Building, 2 Clove Crescent, East India, London E14 2BE',
+    age:'30+', ageMin:30, capacity:'100 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0E1422', heroTo:'#1C2A44', heroGlow:'rgba(200,67,106,0.22)',
+    personas:['30歲以上','職場英語','商業認證'],
+    features:['金融核心地帶，職場沉浸強','DMI 國際商業管理認證課程','30+ 獨立班，成熟學習環境'],
+    moodTag:'職場沉浸・金融核心',
+    moodDesc:'在 Canary Wharf 金融區學英語，下課即步入真實的全球商業世界。',
+    moodScene:'下課走出教室，進的是 HSBC 和摩根大通的地盤',
+    pills:['金融區','兩線地鐵','職場英語','30+ 限定'],
+    courseFrom:300, accommFrom:270, costLevel:75,
+    courseRange:'£300–510', accommRange:'£270–460',
+    visa:'訪客簽 6個月 / YMS',
+    visaTags:['訪客簽 6個月','YMS'],
+    courseTypes:['標準 20hr','密集 27hr','超密集 40hr','1-on-1'],
+    specialCourses:['商業管理證書','數位行銷認證','帶薪飯店實習'],
+    accommTypes:['home','dorm'],
+    courses:[
+      {n:'標準英語（上午）Classic Morning', sp:false, tags:['20堂/週','初級→高級'], price:'£405/週起', desc:'每週20堂，涵蓋聽說讀寫，使用Empower、Language Hub教材。'},
+      {n:'標準英語（下午）Classic Afternoon', sp:false, tags:['20堂/週','13:45–17:00'], price:'£300/週起', desc:'與上午課程相同，時間改下午，費用較低。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['27堂/週','初級→高級'], price:'£450/週起', desc:'標準課程加入選修模組，週二三延長上課時間。'},
+      {n:'超密集英語 Super-intensive', sp:false, tags:['40堂/週','09:00–17:00'], price:'£510/週起', desc:'全天課程，適合短期內需大幅提升的學員。'},
+      {n:'一對一 One-to-One', sp:false, tags:['60分鐘/堂','任何程度'], price:'£90/堂起', desc:'完全客製化。5堂£425，10堂£850。'},
+      {n:'商業管理專業證書 I', sp:true, tags:['20堂/週','需B1+','2週'], price:'£700/課程', desc:'領導力、商務溝通。開課日2026：4/27、11/16。'},
+      {n:'數位行銷專業證書 CDMP', sp:true, tags:['20堂/週','需B2','4週'], price:'£2,090/課程', desc:'DMI國際認可數位行銷資格，涵蓋SEO、社群、廣告、數據。'},
+      {n:'帶薪飯店實習計畫', sp:true, tags:['18–30歲','需YMS簽證'], price:'課程費+£875安置費', desc:'最少4週課程後接續6個月帶薪飯店實習。僅限特定國籍YMS持有者。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'30歲以上・最長60分鐘', price:'£305/週起', type:'home', desc:'含早晚餐，英語沉浸首選。'},
+      {n:'寄宿家庭（僅早餐）', meta:'30歲以上・最長60分鐘', price:'£270/週起', type:'home', desc:'僅含早餐，飲食彈性高。'},
+      {n:'學生宿舍 Sterling Court', meta:'18歲以上・約60分鐘', price:'£430/週', type:'dorm', desc:'獨立套房，適合偏好個人空間的學員。'},
+      {n:'學生宿舍 McMillan', meta:'18歲以上・約40分鐘・4週以上', price:'£460/週', type:'dorm', desc:'設施優質，距校較近。'},
+    ],
+    day:[
+      {t:'07:30', ti:'Homestay 英式早餐', d:'和Host Family用英語聊聊今天的天氣，語言沉浸從第一口咖啡開始。'},
+      {t:'09:00', ti:'進入金融核心地帶', d:'沿Jubilee Line到Canary Wharf，玻璃帷幕大樓群包圍下進入校區。'},
+      {t:'09:00–12:15', ti:'英語課程', d:'20–27堂/週，聽說讀寫全覆蓋，班上來自5–8個國籍。'},
+      {t:'12:15', ti:'Canary Wharf 午餐', d:'校區周邊多間餐廳，和同學邊吃邊用英語聊天。'},
+      {t:'下午', ti:'倫敦探索', d:'沿Jubilee Line去南岸、牛津街，或在自習室找老師問問題。'},
+      {t:'18:00', ti:'Homestay 晚餐', d:'晚餐和Host Family的對話，是語言沉浸的精華時刻。'},
+    ],
+    personasDetail:[
+      {role:'32 歲行銷主管，英語卡在 B1', why:'想要商業英語認證，CDMP 國際資格能直接寫進履歷。', tags:['B1→B2','商業認證']},
+      {role:'40 歲自營業者，想趁空窗期充電', why:'30+ 獨立班，成熟學習環境，不會和年輕學生混班。', tags:['30+ 獨立','成熟環境']},
+    ],
+  },
+  greenford: {
+    name:'倫敦 Greenford', region:'英國', flag:'🇬🇧', cur:'£',
+    addr:'891 Greenford Rd, Greenford, London UB6 0HE',
+    age:'16+', ageMin:16, capacity:'500 人（EP英國最大）', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0E1422', heroTo:'#1C2A44', heroGlow:'rgba(200,67,106,0.22)',
+    personas:['首次出國留學','預算親民','大型校園社交'],
+    features:['EP全球總部，10萬平方英尺大校園','免費接駁巴士到地鐵站','校內有Starbucks咖啡廳'],
+    moodTag:'大校園・低門檻',
+    moodDesc:'500人的多國際校園，第一週就交到來自6個國家的朋友。',
+    moodScene:'500 人的校園，第一天就交到來自 6 個國家的朋友',
+    pills:['EP總部','免費接駁','大型校園','16歲可入讀'],
+    courseFrom:300, accommFrom:270, costLevel:70,
+    courseRange:'£300–450', accommRange:'£270–460',
+    visa:'訪客簽 6個月 / YMS',
+    visaTags:['訪客簽 6個月','YMS'],
+    courseTypes:['標準 20hr','密集 27hr'],
+    specialCourses:['帶薪飯店實習','志工服務計畫'],
+    accommTypes:['home','dorm'],
+    courses:[
+      {n:'標準英語（上午）Classic Morning', sp:false, tags:['20堂/週','初級→高級'], price:'£405/週起', desc:'每週20堂標準英語課。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['27堂/週','初級→高級'], price:'£450/週起', desc:'標準課程加入選修模組。'},
+      {n:'帶薪飯店實習計畫', sp:true, tags:['18–30歲','需YMS簽證'], price:'課程費+£875安置費', desc:'最少4週課程後6個月帶薪飯店實習。'},
+      {n:'志工服務計畫 Volunteering Programme', sp:true, tags:['標準訪客簽適用'], price:'£675–695', desc:'在倫敦從事社區志工並修讀英語，安置期2–6週。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・最長60分鐘', price:'£305/週起', type:'home', desc:'含早晚餐，英語沉浸首選。'},
+      {n:'寄宿家庭（僅早餐）', meta:'16歲以上・最長60分鐘', price:'£270/週起', type:'home', desc:'僅含早餐，飲食彈性高。'},
+      {n:'學生宿舍', meta:'18歲以上', price:'£430/週起', type:'dorm', desc:'可安排Canary Wharf合作宿舍。'},
+    ],
+    day:[
+      {t:'07:30', ti:'英式住宅區早晨', d:'從安靜的Greenford住宅區出發，步行或接駁車到地鐵站，沿途是典型英國街景。'},
+      {t:'09:00', ti:'進入10萬平方英尺大校園', d:'先去Starbucks點杯咖啡，再進教室，500人的校區每天都有不同面孔。'},
+      {t:'09:00–12:15', ti:'英語課程', d:'來自70+國籍的學員環境，全英語討論是每天的日常。'},
+      {t:'下午', ti:'倫敦30分鐘外', d:'搭地鐵30分鐘到牛津街、大英博物館，免費接駁車讓通勤零壓力。'},
+      {t:'週末', ti:'溫布利球場旁', d:'步行可達溫布利球場，遇到英超或演唱會，跟同學一起去。'},
+    ],
+    personasDetail:[
+      {role:'22 歲剛畢業，第一次出國', why:'500人大校園交友超容易，預算有限也能去倫敦。', tags:['首次出國','預算親民']},
+      {role:'25 歲想申請英國碩士', why:'先打好語言基礎，學校離大學城近，方便面試。', tags:['銜接升學','英倫名校']},
+    ],
+  },
+  birmingham: {
+    name:'伯明罕', region:'英國', flag:'🇬🇧', cur:'£',
+    addr:'Norfolk House, 84-86 Smallbrook Queensway, Birmingham B5 4EG',
+    age:'16+', ageMin:16, capacity:'500 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#120E1A', heroTo:'#1E1830', heroGlow:'rgba(180,100,200,0.18)',
+    personas:['預算優先','IELTS備考','想要旅遊基地'],
+    features:['距新街站步行2分鐘','Bullring購物中心就在校門口','生活費低於倫敦30–40%'],
+    moodTag:'英格蘭中心・高 CP 值',
+    moodDesc:'85分鐘到倫敦，週末也可以去曼徹斯特、牛津。伯明罕是探索英格蘭的最佳基地。',
+    moodScene:'85 分鐘的火車，每個週末都可以殺去倫敦',
+    pills:['新街站2分鐘','Bullring旁','低生活費','交通樞紐'],
+    courseFrom:270, accommFrom:210, costLevel:52,
+    courseRange:'£270–435', accommRange:'£210–295',
+    visa:'訪客簽 6個月 / YMS',
+    visaTags:['訪客簽 6個月','YMS'],
+    courseTypes:['標準 20hr','密集 27hr'],
+    specialCourses:['IELTS 備考','帶薪飯店實習'],
+    accommTypes:['home','dorm'],
+    courses:[
+      {n:'標準英語／IELTS（上午）Classic Morning', sp:false, tags:['20堂/週','初學者→高級'], price:'£380/週起', desc:'一般英語或IELTS方向（IELTS需B1+）。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['27堂/週','初學者→高級'], price:'£435/週起', desc:'標準課程加入選修模組。'},
+      {n:'帶薪飯店實習計畫', sp:true, tags:['18–30歲','需YMS簽證'], price:'課程費+£875安置費', desc:'最少4週課程後6個月帶薪飯店實習。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・最長60分鐘', price:'£240/週起', type:'home', desc:'含早晚餐。'},
+      {n:'寄宿家庭（僅早餐）', meta:'16歲以上・最長60分鐘', price:'£210/週起', type:'home', desc:'僅含早餐。'},
+      {n:'學生宿舍 IQ 51 Studios', meta:'18歲以上・距校15分鐘', price:'£295/週', type:'dorm', desc:'獨立工作室套房，現代設施。'},
+      {n:'學生宿舍 The Heights', meta:'18歲以上・4週以上', price:'£280/週', type:'dorm', desc:'單人套房，設施完善。'},
+    ],
+    day:[
+      {t:'08:00', ti:'市中心出發', d:'從Homestay出發，步行或公車到學校，旁邊就是Bullring。'},
+      {t:'09:00–12:15', ti:'英語課程', d:'一般英語或IELTS備考，班上有來自歐洲、拉美、亞洲的同學。'},
+      {t:'12:15', ti:'Bullring午餐', d:'校門口就是Bullring，午餐幾磅就能解決，選擇超多。'},
+      {t:'下午', ti:'全英最大圖書館自習', d:'伯明罕圖書館全英最大，自習環境一流。或搭火車85分鐘殺去倫敦一日遊。'},
+      {t:'週末', ti:'英格蘭各城市', d:'從伯明罕搭火車，1小時到倫敦、曼徹斯特、牛津，週末永遠有計畫。'},
+    ],
+    personasDetail:[
+      {role:'想去英國但倫敦太貴', why:'生活費低於倫敦 30–40%，週末殺去倫敦只要 85 分鐘。', tags:['高 CP','週末旅遊']},
+      {role:'需要 IELTS 備考', why:'有 IELTS 方向班，省下生活費還能順便練雅思。', tags:['IELTS','省預算']},
+    ],
+  },
+  leeds: {
+    name:'里茲', region:'英國', flag:'🇬🇧', cur:'£',
+    addr:'St George House, 40 Great George St, Leeds LS1 3DL',
+    age:'16+', ageMin:16, capacity:'250 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0E1820', heroTo:'#162C38', heroGlow:'rgba(80,180,180,0.16)',
+    personas:['旅遊探索型','IELTS備考','大學城文化'],
+    features:['距約克25分鐘，湖區1.5小時','藝術音樂夜生活重鎮','生活費低於倫敦約30%'],
+    moodTag:'藝文北方・旅遊基地',
+    moodDesc:'里茲是探索英格蘭北部的完美基地，城市充滿藝術能量和學生文化。',
+    moodScene:'25 分鐘到約克古城，1.5 小時到湖區，週末永遠有去處',
+    pills:['藝術音樂','大學城','週末旅遊','低生活費'],
+    courseFrom:270, accommFrom:210, costLevel:54,
+    courseRange:'£270–435', accommRange:'£210–320',
+    visa:'訪客簽 6個月 / YMS',
+    visaTags:['訪客簽 6個月','YMS'],
+    courseTypes:['標準 20hr','密集 27hr'],
+    specialCourses:['IELTS 備考','帶薪飯店實習'],
+    accommTypes:['home','dorm','apt'],
+    courses:[
+      {n:'標準英語／IELTS（上午）Classic Morning', sp:false, tags:['20堂/週','初學者→高級'], price:'£380/週起', desc:'一般英語或IELTS備考（IELTS需B1+）。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['27堂/週','初學者→高級'], price:'£435/週起', desc:'標準課程加入選修模組。'},
+      {n:'帶薪飯店實習計畫', sp:true, tags:['18–30歲','需YMS簽證'], price:'課程費+£875安置費', desc:'最少4週課程後6個月帶薪飯店實習。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・最長60分鐘', price:'£240/週起', type:'home', desc:'含早晚餐。'},
+      {n:'學生宿舍 IQ Leeds', meta:'18歲以上・距校20分鐘・1週以上', price:'£210/週', type:'dorm', desc:'單人套房，最短住1週。'},
+      {n:'學生宿舍 Threadworks', meta:'18歲以上・步行10分鐘・4週以上', price:'£300/週', type:'dorm', desc:'距校近，設施優質。'},
+      {n:'學生公寓 Briggate（套房）', meta:'18歲以上・步行10分鐘・4週以上', price:'£320/週', type:'apt', desc:'獨立工作室套房。'},
+    ],
+    day:[
+      {t:'08:00', ti:'約克郡的早晨', d:'從Homestay出發，里茲市中心步行可達大多數地方，市政廳旁就是學校。'},
+      {t:'09:00–12:15', ti:'英語課程', d:'標準課程或IELTS備考，里茲是大學城，整個城市都有學習氛圍。'},
+      {t:'下午', ti:'藝廊、公園或夜生活', d:'里茲有得獎劇場、現場音樂場地，大量公園綠地，下午不會無聊。'},
+      {t:'週末', ti:'約克、湖區、利物浦', d:'25分鐘到約克古城，1.5小時到湖區，1.5小時到利物浦，週週都有旅遊計畫。'},
+    ],
+    personasDetail:[
+      {role:'喜歡藝文、音樂、夜生活', why:'里茲是英國北部藝文重鎮，得獎劇場+現場音樂日常。', tags:['藝文','大學城']},
+      {role:'旅遊型學習者', why:'把里茲當基地，週末殺約克、湖區、利物浦完全不費力。', tags:['旅遊基地','北英格蘭']},
+    ],
+  },
+  dublin: {
+    name:'都柏林', region:'歐洲', flag:'🇮🇪', cur:'€',
+    addr:'1 Clarinda Park North, Dún Laoghaire, Dublin A96 H5X6',
+    age:'16+', ageMin:16, capacity:'180 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0A180E', heroTo:'#102A16', heroGlow:'rgba(50,160,80,0.20)',
+    personas:['想合法打工','科技業背景','UNESCO文學愛好者'],
+    features:['一級列管歷史建築校舍・俯瞰愛爾蘭海','Google、LinkedIn 歐洲總部所在地','Work & Study 合法打工方案'],
+    moodTag:'科技濱海・合法打工',
+    moodDesc:'在有百年歷史的石頭建築裡上課，窗外是愛爾蘭海，Google歐洲總部就在市區。',
+    moodScene:'在有百年歷史的石頭建築裡上課，窗外是愛爾蘭海',
+    pills:['歷史建築','科技重鎮','合法打工','濱海城市'],
+    courseFrom:285, accommFrom:195, costLevel:65,
+    courseRange:'€280–590', accommRange:'€195–535',
+    visa:'免簽90天 / 學生簽',
+    visaTags:['免簽90天','學生簽'],
+    courseTypes:['標準 20hr','密集 25hr','超密集 40hr'],
+    specialCourses:['Work & Study','工作體驗（EU）'],
+    accommTypes:['home','apt','dorm'],
+    courses:[
+      {n:'標準英語（上午）Classic Morning', sp:false, tags:['20堂/週','初學者→高級'], price:'€380/週起', desc:'每週20堂標準英語課。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['25堂/週','初學者→高級'], price:'€440/週起', desc:'標準課程加入選修模組。'},
+      {n:'超密集英語 Super-intensive', sp:false, tags:['40堂/週','09:00–17:00'], price:'€590/週起', desc:'全天課程，每週40堂。'},
+      {n:'工作 + 學習計畫 Work & Study', sp:true, tags:['25週課程+10週假期','非EU適用'], price:'€6,500起', desc:'35週完整計畫，課程期間每週可合法兼職最多20小時。'},
+      {n:'工作體驗計畫（EU/EEA限定）', sp:true, tags:['EU/EEA護照限定'], price:'安置費€600', desc:'僅限EU/EEA護照，可安置全職工作。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・最長60分鐘', price:'€285/週起', type:'home', desc:'含早晚餐。暑期附加€30/週。'},
+      {n:'寄宿家庭（全膳）', meta:'16歲以上', price:'€300/週起', type:'home', desc:'三餐全包，最省心。'},
+      {n:'共享房屋', meta:'20–35歲・約50分鐘・8週以上', price:'€195/週起', type:'apt', desc:'費用最低，適合獨立生活。'},
+      {n:'學生宿舍 Niche Living（套房）', meta:'18歲以上・步行5分鐘・8週以上', price:'€535/週起', type:'dorm', desc:'距校最近，現代化套房。'},
+    ],
+    day:[
+      {t:'07:45', ti:'海景早晨', d:'從Dún Laoghaire的Homestay醒來，天氣好可以看到愛爾蘭海，步行幾分鐘就是DART站。'},
+      {t:'09:00', ti:'歷史建築中的英語課', d:'19世紀一級列管歷史建築，光是環境就讓人心情好。'},
+      {t:'12:15', ti:'海濱咖啡廳午餐', d:'Dún Laoghaire碼頭邊有多間咖啡廳，天氣好時坐在戶外吃。'},
+      {t:'下午', ti:'DART進都柏林市區', d:'搭DART 20分鐘直達市中心，Temple Bar、聖三一學院一個下午能逛完。'},
+    ],
+    personasDetail:[
+      {role:'想合法打工貼補費用的 25 歲背包客', why:'Work & Study 計畫每週合法兼職 20 小時，假期可全職。', tags:['合法打工','省費用']},
+      {role:'科技業工作者', why:'Google、LinkedIn、Meta 歐洲總部在都柏林，職場英語沉浸度極高。', tags:['科技重鎮','職場英語']},
+    ],
+  },
+  berlin: {
+    name:'柏林', region:'歐洲', flag:'🇩🇪', cur:'€',
+    addr:'ALT-Moabit 96C, 10559 Berlin, Germany',
+    age:'16+', ageMin:16, capacity:'250 人', minDur:'1 週', classSize:'15 人',
+    lang:'德文 + 英文', langType:'de-en',
+    heroFrom:'#0E0E14', heroTo:'#18182A', heroGlow:'rgba(140,140,220,0.20)',
+    personas:['想學德文','藝術創意工作者','雙語並進'],
+    features:['全球少數同時提供德文+英文課程的EP校區','鄰近布蘭登堡門與博物館島','歐洲最低生活費之一'],
+    moodTag:'歐洲創意・雙語首選',
+    moodDesc:'在柏林學德語，然後沿著柏林圍牆散步回宿舍，每天都像在上歷史課。',
+    moodScene:'沿著柏林圍牆散步回宿舍，每天都像在上歷史課',
+    pills:['德文+英文','創意之都','歷史地標','低生活費'],
+    courseFrom:150, accommFrom:150, costLevel:48,
+    courseRange:'€150–500', accommRange:'€150–555',
+    visa:'申根免簽90天 / 語言課學生簽',
+    visaTags:['申根免簽90天','語言課學生簽'],
+    courseTypes:['標準 20hr','密集 25hr','Premium 30hr'],
+    specialCourses:['德英雙修','工作體驗（EU）'],
+    accommTypes:['home','hostel','dorm','hotel'],
+    courses:[
+      {n:'德文標準（上午）Classic Morning — German', sp:false, tags:['20堂/週','初級→高級'], price:'€320/週起', desc:'每週20堂德文課，使用Hueber Momente等主流教材。'},
+      {n:'德文密集（上午）Semi-intensive — German', sp:false, tags:['25堂/週','初級→高級'], price:'€360/週起', desc:'標準德文課程加入選修模組。'},
+      {n:'英文標準（下午）Classic Afternoon — English', sp:false, tags:['20堂/週','13:45–17:00'], price:'€320/週起', desc:'下午英文課，可搭配上午德文雙語並進。'},
+      {n:'德文 Premium 30（上午）', sp:false, tags:['30堂/週','初級→高級'], price:'€500/週起', desc:'含標準課程+選修+5堂一對一，最高強度德語方案。'},
+      {n:'工作體驗計畫（EU/EEA限定）', sp:true, tags:['EU/EEA護照限定'], price:'安置費€600', desc:'可安置德國本地工作職位。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・最長60分鐘', price:'€305/週起', type:'home', desc:'含早晚餐，德語沉浸首選。未滿18歲必選。'},
+      {n:'Kiez Hostel（共用房間）', meta:'18歲以上・地鐵35分鐘', price:'€150/週起（淡季）', type:'hostel', desc:'4–8人共用，費用最低。旺季€250/週。'},
+      {n:'Prenzlauer Berg宿舍（套房）', meta:'18歲以上・電車40分鐘・4週以上', price:'€475/週起', type:'dorm', desc:'現代化個人套房，4週以上享折扣。'},
+      {n:'Meininger飯店（含早餐）', meta:'18歲以上・步行5分鐘', price:'€555/週起（淡季）', type:'hotel', desc:'距校最近，飯店環境含早餐。旺季€692/週。'},
+    ],
+    day:[
+      {t:'08:00', ti:'柏林式早晨', d:'從Homestay出發，柏林街頭有各種塗鴉和藝術裝置，通勤本身就是文化課。'},
+      {t:'09:00–12:15', ti:'德文課程', d:'從字母和發音開始，老師用系統化方式帶你進入德語邏輯，課間同學來自全球。'},
+      {t:'下午', ti:'博物館島或東區藝廊', d:'柏林有170+座博物館，或沿East Side Gallery散步，感受這座城市承載的歷史。'},
+      {t:'週末', ti:'湖泊、夜生活或出城', d:'搭火車2小時到布拉格、2.5小時到波蘭，或體驗柏林著名的週末夜生活。'},
+    ],
+    personasDetail:[
+      {role:'零基礎想學德文', why:'A1 Beginner 從字母開始，柏林是德語沉浸最完整的城市之一。', tags:['零基礎德文','歐陸文化']},
+      {role:'設計師 / 藝術工作者', why:'柏林是歐洲創意首都，東區藝廊、塗鴉、實驗劇場日常。', tags:['創意之都','靈感補充']},
+    ],
+  },
+  paris: {
+    name:'巴黎', region:'歐洲', flag:'🇫🇷', cur:'€',
+    addr:'98 Rue Didot, 75014 Paris, France',
+    age:'16+', ageMin:16, capacity:'120 人（每語言60人）', minDur:'1 週', classSize:'15 人',
+    lang:'法文 + 英文', langType:'fr-en',
+    heroFrom:'#14080E', heroTo:'#28101A', heroGlow:'rgba(200,67,106,0.25)',
+    personas:['想學法文','時尚文化愛好者','雙語並進'],
+    features:['法英雙語校區，同步學兩種語言','距艾菲爾鐵塔、羅浮宮便捷可達','每年兩次巴黎時裝週'],
+    moodTag:'光之城・法英並進',
+    moodDesc:'早上學法語，下午去羅浮宮——這不是假期，這是你在巴黎的每一天。',
+    moodScene:'早上學法語，下午去羅浮宮，這不是假期，這是你的每一天',
+    pills:['法文+英文','時裝之都','UNESCO文學城','地標密集'],
+    courseFrom:320, accommFrom:350, costLevel:78,
+    courseRange:'€320–360', accommRange:'€350–780',
+    visa:'申根免簽90天 / VLS-TS學生簽',
+    visaTags:['申根免簽90天','VLS-TS'],
+    courseTypes:['標準 20hr','密集 25hr'],
+    specialCourses:['法英雙修','工作體驗（EU）'],
+    accommTypes:['home','hostel','dorm'],
+    courses:[
+      {n:'法文標準（上午）Classic Morning — French', sp:false, tags:['20堂/週','初級→高級'], price:'€320/週起', desc:'每週20堂法文課，使用Inspire (Hachette)等主流教材。'},
+      {n:'法文密集（上午）Semi-intensive — French', sp:false, tags:['25堂/週','初級→高級'], price:'€360/週起', desc:'含DELF備考、法語口語強化等選修模組。'},
+      {n:'英文標準（下午）Classic Afternoon — English', sp:false, tags:['20堂/週','13:45–17:00'], price:'€320/週起', desc:'下午英文課，與上午法文搭配雙語並進。'},
+      {n:'工作體驗計畫（EU/EEA限定）', sp:true, tags:['EU/EEA護照限定'], price:'安置費€600', desc:'可在巴黎安置工作職位。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・含5天晚餐', price:'€440/週起', type:'home', desc:'法語沉浸效果極佳，含早餐及週日至週四晚餐。'},
+      {n:'寄宿家庭（僅早餐）', meta:'16歲以上', price:'€355/週起', type:'home', desc:'含每日早餐，午晚餐自理。'},
+      {n:'Enjoy Hostel（三人宿舍）', meta:'18歲以上・步行16分鐘', price:'€350/週', type:'hostel', desc:'2星級三人床位，費用最低。'},
+      {n:'FIAP學生宿舍（單人套房+半膳）', meta:'18歲以上・大眾交通20分鐘', price:'€780/週', type:'dorm', desc:'3星級含早晚餐，設施舒適。'},
+    ],
+    day:[
+      {t:'07:30', ti:'法國式早晨', d:'Homestay早餐有可頌和咖啡，Host Family用法語打招呼，語言沉浸在第一口咖啡前就開始。'},
+      {t:'09:00–12:15', ti:'法文課程（上午班）', d:'老師只說法語，一開始聽不懂很正常，大腦會被迫快速適應。'},
+      {t:'下午', ti:'巴黎就是戶外教室', d:'羅浮宮、奧賽博物館步行或地鐵都到得了，下午的巴黎是全世界最好的沉浸環境之一。'},
+      {t:'週末', ti:'時裝市集或出城', d:'週末跳蚤市場練法語，或搭Eurostar 2小時到倫敦，4小時到阿姆斯特丹。'},
+    ],
+    personasDetail:[
+      {role:'從來都想學法語的人', why:'法英雙語校區，可以上午法文下午英文雙修。', tags:['圓夢法語','雙修']},
+      {role:'時尚 / 美妝產業工作者', why:'巴黎時裝週、跳蚤市場、藝廊都是日常活動。', tags:['時尚產業','文化首都']},
+    ],
+  },
+  malta: {
+    name:'馬爾他', region:'歐洲', flag:'🇲🇹', cur:'€',
+    addr:"West Block, Marguerite Mangion St, St. Julian's, STJ 3180",
+    age:'16+', ageMin:16, capacity:'500 人（EP全球最大）', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0A1020', heroTo:'#102040', heroGlow:'rgba(60,140,220,0.22)',
+    personas:['陽光海灘型','預算有限在歐洲','地中海生活體驗'],
+    features:['全年300天日照・俯瞰Spinola Bay','EP全球最大校區・500人','歐洲英語留學最高性價比'],
+    moodTag:'地中海陽光・超值首選',
+    moodDesc:'下課步行三分鐘，跳進地中海，全年300天都可以這樣——其他校區做不到這件事。',
+    moodScene:'下課步行三分鐘，跳進地中海，全年 300 天都可以這樣',
+    pills:['地中海','500人校區','EP最大','低費用'],
+    courseFrom:160, accommFrom:190, costLevel:35,
+    courseRange:'€160–405', accommRange:'€190–375',
+    visa:'申根免簽90天 / 馬爾他學生居留',
+    visaTags:['申根免簽90天','馬爾他學生居留'],
+    courseTypes:['標準 20hr','晚間 20hr','密集 25hr','長期方案'],
+    specialCourses:['商業管理證書','長期 24+ 週折扣','工作體驗（EU）'],
+    accommTypes:['dorm','apt'],
+    courses:[
+      {n:'標準英語（上午）Classic Morning', sp:false, tags:['20堂/週','初學者→高級'], price:'€295/週起', desc:'一般英語或商業英語（商業英語需B1+）。24週以上享折扣。'},
+      {n:'標準英語（晚間）Classic Evening', sp:false, tags:['20堂/週','17:30–20:45'], price:'€200/週起', desc:'晚間課程費用最低，白天可觀光。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['25堂/週','初學者→高級'], price:'€405/週起', desc:'標準課程加選修加強模組。'},
+      {n:'長期課程方案（24–35週）', sp:false, tags:['24週以上'], price:'€190/週起', desc:'24–35週€190/週，36週以上€160/週。超值長期方案。'},
+      {n:'商業管理專業證書 I', sp:true, tags:['20堂/週','需B1+','2週'], price:'€700/課程', desc:'開課日2026：1/12、4/27、6/15、11/16。'},
+      {n:'工作體驗計畫（EU/EEA限定）', sp:true, tags:['EU/EEA護照限定'], price:'安置費€600', desc:'可安置馬爾他本地工作。'},
+    ],
+    accomm:[
+      {n:'學生宿舍 Campus Hub（單人套房）', meta:'16歲以上・巴士20分鐘', price:'€375/週', type:'dorm', desc:'16歲以上即可，單人套房。'},
+      {n:'學生宿舍 Campus Hub（雙人套房）', meta:'16歲以上・巴士20分鐘', price:'€250/週（每人）', type:'dorm', desc:'兩人共享，每人費用更低。'},
+      {n:'共享公寓（標準）', meta:'18歲以上・巴士30分鐘', price:'€190/週', type:'apt', desc:'費用最低，適合獨立生活。'},
+    ],
+    day:[
+      {t:'09:30', ti:'地中海的早晨', d:"St. Julian's生活步調悠閒，窗外是陽光和海風，走路或公車到校。"},
+      {t:'10:00–12:15', ti:'英語課程', d:'500人校區的多元國籍讓每天都有新的對話對象，來自世界各地。'},
+      {t:'下午', ti:'海灘游泳或探索', d:'步行可達多個海泳點，或搭巴士去Valletta古城、Blue Lagoon。'},
+      {t:'週末', ti:'Gozo、Comino、義大利', d:'搭渡輪去Gozo農村，或飛義大利西西里島只要1小時。'},
+    ],
+    personasDetail:[
+      {role:'預算有限但想在歐洲學英語', why:'歐洲英語留學最高性價比，週費 € 起跳。', tags:['超值','歐洲入門']},
+      {role:'把語言課當度假計畫一起訂', why:'全年 300 天日照、跳海三分鐘、500 人大校區社交豐富。', tags:['地中海','陽光假期']},
+    ],
+  },
+  dubai: {
+    name:'杜拜', region:'中東', flag:'🇦🇪', cur:'USD',
+    addr:'Block 3, Dubai Knowledge Park, Al Sufouh 2, Dubai, UAE',
+    age:'16+', ageMin:16, capacity:'480 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#100A00', heroTo:'#201400', heroGlow:'rgba(196,137,60,0.25)',
+    personas:['商業環境工作者','DMI認證需求','中東奢華體驗'],
+    features:['Dubai Knowledge Park學術社區','DMI數位行銷國際認證','沙漠越野・遊艇・奢華生活體驗'],
+    moodTag:'沙漠奇蹟・商業重鎮',
+    moodDesc:'課後和同學去沙漠越野，比任何Netflix都真實。白天在Knowledge Park學英語，晚上杜拜的天際線屬於你。',
+    moodScene:'課後和同學去沙漠越野，比任何 Netflix 都真實',
+    pills:['Knowledge Park','DMI認證','商業中心','中東探索'],
+    courseFrom:230, accommFrom:230, costLevel:68,
+    courseRange:'USD $280–505', accommRange:'USD $230–500',
+    visa:'免簽入境 / 教育簽6月 / 學生簽1年',
+    visaTags:['免簽30–90天','教育簽 6月','學生簽 1年'],
+    courseTypes:['標準 20hr','彈性輕量','超密集 40hr'],
+    specialCourses:['商業管理證書','DMI 數位行銷認證'],
+    accommTypes:['dorm','apt'],
+    courses:[
+      {n:'標準英語／商業英語（上午）Classic Morning', sp:false, tags:['20堂/週','08:45–12:00'], price:'USD $350/週起', desc:'一般英語或商業英語（需B1+）。7–12週$305，13–24週$285。'},
+      {n:'彈性輕量課程 Classic Light Flexi', sp:false, tags:['15堂/週','下午或晚間'], price:'USD $280/週起', desc:'下午或晚間課程，適合工作中學員。'},
+      {n:'超密集 Super-intensive', sp:false, tags:['40堂/週','08:45–15:45'], price:'USD $505/週起', desc:'全天課程，強度最高。'},
+      {n:'商業管理專業證書 I', sp:true, tags:['20堂/週','需B1+','2週'], price:'USD $700/課程', desc:'DMI合作課程。開課日2026：4/27、11/16。'},
+      {n:'數位行銷專業證書 CDMP', sp:true, tags:['20堂/週','需B2','4週'], price:'USD $2,445/課程', desc:'DMI國際認可，涵蓋SEO、社群、廣告、數據分析。'},
+    ],
+    accomm:[
+      {n:'學生宿舍（雙人房）', meta:'16歲以上・接駁車40分鐘・3週以上', price:'USD $260/週起', type:'dorm', desc:'學校提供接駁車，雙人房費用最低。'},
+      {n:'學生宿舍（單人套房）', meta:'18歲以上・接駁車40分鐘', price:'USD $500/週起（3週以上）', type:'dorm', desc:'獨立套房，最大個人空間。'},
+      {n:'共享公寓 ESAW（雙人室）', meta:'18歲以上・接駁車20分鐘', price:'USD $230/週起', type:'apt', desc:'4–5人共用，費用最低。'},
+    ],
+    day:[
+      {t:'07:30', ti:'Knowledge Park早晨', d:'宿舍出發，搭學校接駁車到Knowledge Park，園區內有來自全球的大學分校，整個環境就是國際學術社區。'},
+      {t:'08:45–12:00', ti:'英語課程', d:'商業英語班上同學來自中東、南亞、東歐、亞洲，是全球最多元化的班級組成之一。'},
+      {t:'下午', ti:'杜拜商場或文化探索', d:'世界最大的杜拜購物中心就在附近，或報名社交計畫的沙漠越野。'},
+      {t:'週末', ti:'阿布達比或水上活動', d:'阿布達比1小時車程，或租船出海，在波斯灣上度過一個下午。'},
+    ],
+    personasDetail:[
+      {role:'對中東商業市場有興趣', why:'DMI 認證 + Knowledge Park 學術社區，職場英語立刻可用。', tags:['DMI 認證','商業重鎮']},
+      {role:'嚮往奢華都市體驗', why:'沙漠越野、遊艇、世界最高樓，這是人生體驗式留學。', tags:['奢華體驗','人生清單']},
+    ],
+  },
+  toronto: {
+    name:'多倫多', region:'北美', flag:'🇨🇦', cur:'CA$',
+    addr:'36 Victoria Street, Toronto ON M5C 1H3, Canada',
+    age:'16+', ageMin:16, capacity:'150 人', minDur:'1 週', classSize:'15 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#0A0E1A', heroTo:'#101828', heroGlow:'rgba(180,30,60,0.20)',
+    personas:['北美體驗','商業認證需求','加拿大升學移民規劃'],
+    features:['市中心黃金地段，CN塔步行可達','全球最多元城市（100+族裔）','北美最大地下城PATH就在腳下'],
+    moodTag:'北美楓葉・多元文化',
+    moodDesc:'班上有巴西人、日本人、沙烏地人，英語是唯一共同語言——這就是多倫多。',
+    moodScene:'班上有巴西人、日本人、沙烏地人，英語是唯一共同語言',
+    pills:['北美首選','市中心','100+族裔','奧運城市'],
+    courseFrom:360, accommFrom:360, costLevel:72,
+    courseRange:'CA$430–480', accommRange:'CA$360–590',
+    visa:'eTA + 觀光 / Study Permit',
+    visaTags:['eTA','觀光簽6個月','Study Permit'],
+    courseTypes:['標準 20hr','密集 25hr'],
+    specialCourses:['商業管理證書','DMI 數位行銷','Pathway 銜接'],
+    accommTypes:['home','dorm','apt'],
+    courses:[
+      {n:'標準英語／IELTS（上午）Classic Morning', sp:false, tags:['20堂/週','初學者→高級'], price:'CA$ 430/週起', desc:'一般英語或IELTS備考（需B1+）。24週方案僅限eTA持有者。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['25堂/週','初學者→高級'], price:'CA$ 480/週起', desc:'標準課程加入選修模組。'},
+      {n:'商業管理專業證書 I', sp:true, tags:['20堂/週','需B1+','2週'], price:'CA$ 700/課程', desc:'DMI合作課程第一階段。'},
+      {n:'數位行銷專業證書 CDMP', sp:true, tags:['20堂/週','需B2','4週'], price:'CA$ 2,090/課程', desc:'DMI國際認可數位行銷資格。'},
+      {n:'Pathway 銜接課程', sp:true, tags:['銜接加拿大大學'], price:'請洽詢', desc:'學術英語(EAP)技能訓練，銜接加拿大高等教育。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'16歲以上・低季・最長60分鐘', price:'CA$ 360/週起', type:'home', desc:'含早晚餐（週一至五）。高季（4/26–9/5）$390/週。'},
+      {n:'CASA學生宿舍（共用臥室）', meta:'18歲以上', price:'CA$ 365/週', type:'dorm', desc:'共用臥室與衛浴，社交氛圍好。'},
+      {n:'CASA學生宿舍（單人房）', meta:'18歲以上', price:'CA$ 400/週', type:'dorm', desc:'個人單人房含共用衛浴。'},
+      {n:'CASA Dreamhouse Yorkville（私人衛浴）', meta:'18歲以上・5週以上', price:'CA$ 590/週', type:'apt', desc:'Yorkville精華地段，最舒適的學生住宿選擇。'},
+    ],
+    day:[
+      {t:'08:00', ti:'加拿大式早晨', d:'從Homestay出發，搭地鐵或步行到市中心校區，多倫多是個友善城市，路上的人常對你微笑。'},
+      {t:'09:00–12:15', ti:'英語課程', d:'班上通常有來自南美、東歐、亞洲的同學，多倫多本身的多元文化讓課外也是練英語的場合。'},
+      {t:'下午', ti:'PATH地下城或湖濱', d:'下雨天去PATH逛；天氣好走到Harbourfront湖邊，在「內陸城市」看到清澈的湖景。'},
+      {t:'週末', ti:'尼加拉瀑布或市集', d:'搭巴士1.5小時到尼加拉瀑布，或探索Kensington Market手工市集。'},
+    ],
+    personasDetail:[
+      {role:'第一次去北美，想感受多元文化', why:'多倫多是全球最多元城市，班上和街上都是國際視野。', tags:['北美首選','多元文化']},
+      {role:'準備申請加拿大大學或移民', why:'Pathway 銜接課程直通加拿大高等教育，學術英語打底。', tags:['Pathway','加拿大升學']},
+    ],
+  },
+  brisbane: {
+    name:'布里斯本', region:'大洋洲', flag:'🇦🇺', cur:'AU$',
+    addr:'Level 3, 115 Queen Street, Brisbane QLD 4000, Australia',
+    age:'18+', ageMin:18, capacity:'216 人', minDur:'1 週', classSize:'18 人',
+    lang:'英文', langType:'en',
+    heroFrom:'#1A0A06', heroTo:'#2A1410', heroGlow:'rgba(200,67,106,0.22)',
+    personas:['打工度假型','CRICOS學生簽','澳洲陽光生活'],
+    features:['Queen Street Mall最核心位置','CRICOS認可正式課程（04187G）','2032年夏季奧運主辦城市'],
+    moodTag:'澳洲陽光・奧運城市',
+    moodDesc:'下課步行到South Bank人工海灘游泳，下班後是澳洲第三大城市的夜生活——這就是布里斯本。',
+    moodScene:'下課後步行到 South Bank 海灘游泳，上課前喝一杯澳洲咖啡',
+    pills:['Queen St Mall','CRICOS','2032奧運','打工度假'],
+    courseFrom:300, accommFrom:300, costLevel:60,
+    courseRange:'AU$400–475', accommRange:'AU$300–679',
+    visa:'學生簽62週 / 觀光簽12週 / WHV打工度假17週',
+    visaTags:['學生簽 62週','觀光簽 12週','WHV 17週'],
+    courseTypes:['標準 15hr','密集 20hr','1-on-1'],
+    specialCourses:['IELTS 備考','CRICOS 正式課程'],
+    accommTypes:['home','apt','hostel'],
+    courses:[
+      {n:'標準英語（上午）Classic Morning', sp:false, tags:['15小時/週','初級→高級'], price:'AU$ 400/週起', desc:'每週15小時標準英語課。12–23週$380/週。'},
+      {n:'密集英語（上午）Semi-intensive', sp:false, tags:['20小時/週','CRICOS: 118983J'], price:'AU$ 475/週起', desc:'每週20小時密集課程，最受歡迎的方案。12–23週$455，24週以上$430。學生簽最長62週。'},
+      {n:'密集英語 + IELTS備考', sp:true, tags:['20小時/週','CRICOS: 113974F'], price:'AU$ 475/週起', desc:'含IELTS備考模組，符合學生簽規定。'},
+      {n:'一對一個人教學', sp:false, tags:['60分鐘/堂','任何程度'], price:'AU$ 135/堂起', desc:'完全客製化。5堂$675，10堂$1,350。'},
+    ],
+    accomm:[
+      {n:'寄宿家庭（半膳）', meta:'18歲以上・最長60分鐘', price:'AU$ 420/週起', type:'home', desc:'含週一至五早餐及週六日全天三餐。'},
+      {n:'EP House Share（單人房）', meta:'18歲以上・大眾交通40–50分鐘', price:'AU$ 300/週', type:'apt', desc:'與其他學員共住EP管理房屋，社交氛圍好。'},
+      {n:'Bunk Brisbane青旅（宿舍房）', meta:'18歲以上・大眾交通10分鐘', price:'AU$ 395/週起', type:'hostel', desc:'宿舍床位，費用最低。'},
+      {n:'Student One學生公寓（套房）', meta:'18歲以上・步行12分鐘', price:'AU$ 679/週', type:'apt', desc:'現代化工作室套房，距校最近的高品質選擇。'},
+    ],
+    day:[
+      {t:'08:00', ti:'昆士蘭的陽光早晨', d:'布里斯本幾乎每天都是晴天，Queen Street Mall就是學校門口的日常場景。'},
+      {t:'09:00–13:30', ti:'密集英語課程', d:'20小時/週，早上上課，老師強調口說輸出，下課後的語感一天天在積累。'},
+      {t:'下午', ti:'South Bank或Story Bridge', d:'步行10分鐘到South Bank人工海灘游泳，或走上Story Bridge俯瞰布里斯本，完全不需交通費。'},
+      {t:'週末', ti:'黃金海岸或摩頓島', d:'搭火車1小時到黃金海岸衝浪，或搭渡輪到摩頓島看野生袋鼠、浮潛。'},
+    ],
+    personasDetail:[
+      {role:'打工度假簽，想邊賺錢邊學英語', why:'WHV 17 週課程合法打工，布里斯本生活費比雪梨墨爾本低。', tags:['WHV 打工度假','省預算']},
+      {role:'嚮往澳洲生活，當長期居留起點', why:'CRICOS 正式課程可接學生簽 62 週，2032 奧運城市潛力大。', tags:['CRICOS','長期居留']},
+    ],
+  },
+};
+</script>
+
+<!-- ============== CAMPUS_DATA — V2 augmentation (area / climate / spend / flight) ============== -->
+<script id="CAMPUS_DATA_V2">
+(function(){
+  const D = window.CAMPUS_DATA;
+
+  // ===== AREA =====
+  D.canary.area = {
+    walk: [
+      { icon:'🚇', label:'地鐵站', dist:'步行 3 分鐘', desc:'Jubilee Line + Elizabeth Line 兩線交匯' },
+      { icon:'☕', label:'咖啡廳', dist:'步行 2 分鐘', desc:'Canary Wharf 周邊有多間連鎖與獨立咖啡廳' },
+      { icon:'🛒', label:'超市', dist:'步行 5 分鐘', desc:'Waitrose、Tesco Express 均在步行範圍內' },
+      { icon:'🌊', label:'泰晤士河畔', dist:'步行 8 分鐘', desc:'可沿河岸散步，視野開闊' },
+      { icon:'🍽️', label:'午餐選擇', dist:'步行 3 分鐘', desc:'Canary Wharf 商場地下層有 20+ 家餐飲選擇' },
+    ],
+    nearby: [
+      { name:'格林威治公園', dist:'地鐵 15 分鐘', why:'世界本初子午線所在地，山頂俯瞰倫敦全景' },
+      { name:'南岸文化區', dist:'地鐵 20 分鐘', why:'泰特現代美術館、莎士比亞劇場就在河對岸' },
+      { name:'牛津街', dist:'地鐵 25 分鐘', why:'歐洲最繁忙購物街，週末必去' },
+    ],
+    mapNote: '校區位於 Canary Wharf 與 East India 站之間，Zone 2 交通費用合理。'
+  };
+  D.greenford.area = {
+    walk: [
+      { icon:'🚌', label:'免費接駁巴士', dist:'校門口', desc:'每 30 分鐘一班，直達地鐵站' },
+      { icon:'🏟️', label:'溫布利球場', dist:'步行 15 分鐘', desc:'英超、演唱會，世界級場館' },
+      { icon:'☕', label:'Starbucks', dist:'校內', desc:'校區內設有 Starbucks，不需要出門' },
+      { icon:'🛒', label:'超市', dist:'步行 10 分鐘', desc:"ASDA、Sainsbury's 均在附近" },
+      { icon:'🌳', label:'公園', dist:'步行 5 分鐘', desc:'安靜住宅區，生活步調悠閒' },
+    ],
+    nearby: [
+      { name:'倫敦市中心', dist:'地鐵 30–40 分鐘', why:'搭 Central Line 直達牛津街' },
+      { name:'溫布利體育場', dist:'步行 15 分鐘', why:'英超比賽或演唱會場地' },
+      { name:'希斯洛機場', dist:'地鐵 40 分鐘', why:'Elizabeth Line 直達，週末出城方便' },
+    ],
+    mapNote: '校區位於倫敦西區安靜住宅社區，生活費低於市中心 20–30%。'
+  };
+  D.birmingham.area = {
+    walk: [
+      { icon:'🚉', label:'新街火車站', dist:'步行 2 分鐘', desc:'英格蘭最繁忙車站之一，通往全國各地' },
+      { icon:'🛍️', label:'Bullring 購物中心', dist:'步行 1 分鐘', desc:'全英最知名商場之一，就在校門口' },
+      { icon:'📚', label:'伯明罕圖書館', dist:'步行 8 分鐘', desc:'全英最大公共圖書館，自習環境一流' },
+      { icon:'🍽️', label:'Broad Street 餐廳街', dist:'步行 10 分鐘', desc:'伯明罕夜生活與餐飲中心' },
+      { icon:'☕', label:'Grand Central 商場', dist:'步行 3 分鐘', desc:'車站內的購物中心，有多間咖啡廳' },
+    ],
+    nearby: [
+      { name:'倫敦', dist:'火車 85 分鐘', why:'每逢週末可以殺去，提前買票約 £10–30' },
+      { name:'牛津', dist:'火車 50 分鐘', why:'英國最古老大學城，一日遊首選' },
+      { name:'曼徹斯特', dist:'火車 85 分鐘', why:'英超豪門主場，音樂文化之城' },
+    ],
+    mapNote: '伯明罕是英格蘭地理中心，從這裡出發探索全英最方便。'
+  };
+  D.leeds.area = {
+    walk: [
+      { icon:'🏛️', label:'市政廳', dist:'步行 1 分鐘', desc:'校區就在市政廳旁，市中心精華地段' },
+      { icon:'🛍️', label:'Headrow 購物街', dist:'步行 3 分鐘', desc:'里茲最主要購物街道' },
+      { icon:'🎭', label:'Grand Theatre', dist:'步行 5 分鐘', desc:'得獎無數的歌劇與劇場演出' },
+      { icon:'🏪', label:'Leeds Market', dist:'步行 8 分鐘', desc:'全英最大室內市集之一，物美價廉' },
+      { icon:'🌳', label:'城市公園', dist:'步行 10 分鐘', desc:'大面積綠地，適合午後放鬆' },
+    ],
+    nearby: [
+      { name:'約克古城', dist:'火車 25 分鐘', why:'中世紀城牆保存完整，英格蘭最美古城' },
+      { name:'湖區國家公園', dist:'火車 + 巴士 1.5 小時', why:'英格蘭最美自然景觀，健行聖地' },
+      { name:'利物浦', dist:'火車 1.5 小時', why:'披頭四故鄉，港口文化城市' },
+    ],
+    mapNote: '里茲是探索英格蘭北部的最佳基地，周邊旅遊資源豐富。'
+  };
+  D.dublin.area = {
+    walk: [
+      { icon:'🌊', label:'Dún Laoghaire 碼頭', dist:'步行 5 分鐘', desc:'愛爾蘭海碼頭，週末散步首選' },
+      { icon:'🚂', label:'DART 輕軌站', dist:'步行 5 分鐘', desc:'20 分鐘直達都柏林市中心' },
+      { icon:'☕', label:'海濱咖啡廳', dist:'步行 3 分鐘', desc:'多間面海咖啡廳，絕佳下課去處' },
+      { icon:'🏊', label:'40 Foot 海泳點', dist:'步行 15 分鐘', desc:'都柏林人氣野外海泳點，全年開放' },
+      { icon:'🛒', label:'超市', dist:'步行 8 分鐘', desc:'Tesco、SuperValu 均在步行範圍' },
+    ],
+    nearby: [
+      { name:'都柏林市中心', dist:'DART 20 分鐘', why:'Temple Bar、聖三一學院、都柏林城堡' },
+      { name:'格倫達洛赫', dist:'巴士 1 小時', why:'6 世紀修道院遺址，愛爾蘭最美山谷' },
+      { name:'威克洛山', dist:'巴士 40 分鐘', why:'「愛爾蘭花園」，健行與自然景觀' },
+    ],
+    mapNote: '校區位於都柏林南部海濱小鎮 Dún Laoghaire，是都柏林人最愛的週末休閒區。'
+  };
+  D.berlin.area = {
+    walk: [
+      { icon:'🚇', label:'地鐵站', dist:'步行 5 分鐘', desc:'U9、S3 等多線交匯，交通便利' },
+      { icon:'🎨', label:'街頭藝術', dist:'隨處可見', desc:'整個柏林就是一座露天美術館' },
+      { icon:'🛒', label:'超市', dist:'步行 3 分鐘', desc:'Lidl、Rewe 物價實惠' },
+      { icon:'☕', label:'獨立咖啡廳', dist:'步行 2 分鐘', desc:'柏林以獨立咖啡文化著名，品質高' },
+      { icon:'🌳', label:'Tiergarten 公園', dist:'地鐵 10 分鐘', desc:'柏林最大公園，面積相當於一個小城區' },
+    ],
+    nearby: [
+      { name:'布蘭登堡門', dist:'地鐵 15 分鐘', why:'德國統一的象徵，柏林最著名地標' },
+      { name:'East Side Gallery', dist:'地鐵 20 分鐘', why:'柏林圍牆遺址，全球最長露天畫廊' },
+      { name:'博物館島', dist:'地鐵 20 分鐘', why:'UNESCO 世界遺產，5 座世界級博物館' },
+    ],
+    mapNote: '校區位於 Moabit，柏林市中心附近，交通便利，周邊生活機能完整。'
+  };
+  D.paris.area = {
+    walk: [
+      { icon:'🚇', label:'地鐵站', dist:'步行 3 分鐘', desc:'13 號線直達蒙帕納斯，轉乘方便' },
+      { icon:'🥐', label:'麵包店', dist:'步行 1 分鐘', desc:'法國法律規定每個街區都要有麵包店' },
+      { icon:'☕', label:'露天咖啡座', dist:'步行 2 分鐘', desc:'巴黎 14 區安靜的露天咖啡文化' },
+      { icon:'🛒', label:'超市', dist:'步行 5 分鐘', desc:'Franprix、Monoprix 均在附近' },
+      { icon:'🌳', label:'蒙蘇里公園', dist:'步行 15 分鐘', desc:'巴黎 14 區最大公園，湖泊與草坪' },
+    ],
+    nearby: [
+      { name:'艾菲爾鐵塔', dist:'地鐵 20 分鐘', why:'從 Trocadéro 看鐵塔，是最經典的角度' },
+      { name:'羅浮宮', dist:'地鐵 25 分鐘', why:'世界最大藝術博物館，建議提前訂票' },
+      { name:'蒙馬特', dist:'地鐵 30 分鐘', why:'巴黎最有藝術家氣息的山丘社區' },
+    ],
+    mapNote: '校區位於巴黎 14 區安靜住宅街道，距蒙帕納斯火車站數分鐘步行。'
+  };
+  D.malta.area = {
+    walk: [
+      { icon:'🌊', label:'Spinola Bay', dist:'步行 2 分鐘', desc:'地中海小漁港，校區就在海灣旁' },
+      { icon:'🍽️', label:'餐廳街', dist:'步行 3 分鐘', desc:"St. Julian's 餐廳密集，各國料理都有" },
+      { icon:'🏊', label:'海泳點', dist:'步行 5 分鐘', desc:'地中海清澈海水，幾乎全年可游泳' },
+      { icon:'🌙', label:'夜生活區', dist:'步行 8 分鐘', desc:'Paceville 是馬爾他最熱鬧的夜生活區' },
+      { icon:'🚌', label:'巴士站', dist:'步行 3 分鐘', desc:'連接全島的巴士網絡，票價統一 €1.5' },
+    ],
+    nearby: [
+      { name:'瓦萊塔古城', dist:'巴士 20 分鐘', why:'馬爾他首都，UNESCO 世界遺產' },
+      { name:'Blue Lagoon（科米諾島）', dist:'渡輪 30 分鐘', why:'歐洲最清澈海水之一，浮潛天堂' },
+      { name:'Gozo 島', dist:'渡輪 25 分鐘', why:'農村風景、古老神廟、絕美懸崖' },
+    ],
+    mapNote: "校區位於 St. Julian's，馬爾他最熱鬧的濱海社區，生活機能極佳。"
+  };
+  D.dubai.area = {
+    walk: [
+      { icon:'🎓', label:'Knowledge Park 學術社區', dist:'園區內', desc:'多所國際大學分校，完整學術氛圍' },
+      { icon:'🍽️', label:'學生餐廳', dist:'園區內', desc:'Knowledge Park 內多家餐廳，選擇多元' },
+      { icon:'🚌', label:'學校接駁巴士', dist:'校門口', desc:'往返宿舍的接駁服務，免費或低費' },
+      { icon:'🛒', label:'購物中心', dist:'車程 15 分鐘', desc:'Mall of the Emirates 等超大型商場' },
+      { icon:'🏖️', label:'Jumeirah 海灘', dist:'車程 15 分鐘', desc:'波斯灣白沙灘，免費公共海灘' },
+    ],
+    nearby: [
+      { name:'杜拜購物中心', dist:'車程 20 分鐘', why:'世界最大購物中心，含室內滑雪場與水族館' },
+      { name:'沙漠（Desert Safari）', dist:'車程 45 分鐘', why:'越野衝沙、駱駝騎乘、貝都因文化體驗' },
+      { name:'阿布達比', dist:'車程 1 小時', why:'謝赫扎耶德清真寺、羅浮宮阿布達比' },
+    ],
+    mapNote: '校區位於 Knowledge Park，阿聯酋最重要的教育特區，與 Media City、Internet City 相鄰。'
+  };
+  D.toronto.area = {
+    walk: [
+      { icon:'🏙️', label:'CN 塔', dist:'步行 10 分鐘', desc:'加拿大地標，觀景台與玻璃地板體驗' },
+      { icon:'🌊', label:'Harbourfront 湖濱', dist:'步行 12 分鐘', desc:'安大略湖畔，是多倫多人最愛的休閒區' },
+      { icon:'🏢', label:'PATH 地下城', dist:'步行 2 分鐘', desc:'全球最大地下購物城，30km 連通市中心' },
+      { icon:'☕', label:'咖啡廳', dist:'步行 1 分鐘', desc:'周邊有大量獨立咖啡廳和連鎖店' },
+      { icon:'🚇', label:'地鐵站', dist:'步行 3 分鐘', desc:'Union Station，多倫多最重要的交通樞紐' },
+    ],
+    nearby: [
+      { name:'尼加拉瀑布', dist:'巴士 1.5 小時', why:'世界三大瀑布之一，每個人來加拿大都必去' },
+      { name:'Kensington Market', dist:'地鐵 15 分鐘', why:'多倫多最有個性的市集社區，多元文化聚集地' },
+      { name:'Distillery District', dist:'步行 20 分鐘', why:'維多利亞式磚瓦建築群，藝廊、咖啡、手工精釀' },
+    ],
+    mapNote: '校區位於多倫多市中心 36 Victoria Street，步行可達大多數主要景點。'
+  };
+  D.brisbane.area = {
+    walk: [
+      { icon:'🛍️', label:'Queen Street Mall', dist:'校門口', desc:'布里斯本最繁忙步行商圈，四面都是商店' },
+      { icon:'🚉', label:'Brisbane Central 火車站', dist:'步行 5 分鐘', desc:'連接全市的火車網絡中心' },
+      { icon:'🌊', label:'South Bank 人工海灘', dist:'步行 10 分鐘', desc:'市區內的免費游泳海灘，全年開放' },
+      { icon:'☕', label:'咖啡廳', dist:'步行 1 分鐘', desc:'澳洲咖啡文化濃厚，獨立咖啡廳密集' },
+      { icon:'🌿', label:'Botanical Garden', dist:'步行 8 分鐘', desc:'市中心植物園，午休散步首選' },
+    ],
+    nearby: [
+      { name:'黃金海岸', dist:'火車 1 小時', why:'衝浪者天堂，澳洲最著名海灘城市' },
+      { name:'摩頓島', dist:'渡輪 75 分鐘', why:'野生袋鼠海灘、浮潛、沙漠衝沙' },
+      { name:'陽光海岸', dist:'火車 1.5 小時', why:'比黃金海岸更悠閒的海灘城市' },
+    ],
+    mapNote: '校區位於 Queen Street Mall 核心位置，是布里斯本地理位置最好的語言學校。'
+  };
+
+  // ===== CLIMATE =====
+  const londonClimate = {
+    months: [
+      { m:'1月', temp:'8°C', icon:'🌧', mood:1 },
+      { m:'2月', temp:'9°C', icon:'🌧', mood:1 },
+      { m:'3月', temp:'11°C', icon:'⛅', mood:2 },
+      { m:'4月', temp:'14°C', icon:'⛅', mood:3 },
+      { m:'5月', temp:'17°C', icon:'🌤', mood:4 },
+      { m:'6月', temp:'20°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'23°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'23°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'20°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'16°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'11°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'8°C', icon:'🌧', mood:1 },
+    ],
+    best:[5,6,7,8,9], avoid:[11,0,1],
+    avoidReason:'冬季多雨陰冷，日照少，學習體驗相對低落',
+    bestReason:'5–9 月氣候宜人，日照充足，倫敦活動最豐富',
+    note:'倫敦下雨是真的，但很少整天大雨，多半是陣雨。帶一件薄外套和折疊傘就夠。'
+  };
+  D.canary.climate = londonClimate;
+  D.greenford.climate = londonClimate;
+  D.birmingham.climate = {
+    months: [
+      { m:'1月', temp:'5°C', icon:'🌧', mood:1 },
+      { m:'2月', temp:'6°C', icon:'🌧', mood:1 },
+      { m:'3月', temp:'9°C', icon:'⛅', mood:2 },
+      { m:'4月', temp:'12°C', icon:'⛅', mood:3 },
+      { m:'5月', temp:'16°C', icon:'🌤', mood:4 },
+      { m:'6月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'18°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'13°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'9°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'6°C', icon:'🌧', mood:1 },
+    ],
+    best:[4,5,6,7,8], avoid:[11,0,1],
+    avoidReason:'冬季寒冷多雨，日照少',
+    bestReason:'5–9 月氣候宜人，從伯明罕出遊體驗最好',
+    note:'伯明罕比倫敦氣溫略低，冬天記得準備厚外套和防水鞋。'
+  };
+  D.leeds.climate = {
+    months: [
+      { m:'1月', temp:'4°C', icon:'🌧', mood:1 },
+      { m:'2月', temp:'5°C', icon:'🌧', mood:1 },
+      { m:'3月', temp:'7°C', icon:'⛅', mood:2 },
+      { m:'4月', temp:'11°C', icon:'⛅', mood:3 },
+      { m:'5月', temp:'14°C', icon:'🌤', mood:4 },
+      { m:'6月', temp:'17°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'16°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'12°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'7°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'5°C', icon:'🌧', mood:1 },
+    ],
+    best:[4,5,6,7,8], avoid:[11,0,1],
+    avoidReason:'北英格蘭冬季寒冷，氣溫比倫敦再低 2–3°C',
+    bestReason:'夏季是去約克、湖區最好的季節',
+    note:'里茲是英格蘭北部，比倫敦冷一些，秋天的楓葉景色非常美。'
+  };
+  D.dublin.climate = {
+    months: [
+      { m:'1月', temp:'8°C', icon:'🌧', mood:1 },
+      { m:'2月', temp:'9°C', icon:'🌧', mood:2 },
+      { m:'3月', temp:'11°C', icon:'⛅', mood:3 },
+      { m:'4月', temp:'13°C', icon:'🌤', mood:4 },
+      { m:'5月', temp:'16°C', icon:'☀️', mood:4 },
+      { m:'6月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'20°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'20°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'17°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'14°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'10°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'8°C', icon:'🌧', mood:1 },
+    ],
+    best:[3,4,5,6,7,8], avoid:[11,0],
+    avoidReason:'冬季多雨，日照時間短（12 月只有約 8 小時日照）',
+    bestReason:'3–9 月氣候宜人，愛爾蘭有「翡翠島」美譽，綠意盎然',
+    note:'愛爾蘭常下雨是事實，但很少下整天。隨身帶一件防水外套，其他都沒問題。'
+  };
+  D.berlin.climate = {
+    months: [
+      { m:'1月', temp:'1°C', icon:'❄️', mood:1 },
+      { m:'2月', temp:'3°C', icon:'❄️', mood:1 },
+      { m:'3月', temp:'8°C', icon:'⛅', mood:2 },
+      { m:'4月', temp:'13°C', icon:'🌤', mood:3 },
+      { m:'5月', temp:'18°C', icon:'☀️', mood:5 },
+      { m:'6月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'24°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'23°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'18°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'12°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'6°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'2°C', icon:'❄️', mood:1 },
+    ],
+    best:[4,5,6,7,8], avoid:[11,0,1],
+    avoidReason:'冬季寒冷，1–2 月均溫接近冰點，偶有降雪',
+    bestReason:'5–8 月是柏林最美的季節，戶外活動豐富，夜晚 10 點才天黑',
+    note:'柏林夏天非常美，冬天非常冷。如果第一次去建議選春夏，體驗更豐富。'
+  };
+  D.paris.climate = {
+    months: [
+      { m:'1月', temp:'6°C', icon:'🌧', mood:1 },
+      { m:'2月', temp:'7°C', icon:'🌧', mood:2 },
+      { m:'3月', temp:'11°C', icon:'⛅', mood:3 },
+      { m:'4月', temp:'14°C', icon:'🌤', mood:4 },
+      { m:'5月', temp:'18°C', icon:'☀️', mood:5 },
+      { m:'6月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'24°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'23°C', icon:'☀️', mood:4 },
+      { m:'9月', temp:'19°C', icon:'🌤', mood:4 },
+      { m:'10月', temp:'14°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'9°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'6°C', icon:'🌧', mood:1 },
+    ],
+    best:[4,5,6,8,9], avoid:[6],
+    avoidReason:'7 月是暑假旺季，景點人潮最多，住宿費用最高',
+    bestReason:'5–6 月和 9 月是巴黎最美的季節，氣候宜人，人潮較少',
+    note:'8 月巴黎人幾乎都去度假，城市很空，部分餐廳休業，但博物館人潮少很多。'
+  };
+  D.malta.climate = {
+    months: [
+      { m:'1月', temp:'13°C', icon:'🌧', mood:2 },
+      { m:'2月', temp:'13°C', icon:'🌧', mood:2 },
+      { m:'3月', temp:'15°C', icon:'⛅', mood:3 },
+      { m:'4月', temp:'18°C', icon:'🌤', mood:4 },
+      { m:'5月', temp:'22°C', icon:'☀️', mood:5 },
+      { m:'6月', temp:'27°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'30°C', icon:'🌞', mood:4 },
+      { m:'8月', temp:'30°C', icon:'🌞', mood:4 },
+      { m:'9月', temp:'27°C', icon:'☀️', mood:5 },
+      { m:'10月', temp:'23°C', icon:'🌤', mood:5 },
+      { m:'11月', temp:'18°C', icon:'⛅', mood:4 },
+      { m:'12月', temp:'14°C', icon:'🌧', mood:3 },
+    ],
+    best:[3,4,5,8,9,10], avoid:[6,7],
+    avoidReason:'7–8 月氣溫高達 30°C，學費和住宿費用也是旺季最貴',
+    bestReason:'4–5 月和 9–10 月是最完美的季節：溫暖、可游泳、費用較低',
+    note:'馬爾他全年都可以游泳，11 月水溫還有 22°C。冬天偶爾下大雨，但很少連續多天。'
+  };
+  D.dubai.climate = {
+    months: [
+      { m:'1月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'2月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'3月', temp:'25°C', icon:'☀️', mood:5 },
+      { m:'4月', temp:'30°C', icon:'🌤', mood:4 },
+      { m:'5月', temp:'36°C', icon:'🔥', mood:2 },
+      { m:'6月', temp:'39°C', icon:'🔥', mood:1 },
+      { m:'7月', temp:'41°C', icon:'🔥', mood:1 },
+      { m:'8月', temp:'41°C', icon:'🔥', mood:1 },
+      { m:'9月', temp:'38°C', icon:'🔥', mood:1 },
+      { m:'10月', temp:'32°C', icon:'🌤', mood:3 },
+      { m:'11月', temp:'26°C', icon:'☀️', mood:5 },
+      { m:'12月', temp:'21°C', icon:'☀️', mood:5 },
+    ],
+    best:[0,1,2,10,11], avoid:[5,6,7,8],
+    avoidReason:'6–9 月均溫超過 39°C，戶外幾乎無法活動，建議避開',
+    bestReason:'11 月至 3 月是杜拜黃金季節，氣候宜人，戶外活動最豐富',
+    note:'杜拜室內全程冷氣，學校、商場、宿舍都是恆溫。但戶外真的很熱，夏季選擇時要有心理準備。'
+  };
+  D.toronto.climate = {
+    months: [
+      { m:'1月', temp:'-5°C', icon:'❄️', mood:1 },
+      { m:'2月', temp:'-4°C', icon:'❄️', mood:1 },
+      { m:'3月', temp:'1°C', icon:'⛅', mood:2 },
+      { m:'4月', temp:'9°C', icon:'🌤', mood:3 },
+      { m:'5月', temp:'15°C', icon:'☀️', mood:4 },
+      { m:'6月', temp:'21°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'25°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'24°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'19°C', icon:'🌤', mood:5 },
+      { m:'10月', temp:'12°C', icon:'⛅', mood:3 },
+      { m:'11月', temp:'5°C', icon:'🌧', mood:2 },
+      { m:'12月', temp:'-2°C', icon:'❄️', mood:1 },
+    ],
+    best:[5,6,7,8,9], avoid:[0,1],
+    avoidReason:'1–2 月均溫零下，偶有暴風雪，出行不便',
+    bestReason:'6–9 月是多倫多最美的季節，湖濱活動豐富，9 月有 TIFF 電影節',
+    note:'多倫多冬天冷但室內很暖。PATH 地下城系統讓你幾乎不需要在戶外待太久。'
+  };
+  D.brisbane.climate = {
+    months: [
+      { m:'1月', temp:'29°C', icon:'⛈', mood:3 },
+      { m:'2月', temp:'29°C', icon:'⛈', mood:3 },
+      { m:'3月', temp:'27°C', icon:'⛅', mood:4 },
+      { m:'4月', temp:'25°C', icon:'☀️', mood:5 },
+      { m:'5月', temp:'22°C', icon:'☀️', mood:5 },
+      { m:'6月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'7月', temp:'18°C', icon:'☀️', mood:5 },
+      { m:'8月', temp:'19°C', icon:'☀️', mood:5 },
+      { m:'9月', temp:'22°C', icon:'☀️', mood:5 },
+      { m:'10月', temp:'25°C', icon:'🌤', mood:4 },
+      { m:'11月', temp:'27°C', icon:'⛅', mood:4 },
+      { m:'12月', temp:'29°C', icon:'⛈', mood:3 },
+    ],
+    best:[3,4,5,6,7,8], avoid:[0,1],
+    avoidReason:'1–2 月是澳洲夏季，布里斯本高溫且有颶風季，偶有大雷雨',
+    bestReason:'4–9 月是昆士蘭最宜人的季節，氣候乾爽，日照充足',
+    note:'布里斯本是全球氣候最宜人的大城市之一，被稱為「全年都是好天氣」。冬天（6–8月）也只有 18–19°C，台灣人會覺得很舒服。'
+  };
+
+  // ===== SPEND =====
+  // London (canary / greenford)
+  const londonSpend = {
+    currency:'£',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'£3.5–5', feel:'和台灣差不多' },
+      { icon:'🥙', label:'超市午餐', val:'£4–7', feel:'算便宜' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'£6–8', feel:'比台灣貴很多' },
+      { icon:'🚇', label:'地鐵單程', val:'£2.8–4.5', feel:'依距離計算' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'£12–20', feel:'台灣 2–3 倍' },
+      { icon:'🛒', label:'超市一週採購', val:'£30–50', feel:'自煮省很多' },
+      { icon:'🎬', label:'電影票', val:'£12–16', feel:'比台灣貴' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'£10–20', feel:'吃到飽方案多' },
+    ],
+    monthlyTotal:'£600–1,000', monthlyTwd:'約台幣 24,000–40,000 元',
+    savingTip:'在超市買食材自煮 + 辦 Oyster 卡搭地鐵，每月可以省下 £200–300。'
+  };
+  D.canary.spend = londonSpend;
+  D.greenford.spend = londonSpend;
+  D.birmingham.spend = {
+    currency:'£',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'£3–4.5', feel:'比倫敦便宜' },
+      { icon:'🥙', label:'超市午餐', val:'£3–6', feel:'CP 值高' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'£4–6', feel:'比倫敦便宜不少' },
+      { icon:'🚌', label:'公車單程', val:'£2.4', feel:'公車為主' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'£10–18', feel:'台灣 2 倍' },
+      { icon:'🛒', label:'超市一週採購', val:'£25–40', feel:'物價親民' },
+      { icon:'🎬', label:'電影票', val:'£8–12', feel:'比倫敦便宜' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'£10–15', feel:'吃到飽方案多' },
+    ],
+    monthlyTotal:'£500–800', monthlyTwd:'約台幣 20,000–32,000 元',
+    savingTip:'伯明罕生活費低於倫敦 25–30%，自煮 + 公車月票 £60–70 是最省的組合。'
+  };
+  D.leeds.spend = {
+    currency:'£',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'£3–4.5', feel:'比倫敦便宜' },
+      { icon:'🥙', label:'超市午餐', val:'£3–6', feel:'CP 值高' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'£4–6', feel:'學生友善' },
+      { icon:'🚌', label:'公車單程', val:'£2.5', feel:'公車為主' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'£10–18', feel:'台灣 2 倍' },
+      { icon:'🛒', label:'超市一週採購', val:'£25–40', feel:'物價親民' },
+      { icon:'🎬', label:'電影票', val:'£8–12', feel:'學生有折扣' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'£10–15', feel:'吃到飽方案多' },
+    ],
+    monthlyTotal:'£500–800', monthlyTwd:'約台幣 20,000–32,000 元',
+    savingTip:'里茲是大學城，學生折扣多。辦 16-25 Railcard 火車票打 1/3 折。'
+  };
+  D.dublin.spend = {
+    currency:'€',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'€3.5–4.5', feel:'和倫敦差不多' },
+      { icon:'🥙', label:'超市午餐', val:'€4–7', feel:'比英國貴一點' },
+      { icon:'🍺', label:'一瓶健力士（酒吧）', val:'€6–7', feel:'本地啤酒便宜' },
+      { icon:'🚆', label:'DART 單程', val:'€2–3', feel:'交通費用合理' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'€15–25', feel:'物價偏高' },
+      { icon:'🛒', label:'超市一週採購', val:'€35–55', feel:'比英國貴 10–15%' },
+      { icon:'🎬', label:'電影票', val:'€10–14', feel:'學生有折扣' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'€15–25', feel:'吃到飽方案多' },
+    ],
+    monthlyTotal:'€700–1,100', monthlyTwd:'約台幣 24,500–38,500 元',
+    savingTip:'都柏林整體物價偏高，但 Work & Study 可合法打工，能補回大部分生活費。'
+  };
+  D.berlin.spend = {
+    currency:'€',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'€2.5–4', feel:'比巴黎便宜' },
+      { icon:'🥙', label:'超市午餐', val:'€3–5', feel:'物價親民' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'€3–5', feel:'歐洲啤酒最便宜' },
+      { icon:'🚇', label:'地鐵單程', val:'€3.5', feel:'交通費合理' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'€10–18', feel:'比巴黎便宜' },
+      { icon:'🛒', label:'超市一週採購', val:'€25–40', feel:'Lidl 超便宜' },
+      { icon:'🎬', label:'電影票', val:'€9–13', feel:'學生票更便宜' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'€10–20', feel:'方案多元' },
+    ],
+    monthlyTotal:'€500–800', monthlyTwd:'約台幣 17,500–28,000 元',
+    savingTip:'柏林是歐洲首都中生活費最低之一。學生月票 €29，自煮 + Lidl 採購最省。'
+  };
+  D.paris.spend = {
+    currency:'€',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'€3–5', feel:'露天座位較貴' },
+      { icon:'🥐', label:'可頌 + 咖啡', val:'€4–7', feel:'巴黎日常' },
+      { icon:'🍷', label:'一杯紅酒（酒吧）', val:'€5–8', feel:'紅酒便宜' },
+      { icon:'🚇', label:'地鐵單程', val:'€2.15', feel:'單程不貴' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'€15–30', feel:'觀光區更貴' },
+      { icon:'🛒', label:'超市一週採購', val:'€35–55', feel:'比柏林貴' },
+      { icon:'🎬', label:'電影票', val:'€11–14', feel:'學生有折扣' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'€10–20', feel:'吃到飽方案多' },
+    ],
+    monthlyTotal:'€700–1,100', monthlyTwd:'約台幣 24,500–38,500 元',
+    savingTip:'巴黎有 Navigo 月票 €86，能搭遍大眾交通。自煮 + 麵包店是最巴黎的節流方式。'
+  };
+  D.malta.spend = {
+    currency:'€',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'€1.5–3', feel:'非常便宜' },
+      { icon:'🥙', label:'超市午餐', val:'€3–6', feel:'物價親民' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'€3–5', feel:'歐洲低價' },
+      { icon:'🚌', label:'巴士單程', val:'€1.5', feel:'統一票價' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'€10–18', feel:'CP 值高' },
+      { icon:'🛒', label:'超市一週採購', val:'€25–40', feel:'平價' },
+      { icon:'🍦', label:'地中海冰淇淋', val:'€2–3', feel:'每天都吃得起' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'€10–15', feel:'方案多元' },
+    ],
+    monthlyTotal:'€500–750', monthlyTwd:'約台幣 17,500–26,250 元',
+    savingTip:'馬爾他是歐洲生活費最低的英語環境之一。長期學員每月生活費可控制在 €500 以內。'
+  };
+  D.dubai.spend = {
+    currency:'USD',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'$4–7', feel:'高檔咖啡廳偏貴' },
+      { icon:'🥙', label:'超市午餐', val:'$5–10', feel:'進口食材貴' },
+      { icon:'🥤', label:'飲料（非酒精）', val:'$2–5', feel:'伊斯蘭國家' },
+      { icon:'🚇', label:'地鐵單程', val:'$1–2', feel:'交通費合理' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'$15–40', feel:'觀光區很貴' },
+      { icon:'🛒', label:'超市一週採購', val:'$40–80', feel:'進口食材偏貴' },
+      { icon:'🏖️', label:'公共海灘', val:'免費', feel:'最划算的娛樂' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'$15–30', feel:'方案多元' },
+    ],
+    monthlyTotal:'$700–1,300', monthlyTwd:'約台幣 22,400–41,600 元',
+    savingTip:'宿舍 + 學校接駁可以省下大量交通費。公共海灘和沙漠是免費的娛樂選項。'
+  };
+  D.toronto.spend = {
+    currency:'CA$',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'CA$4–6', feel:'Tim Hortons 便宜' },
+      { icon:'🥙', label:'超市午餐', val:'CA$6–10', feel:'比英國貴一些' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'CA$7–10', feel:'酒類偏貴' },
+      { icon:'🚇', label:'地鐵單程', val:'CA$3.35', feel:'TTC 統一票價' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'CA$15–30', feel:'要加 13% 稅 + 小費' },
+      { icon:'🛒', label:'超市一週採購', val:'CA$50–90', feel:'物價較高' },
+      { icon:'🎬', label:'電影票', val:'CA$13–18', feel:'學生有折扣' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'CA$30–50', feel:'通訊費全球最貴之一' },
+    ],
+    monthlyTotal:'CA$1,000–1,500', monthlyTwd:'約台幣 23,000–34,500 元',
+    savingTip:'多倫多通訊費全球最貴，找學生方案能省一半。記得餐廳要給 15–20% 小費。'
+  };
+  D.brisbane.spend = {
+    currency:'AU$',
+    items:[
+      { icon:'☕', label:'一杯咖啡', val:'AU$4–6', feel:'澳洲咖啡文化強' },
+      { icon:'🥙', label:'超市午餐', val:'AU$8–12', feel:'物價偏高' },
+      { icon:'🍺', label:'一瓶啤酒（酒吧）', val:'AU$10–14', feel:'酒類稅高，很貴' },
+      { icon:'🚇', label:'公車 / 火車單程', val:'AU$3.5–6', feel:'依距離分區計算' },
+      { icon:'🍕', label:'外食一餐（餐廳）', val:'AU$18–35', feel:'澳洲外食真的貴' },
+      { icon:'🛒', label:'超市一週採購', val:'AU$70–120', feel:'物價約台灣 2.5 倍' },
+      { icon:'🏖️', label:'South Bank 海灘', val:'免費', feel:'最划算的娛樂' },
+      { icon:'📱', label:'SIM 卡（月租）', val:'AU$25–40', feel:'吃到飽方案普遍' },
+    ],
+    monthlyTotal:'AU$1,200–1,800', monthlyTwd:'約台幣 25,200–37,800 元',
+    savingTip:'WHV 簽證可合法打工，澳洲時薪 AU$24+ 是世界最高之一，能補回大部分生活費。'
+  };
+
+  // ===== FLIGHT =====
+  const londonFlight = {
+    from:'台灣桃園（TPE）', to:'倫敦希斯洛（LHR）',
+    duration:'約 14–16 小時',
+    type:'通常需轉機一次',
+    carriers:['中華航空','長榮航空','阿聯酋航空（杜拜轉）','卡達航空（杜哈轉）'],
+    tip:'提前 2–3 個月購票，旺季（暑假）台幣 3–5 萬，淡季 2–3 萬。',
+    airport_to_school:'希斯洛機場 → 市中心：Elizabeth Line 約 45 分鐘，單程 £6–11'
+  };
+  D.canary.flight = londonFlight;
+  D.greenford.flight = londonFlight;
+  D.birmingham.flight = {
+    from:'台灣桃園（TPE）', to:'伯明罕（BHX）',
+    duration:'約 15–18 小時（轉機）',
+    type:'需轉機，通常經杜拜或香港',
+    carriers:['阿聯酋航空（杜拜轉）','卡達航空','國泰航空（香港轉）'],
+    tip:'也可以飛倫敦 LHR，再搭火車 85 分鐘到伯明罕，票價更多選擇。',
+    airport_to_school:'伯明罕機場 → 市中心：火車 10 分鐘'
+  };
+  D.leeds.flight = {
+    from:'台灣桃園（TPE）', to:'里茲布拉福（LBA）或曼徹斯特（MAN）',
+    duration:'約 15–18 小時（轉機）',
+    type:'需轉機',
+    carriers:['阿聯酋航空','卡達航空','土耳其航空（伊斯坦堡轉）'],
+    tip:'飛曼徹斯特再搭火車 1 小時到里茲，班次和票價選擇更多。',
+    airport_to_school:'曼徹斯特機場 → 里茲：火車 1 小時約 £15–25'
+  };
+  D.dublin.flight = {
+    from:'台灣桃園（TPE）', to:'都柏林（DUB）',
+    duration:'約 15–17 小時（轉機）',
+    type:'需轉機，通常經倫敦或法蘭克福',
+    carriers:['英國航空（倫敦轉）','漢莎航空（法蘭克福轉）','荷蘭皇家航空（阿姆斯特丹轉）'],
+    tip:'也可以先飛倫敦，再搭渡輪或廉航到都柏林，有時候費用更低。',
+    airport_to_school:'都柏林機場 → Dún Laoghaire：巴士 + DART 約 1 小時'
+  };
+  D.berlin.flight = {
+    from:'台灣桃園（TPE）', to:'柏林布蘭登堡（BER）',
+    duration:'約 14–17 小時（轉機）',
+    type:'需轉機，通常經法蘭克福或阿姆斯特丹',
+    carriers:['漢莎航空（法蘭克福轉）','荷蘭皇家航空','土耳其航空'],
+    tip:'旺季（5–9 月）建議提前 3 個月購票，台幣 3–5 萬。',
+    airport_to_school:'柏林布蘭登堡機場 → 市中心：S-Bahn 約 45 分鐘'
+  };
+  D.paris.flight = {
+    from:'台灣桃園（TPE）', to:'巴黎戴高樂（CDG）',
+    duration:'約 13–16 小時',
+    type:'有直飛（長榮），也有轉機選項',
+    carriers:['長榮航空（直飛）','中華航空','法國航空（阿姆斯特丹轉）'],
+    tip:'長榮有直飛巴黎，約 13.5 小時，是去歐洲最舒適的選項之一。',
+    airport_to_school:'CDG 機場 → 市中心：RER B 線約 35 分鐘，€11.8'
+  };
+  D.malta.flight = {
+    from:'台灣桃園（TPE）', to:'馬爾他盧卡（MLA）',
+    duration:'約 16–20 小時（轉機）',
+    type:'需轉機，通常經杜拜、倫敦或羅馬',
+    carriers:['阿聯酋航空（杜拜轉）','英國航空（倫敦轉）','義大利航空（羅馬轉）'],
+    tip:'從台灣飛義大利或英國後，再搭廉航到馬爾他（Ryanair、easyJet），有時總費用更低。',
+    airport_to_school:"馬爾他機場 → St. Julian's：計程車約 €20，或巴士約 40 分鐘"
+  };
+  D.dubai.flight = {
+    from:'台灣桃園（TPE）', to:'杜拜（DXB）',
+    duration:'約 9–10 小時',
+    type:'直飛或短轉',
+    carriers:['阿聯酋航空（直飛，9 小時 45 分）','長榮航空','中華航空'],
+    tip:'阿聯酋有直飛杜拜，是亞洲飛中東最快的選項之一，服務品質也非常好。',
+    airport_to_school:'杜拜機場 → Knowledge Park：計程車約 AED 50–70，或地鐵 + 接駁'
+  };
+  D.toronto.flight = {
+    from:'台灣桃園（TPE）', to:'多倫多皮爾遜（YYZ）',
+    duration:'約 15–18 小時',
+    type:'通常需轉機（東岸較遠）',
+    carriers:['中華航空（洛杉磯轉）','長榮航空','聯合航空（舊金山轉）','加拿大航空'],
+    tip:'飛北美東岸通常要轉機一次，提前購票約台幣 3–5 萬，注意預留轉機時間。',
+    airport_to_school:'皮爾遜機場 → 市中心：Union Pearson Express 約 25 分鐘，CA$12.35'
+  };
+  D.brisbane.flight = {
+    from:'台灣桃園（TPE）', to:'布里斯本（BNE）',
+    duration:'約 10–13 小時',
+    type:'直飛或短轉（比英國近很多）',
+    carriers:['澳洲航空（直飛）','捷星航空','國泰航空（香港轉）','長榮航空（轉機）'],
+    tip:'布里斯本比雪梨近，飛行時間約 10 小時。暑假是澳洲旺季，建議提前 2 個月訂。',
+    airport_to_school:'布里斯本機場 → 市中心：AirTrain 約 22 分鐘，AU$22'
+  };
+})();
+</script>
+
+<!-- ============== App JS ============== -->
+<script>
+'use strict';
+
+/* ============== State ============== */
+const State = {
+  style: 'A',
+  campusKeys: [],       // injected list (the universe)
+  enabled: new Set(),   // current visible subset
+  view: 'cards',
+  weeks: 4,
+  rates: { '£':40, '€':35, 'USD':32, 'CA$':23, 'AU$':21 },
+  livingMonthly: { '£':800, '€':700, 'USD':750, 'CA$':900, 'AU$':1100 },
+};
+
+/* ============== Boot ============== */
+function boot(){
+  // URL params override SITE_CONFIG
+  const url = new URL(window.location.href);
+  const qStyle = url.searchParams.get('style');
+  const qCampuses = url.searchParams.get('campuses');
+
+  const cfg = window.SITE_CONFIG || { style:'A', campuses:['canary','dublin','malta'] };
+  State.style = (qStyle || cfg.style || 'A').toUpperCase();
+  if (!['A','B','C','D'].includes(State.style)) State.style = 'A';
+
+  const list = qCampuses ? qCampuses.split(',').map(s=>s.trim()) : (cfg.campuses || []);
+  State.campusKeys = list.filter(k => window.CAMPUS_DATA[k]).slice(0, 5);
+  if (State.campusKeys.length === 0) State.campusKeys = ['canary','dublin','malta'];
+  State.enabled = new Set(State.campusKeys);
+
+  buildAdvisorBar();
+  renderAll();
+  bindGlobalEvents();
+  bindFadeInObserver();
+  bindPhaseTracker();
+}
+
+/* ============== Helpers ============== */
+function visibleCampuses(){
+  return State.campusKeys.filter(k => State.enabled.has(k)).map(k => ({key:k, ...window.CAMPUS_DATA[k]}));
+}
+function gridColClass(n){
+  if(n===1) return 'cols-1';
+  if(n===2) return 'cols-2';
+  if(n===3) return 'cols-3';
+  return 'cols-many';
+}
+function ageBadgeClass(age){
+  if(age && /^30/.test(age)) return 'age-30plus';
+  if(age && /^18/.test(age)) return 'age-18';
+  return 'age-16';
+}
+function esc(s){
+  return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function maxFromVisible(field){
+  const arr = visibleCampuses();
+  if(arr.length===0) return 1;
+  return Math.max(...arr.map(c => c[field] || 0)) || 1;
+}
+
+/* ============== Advisor Bar ============== */
+function buildAdvisorBar(){
+  // Style pills
+  document.querySelectorAll('#abStylePills .ab-pill').forEach(btn => {
+    btn.classList.toggle('is-on', btn.dataset.style === State.style);
+    btn.onclick = () => {
+      State.style = btn.dataset.style;
+      document.querySelectorAll('#abStylePills .ab-pill').forEach(b => b.classList.toggle('is-on', b===btn));
+      renderSec02();
+    };
+  });
+  // View pills
+  document.querySelectorAll('#abViewPills .ab-pill').forEach(btn => {
+    btn.classList.toggle('is-on', btn.dataset.view === State.view);
+    btn.onclick = () => {
+      State.view = btn.dataset.view;
+      document.querySelectorAll('#abViewPills .ab-pill').forEach(b => b.classList.toggle('is-on', b===btn));
+      applyView();
+    };
+  });
+  // Campus checks
+  const wrap = document.getElementById('abCampusChecks');
+  wrap.innerHTML = State.campusKeys.map(k => {
+    const c = window.CAMPUS_DATA[k];
+    return `<label class="ab-check" data-key="${k}">
+      <input type="checkbox" checked> <span>${c.flag} ${esc(c.name)}</span>
+    </label>`;
+  }).join('');
+  wrap.querySelectorAll('.ab-check').forEach(lbl => {
+    const k = lbl.dataset.key;
+    lbl.querySelector('input').onchange = (e) => {
+      if(e.target.checked) State.enabled.add(k);
+      else State.enabled.delete(k);
+      lbl.classList.toggle('is-off', !e.target.checked);
+      renderAll();
+    };
+  });
+  // Demo toggle
+  document.getElementById('demoToggle').onchange = (e) => {
+    document.body.classList.toggle('demo-mode', e.target.checked);
+  };
+}
+
+function applyView(){
+  document.getElementById('sec02').classList.toggle('hidden', State.view !== 'cards');
+  document.getElementById('sec03').classList.toggle('hidden', State.view !== 'table');
+}
+
+function bindGlobalEvents(){
+  // CEFR scroll animation (idempotent — bind only once per row)
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if(en.isIntersecting) en.target.classList.add('cefr-anim');
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.cefr-row[data-anim]').forEach(r => {
+    if(r.dataset.cefrBound === '1') return;
+    r.dataset.cefrBound = '1';
+    obs.observe(r);
+  });
+
+  // Table scroll mask — drop the right-edge gradient when fully scrolled
+  document.querySelectorAll('.tbl-scroll').forEach(tblScroll => {
+    if(tblScroll.dataset.maskBound === '1') return;
+    tblScroll.dataset.maskBound = '1';
+    const update = () => {
+      const atEnd = tblScroll.scrollLeft + tblScroll.clientWidth >= tblScroll.scrollWidth - 8;
+      tblScroll.closest('.tbl-wrap')?.classList.toggle('scrolled-end', atEnd);
+    };
+    tblScroll.addEventListener('scroll', update);
+    update();
+  });
+}
+
+/* Phase tracker — map section → phase 1..4 */
+const PHASE_CONFIG = [
+  { id:1, label:'嚮往', time:'0–10 min',  sec:'sec01',
+    tip:'Phase 1：嚮往感建立（0–10 分鐘）\nHero → 城市氛圍 → 照片牆 → 校區周邊' },
+  { id:2, label:'了解', time:'10–25 min', sec:'sec_area',
+    tip:'Phase 2：了解這個地方（10–25 分鐘）\n航班 → 氣候 → 消費感受 → 一天生活' },
+  { id:3, label:'確認', time:'25–40 min', sec:'sec05',
+    tip:'Phase 3：課程與住宿確認（25–40 分鐘）\n課程 → 住宿 → 費用試算 → 人物誌 → CEFR' },
+  { id:4, label:'收尾', time:'40–50 min', sec:'sec11',
+    tip:'Phase 4：情感收尾（40–50 分鐘）\n你帶走什麼 → 出發前必知 → CTA' },
+];
+const PHASE_MAP = {
+  sec01:1, sec02:1, sec03:1, sec04:1, sec_photos:1,
+  sec_area:2, sec_flight:2, sec_climate:2, sec_spend:2, sec08:2,
+  sec05:3, sec06:3, sec07:3, sec09:3, sec10:3,
+  sec11:4, sec12:4, sec13:4,
+};
+
+function bindPhaseTracker(){
+  // Build phase row
+  const row = document.getElementById('abPhaseRow');
+  if(row){
+    row.innerHTML = PHASE_CONFIG.map((p, idx) => `
+      ${idx > 0 ? '<div class="ab-phase-line"></div>' : ''}
+      <button class="ab-phase ${p.id===1?'is-active':''}" data-phase="${p.id}" data-sec="${p.sec}" title="${esc(p.tip)}" onclick="jumpToPhase(${p.id})">
+        <span class="ab-phase-dot"></span>
+        <span class="ab-phase-label">${p.label}</span>
+        <span class="ab-phase-time">${p.time}</span>
+      </button>
+    `).join('');
+  }
+
+  // Scroll-driven highlight
+  const obs = new IntersectionObserver((entries) => {
+    let topPhase = null;
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const id = e.target.id;
+        const p = PHASE_MAP[id];
+        if(p && (!topPhase || p < topPhase)) topPhase = p;
+      }
+    });
+    if(topPhase) updatePhaseHighlight(topPhase);
+  }, { threshold: 0.25 });
+  document.querySelectorAll('section[id]').forEach(s => {
+    if(s.classList.contains('advisor-only')) return;  // 跳過 demo 模式會隱藏的區段
+    obs.observe(s);
+  });
+}
+
+function jumpToPhase(phaseId){
+  const cfg = PHASE_CONFIG.find(p => p.id === phaseId);
+  if(!cfg) return;
+  const el = document.getElementById(cfg.sec);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  updatePhaseHighlight(phaseId);
+}
+window.jumpToPhase = jumpToPhase;
+
+function updatePhaseHighlight(currentPhase){
+  document.querySelectorAll('.ab-phase').forEach(b => {
+    const p = Number(b.dataset.phase);
+    b.classList.toggle('is-active', p === currentPhase);
+    b.classList.toggle('is-done', p < currentPhase);
+  });
+}
+
+function bindFadeInObserver(){
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('is-visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section, .section-break, .stat-break').forEach(s => observer.observe(s));
+  // advisor-bar and sec01 always visible immediately
+  document.getElementById('sec01')?.classList.add('is-visible');
+}
+
+/* ============== Render All ============== */
+function renderAll(){
+  renderSec01();
+  renderSec02();
+  renderSec03();
+  renderSec04();
+  renderSec_photos();
+  renderSec_area();
+  renderSec_flight();
+  renderSec_climate();
+  renderSec_spend();
+  renderSec08();
+  renderSec05();
+  renderStatBreak();
+  renderSec06();
+  renderSec07();
+  renderSec09();
+  renderSec10();
+  renderSec11();
+  renderSec12();
+  renderSec13();
+  applyView();
+  // re-observe CEFR + table-scroll after rerender
+  setTimeout(bindGlobalEvents, 50);
+}
+
+function renderStatBreak(){
+  const arr = visibleCampuses();
+  const wrap = document.getElementById('statBreakGrid');
+  if(!wrap) return;
+  if(arr.length === 0){ wrap.innerHTML = ''; return; }
+  wrap.innerHTML = arr.map(c => `
+    <div class="stat-break-item">
+      <div class="stat-break-flag">${c.flag}</div>
+      <div class="stat-break-city">${esc(c.name)}</div>
+      <div class="stat-break-num">${esc(c.courseRange)}</div>
+      <div class="stat-break-lbl">課程週費範圍</div>
+    </div>
+  `).join('');
+}
+
+/* ============== Section renderers — stubs filled in next steps ============== */
+function renderSec01(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec01');
+  let headline = '';
+  let citiesLine = '';
+
+  if (arr.length === 0){
+    headline = `<span class="accent">選一座城市</span>，<br>開始說英語的人生。`;
+  } else if (arr.length === 1){
+    // 取城市主名（"倫敦 Canary Wharf" → "倫敦"；"都柏林" → "都柏林"）
+    const cityMain = arr[0].name.split(/\s/)[0] || arr[0].name;
+    headline = `你的英語旅程，<br>從 <span class="accent">${esc(cityMain)}</span> 開始。`;
+  } else if (arr.length === 2){
+    const a = arr[0].name, b = arr[1].name;
+    headline = `<span class="accent">${esc(a)}</span> 還是 <span class="accent">${esc(b)}</span>，<br>哪座城市在等你？`;
+  } else {
+    headline = `選一座城市，<br>開始說<span class="accent">英語的人生</span>。`;
+    citiesLine = arr.map(c => `<span>${c.flag} ${esc(c.name)}</span>`).join('·');
+  }
+
+  sec.innerHTML = `
+    <div class="hero-eyebrow">EP Language School · 放洋諮詢專屬</div>
+    <div class="wrap">
+      <div class="hero-line">${headline}</div>
+      ${citiesLine ? `<div class="hero-cities">${citiesLine}</div>` : ''}
+      <div class="hero-foot">往下滑，一起找到最適合你的校區 ↓</div>
+    </div>
+  `;
+}
+/* ---- Section 02: Card grid ---- */
+function renderSec02(){
+  const arr = visibleCampuses();
+  const cls = gridColClass(arr.length);
+  const cards = arr.map(c => renderCard(c, State.style)).join('');
+  document.getElementById('sec02').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">${arr.length === 1 ? '關於這座城市' : '比較這幾座城市'}</div>
+        <div class="sec-title">${arr.length === 1 ? '你的這座城市' : '同時比較這些校區'}</div>
+        <div class="sec-sub">同樣的 EP 體系，不同的城市性格。用顧問列切換 A / B / C / D 看不同的呈現重點。</div>
+      </div>
+      <div class="cards-grid ${cls}">${cards}</div>
+    </div>
+  `;
+}
+
+function renderCard(c, style){
+  const ageBadge = `<span class="badge-age ${ageBadgeClass(c.age)}">${esc(c.age)}</span>`;
+  const flagLine = `<div class="card-region">${c.flag} ${esc(c.region)}・EP ${esc(c.name)}</div>`;
+  const ageWarning = c.ageMin >= 30
+    ? `<div class="age-requirement-banner">
+         <span class="age-req-icon">⚠️</span>
+         <span>此校區僅開放 <strong>${esc(c.age)}</strong> 學員就讀</span>
+       </div>` : '';
+
+  if(style === 'A'){
+    return `
+      <div class="card">
+        ${ageWarning}
+        <div class="personas">${c.personas.map(p => `<span class="persona-tag">${esc(p)}</span>`).join('')}</div>
+        <div>
+          <div class="card-city">${esc(c.name)}</div>
+          ${flagLine}
+        </div>
+        <div class="card-divider"></div>
+        <div class="stat-row">
+          <div class="stat-box"><div class="stat-label">最低年齡</div><div class="stat-val">${esc(c.age)}</div></div>
+          <div class="stat-box"><div class="stat-label">週費起</div><div class="stat-val">${c.cur}${c.courseFrom}</div></div>
+          <div class="stat-box"><div class="stat-label">最短修讀</div><div class="stat-val">${esc(c.minDur)}</div></div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="feat-list">
+          ${c.features.map(f => `<div class="feat-item">${esc(f)}</div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  if(style === 'B'){
+    const maxC = maxFromVisible('courseFrom');
+    const maxA = maxFromVisible('accommFrom');
+    const levelLabel = c.costLevel >= 70 ? '高' : c.costLevel >= 50 ? '中高' : c.costLevel >= 35 ? '中' : '低';
+    const estLow = (c.courseFrom + c.accommFrom) * 4;
+    const estHigh = Math.round(estLow * 1.25);
+    const twdLow = Math.round(estLow * (State.rates[c.cur]||30) / 10000);
+    const twdHigh = Math.round(estHigh * (State.rates[c.cur]||30) / 10000);
+    return `
+      <div class="card">
+        ${ageWarning}
+        <div class="card-head">
+          <div>
+            <div class="card-city">${esc(c.name)}</div>
+            ${flagLine}
+          </div>
+          ${ageBadge}
+        </div>
+        <div class="card-divider"></div>
+        <div class="fee-grid">
+          <div class="fee-cell">
+            <div class="fee-label">課程費（週）</div>
+            <div class="fee-val">${esc(c.courseRange)}</div>
+          </div>
+          <div class="fee-cell">
+            <div class="fee-label">住宿費（週）</div>
+            <div class="fee-val">${esc(c.accommRange)}</div>
+          </div>
+        </div>
+        <div>
+          <div class="fee-bar"><div class="fee-bar-fill" style="width:${c.costLevel}%"></div></div>
+          <div class="fee-level"><span>費用水位（相對其他校區）</span><span>${levelLabel}</span></div>
+        </div>
+        <div class="fee-estimate">4 週估算：${c.cur}${estLow.toLocaleString()}–${estHigh.toLocaleString()}<br>約台幣 ${twdLow}–${twdHigh} 萬</div>
+      </div>
+    `;
+  }
+
+  if(style === 'C'){
+    return `
+      <div class="card">
+        ${ageWarning}
+        <div class="mood-tag">${esc(c.moodTag)}</div>
+        <div>
+          <div class="card-city">${esc(c.name)}</div>
+          ${flagLine}
+        </div>
+        <div class="mood-desc">${esc(c.moodDesc)}</div>
+        <div class="icon-pills">
+          ${c.pills.map(p => `<span class="icon-pill">${esc(p)}</span>`).join('')}
+        </div>
+        <div class="quote-box">「${esc(c.moodScene)}」</div>
+        <div class="card-foot">週費起 ${c.cur}${c.courseFrom}・最低年齡 ${esc(c.age)}</div>
+      </div>
+    `;
+  }
+
+  // Style D — info dense
+  return `
+    <div class="card">
+      ${ageWarning}
+      <div class="card-head">
+        <div>
+          <div class="card-city">${esc(c.name)} ${c.flag}</div>
+          ${flagLine}
+        </div>
+        ${ageBadge}
+      </div>
+      <div class="card-divider"></div>
+      <div class="kv-grid">
+        <div class="kv"><div class="kv-l">最短修讀</div><div class="kv-v">${esc(c.minDur)}</div></div>
+        <div class="kv"><div class="kv-l">最大班級</div><div class="kv-v">${esc(c.classSize)}</div></div>
+        <div class="kv"><div class="kv-l">課程週費起</div><div class="kv-v">${c.cur}${c.courseFrom}</div></div>
+        <div class="kv"><div class="kv-l">住宿週費起</div><div class="kv-v">${c.cur}${c.accommFrom}</div></div>
+      </div>
+      <div>
+        <div class="tag-line">簽證選項</div>
+        <div class="row-tags">${c.visaTags.map(v => `<span class="mini-tag">${esc(v)}</span>`).join('')}</div>
+      </div>
+      <div>
+        <div class="tag-line">課程類型</div>
+        <div class="row-tags">${c.courseTypes.map(t => `<span class="mini-tag">${esc(t)}</span>`).join('')}${c.specialCourses.slice(0,2).map(t => `<span class="mini-tag is-special">${esc(t)}</span>`).join('')}</div>
+      </div>
+      <div>
+        <div class="tag-line">住宿選項</div>
+        <div class="row-tags">${c.accommTypes.map(t => `<span class="mini-tag is-${t}">${accommTypeLabel(t)}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+function accommTypeLabel(t){
+  return ({home:'寄宿家庭', dorm:'學生宿舍', apt:'公寓', hotel:'飯店', hostel:'青旅'}[t]) || t;
+}
+
+/* ---- Section 03: Comparison table ---- */
+function renderSec03(){
+  const arr = visibleCampuses();
+  if(arr.length === 0){
+    document.getElementById('sec03').innerHTML = `<div class="wrap"><div class="sec-h"><div class="sec-title">沒有勾選的校區</div></div></div>`;
+    return;
+  }
+  if(arr.length === 1){
+    document.getElementById('sec03').innerHTML = `
+      <div class="wrap">
+        <div class="sec-h">
+          <div class="sec-eyebrow">數字並排，一目瞭然</div>
+          <div class="sec-title">選擇 2 個以上校區來比較</div>
+          <div class="sec-sub">目前只選了一個校區。在顧問列勾選更多校區，這裡會自動顯示對照表格。</div>
+        </div>
+        <div style="background:var(--sur2);border:1px dashed var(--line2);border-radius:var(--r-lg);padding:32px;text-align:center;font-size:13px;color:var(--ink4);">
+          ＋ 在上方顧問列勾選第二個校區，即可開始比較
+        </div>
+      </div>
+    `;
+    return;
+  }
+  const maxC = maxFromVisible('courseFrom');
+  const maxA = maxFromVisible('accommFrom');
+
+  // Each row builder returns array of cells (excluding label)
+  const rowCells = {};
+
+  rowCells['所在地區'] = arr.map(c => `<td><span style="font-size:18px">${c.flag}</span> ${esc(c.region)}</td>`);
+  rowCells['最低年齡'] = arr.map(c => {
+    const cls = ageBadgeClass(c.age);
+    const warn = c.ageMin >= 30
+      ? `<div class="tbl-age-warning">⚠️ 年齡限制</div>` : '';
+    return `<td><span class="badge-age ${cls}">${esc(c.age)}</span>${warn}</td>`;
+  });
+  rowCells['校區容量'] = arr.map(c => `<td>${esc(c.capacity)}</td>`);
+  rowCells['最短修讀'] = arr.map(c => `<td>${esc(c.minDur)}</td>`);
+  rowCells['最大班級'] = arr.map(c => `<td>${esc(c.classSize)}</td>`);
+  rowCells['教學語言'] = arr.map(c => {
+    const bi = c.langType && c.langType.includes('-') ? ' is-bilingual' : '';
+    return `<td><span class="tbl-lang-tag${bi}">${esc(c.lang)}</span></td>`;
+  });
+  rowCells['課程週費起'] = arr.map(c => {
+    const w = Math.round((c.courseFrom / maxC) * 100);
+    return `<td>
+      <div class="tbl-mini-bar">
+        <span style="font-family:var(--mono);font-size:13px;color:var(--ink);">${c.cur}${c.courseFrom}</span>
+        <div class="tbl-mini-bar-wrap"><div class="tbl-mini-bar-fill" style="width:${w}%"></div></div>
+      </div>
+    </td>`;
+  });
+  rowCells['住宿週費起'] = arr.map(c => {
+    const w = Math.round((c.accommFrom / maxA) * 100);
+    return `<td>
+      <div class="tbl-mini-bar">
+        <span style="font-family:var(--mono);font-size:13px;color:var(--ink);">${c.cur}${c.accommFrom}</span>
+        <div class="tbl-mini-bar-wrap"><div class="tbl-mini-bar-fill" style="width:${w}%"></div></div>
+      </div>
+    </td>`;
+  });
+  rowCells['簽證選項'] = arr.map(c => `<td><div class="visa-mini">${c.visaTags.map(v => `<span>${esc(v)}</span>`).join('')}</div></td>`);
+  rowCells['課程類型'] = arr.map(c => `<td><div class="row-tags">${c.courseTypes.map(t => `<span class="mini-tag">${esc(t)}</span>`).join('')}</div></td>`);
+  rowCells['特色課程'] = arr.map(c => `<td><div class="row-tags">${c.specialCourses.map(t => `<span class="mini-tag is-special">${esc(t)}</span>`).join('')}</div></td>`);
+  rowCells['住宿選項'] = arr.map(c => `<td><div class="row-tags">${c.accommTypes.map(t => `<span class="mini-tag is-${t}">${accommTypeLabel(t)}</span>`).join('')}</div></td>`);
+  rowCells['費用水位'] = arr.map(c => {
+    const label = c.costLevel >= 70 ? '高' : c.costLevel >= 50 ? '中高' : c.costLevel >= 35 ? '中' : '低';
+    return `<td>
+      <div class="tbl-mini-bar">
+        <div class="tbl-cost-bar"><div class="tbl-cost-bar-fill" style="width:${c.costLevel}%"></div></div>
+        <span style="font-size:11px;color:var(--ink3);font-family:var(--mono);">${label}</span>
+      </div>
+    </td>`;
+  });
+  rowCells['適合年齡段'] = arr.map(c => {
+    const min = c.ageMin;
+    const s16 = min <= 16 ? '' : 'dim';
+    const s18 = min <= 18 ? '' : 'dim';
+    const s30 = min <= 30 ? '' : 'dim';
+    return `<td>
+      <div class="age-bar">
+        <span class="age-bar-seg age-seg-16 ${s16}" title="16–18"></span>
+        <span class="age-bar-seg age-seg-18 ${s18}" title="18+"></span>
+        <span class="age-bar-seg age-seg-30 ${s30}" title="30+"></span>
+        <span style="margin-left:4px;color:var(--ink3);">${esc(c.age)}</span>
+      </div>
+    </td>`;
+  });
+
+  const head = `<thead><tr>
+    <th class="col-label">校區</th>
+    ${arr.map(c => `<th><span class="th-flag">${c.flag}</span>${esc(c.name)}</th>`).join('')}
+  </tr></thead>`;
+
+  const bodyRows = Object.keys(rowCells).map(label => {
+    const hi = (label === '費用水位') ? ' class="is-highlight"' : '';
+    return `<tr${hi}><td class="col-label">${esc(label)}</td>${rowCells[label].join('')}</tr>`;
+  }).join('');
+
+  document.getElementById('sec03').innerHTML = `
+    <div class="wrap-wide">
+      <div class="sec-h">
+        <div class="sec-eyebrow">數字並排，一目瞭然</div>
+        <div class="sec-title">把每一格對齊著看</div>
+        <div class="sec-sub">同一個條件，所有校區並排呈現，理性決策最快的方式。</div>
+      </div>
+      <div class="tbl-wrap">
+        <div class="tbl-scroll">
+          <table class="cmp-tbl">${head}<tbody>${bodyRows}</tbody></table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function renderSec04(){
+  const arr = visibleCampuses();
+  const n = arr.length;
+  const gridCls = `vibe-grid-${Math.min(n,5) || 1}`;
+  // First card is hero-sized when n >= 3; for n==2 first stays normal but bigger column; for n==1 single hero
+  const cards = arr.map((c, idx) => {
+    const isHero = (n === 1) || (n >= 3 && idx === 0);
+    return `
+    <div class="vibe-card${isHero ? ' vibe-card-hero' : ''}" style="
+      background:linear-gradient(135deg,${c.heroFrom} 0%,${c.heroTo} 100%);
+      --vibe-glow:radial-gradient(ellipse 400px 200px at 80% 20%,${c.heroGlow},transparent 60%);
+    ">
+      <div class="vibe-region">${c.flag} ${esc(c.region)}・${esc(c.name)}</div>
+      <div class="vibe-mood">${esc(c.moodTag)}</div>
+      <div class="vibe-scene">「${esc(c.moodScene)}」</div>
+      <div class="vibe-pills">
+        ${c.pills.map(p => `<span class="vibe-pill">${esc(p)}</span>`).join('')}
+      </div>
+    </div>
+    `;
+  }).join('');
+
+  document.getElementById('sec04').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">選一座城市，選一種生活</div>
+        <div class="sec-title">這座城市的「感覺」是什麼？</div>
+        <div class="sec-sub">不只看規格，也看你會走進什麼樣的日常。</div>
+      </div>
+      <div class="vibe-grid ${gridCls}">${cards}</div>
+    </div>
+  `;
+}
+function renderSec05(){
+  const arr = visibleCampuses();
+  if(arr.length === 0){
+    document.getElementById('sec05').innerHTML = '';
+    return;
+  }
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="course-${c.key}" onclick="switchTab('course','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+  const panels = arr.map((c, i) => `
+    <div class="tab-panel ${i===0?'is-on':''}" id="course-${c.key}">
+      <div class="course-compact-grid">
+        ${c.courses.map(cr => `
+          <div class="course-compact ${cr.sp?'is-special':''}">
+            <div class="cc-left">
+              <div class="cc-name">${cr.sp?'★ ':''}${esc(cr.n)}</div>
+              <div class="cc-tags">${cr.tags.map(t => `<span class="course-tag">${esc(t)}</span>`).join('')}</div>
+            </div>
+            <div class="cc-right">
+              <div class="cc-price">${esc(cr.price)}</div>
+              <button class="cc-expand" onclick="toggleCourseDetail(this)">詳情 ▾</button>
+            </div>
+            <div class="cc-detail">${esc(cr.desc)}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('sec05').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">你要上的課</div>
+        <div class="sec-title">課程方案</div>
+        <div class="sec-sub">點選校區查看課程選項，★ 為特色課程。</div>
+      </div>
+      <div class="content-tabs">${tabs}</div>
+      <div class="tab-panels">${panels}</div>
+    </div>
+  `;
+}
+
+/* Shared tab switch helper */
+function switchTab(group, key){
+  document.querySelectorAll(`[data-tab^="${group}-"]`).forEach(b => b.classList.remove('is-on'));
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(p => p.classList.remove('is-on'));
+  document.querySelector(`[data-tab="${group}-${key}"]`)?.classList.add('is-on');
+  document.getElementById(`${group}-${key}`)?.classList.add('is-on');
+}
+window.switchTab = switchTab;
+
+function toggleCourseDetail(btn){
+  const detail = btn.closest('.course-compact').querySelector('.cc-detail');
+  const isOpen = detail.classList.toggle('is-open');
+  btn.textContent = isOpen ? '收起 ▴' : '詳情 ▾';
+}
+window.toggleCourseDetail = toggleCourseDetail;
+function renderSec06(){
+  const arr = visibleCampuses();
+  if(arr.length === 0){
+    document.getElementById('sec06').innerHTML = '';
+    return;
+  }
+  const typeIcon = { home:'🏠', dorm:'🏫', apt:'🏢', hotel:'🏨', hostel:'🛏' };
+  const typeLabel = { home:'寄宿家庭', dorm:'學生宿舍', apt:'公寓', hotel:'飯店', hostel:'青年旅館' };
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="accomm-${c.key}" onclick="switchTab('accomm','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const twd = Math.round(c.accommFrom * (State.rates[c.cur]||30) / 1000) * 1000;
+    return `
+    <div class="tab-panel ${i===0?'is-on':''}" id="accomm-${c.key}">
+      <div class="accomm-compact-grid">
+        ${c.accomm.map(a => `
+          <div class="accomm-compact">
+            <div class="ac-type-badge ac-${a.type}">${typeIcon[a.type]||'🏠'} ${typeLabel[a.type]||a.type}</div>
+            <div class="ac-name">${esc(a.n)}</div>
+            <div class="ac-meta">${esc(a.meta)}</div>
+            <div class="ac-price">${esc(a.price)}</div>
+            <div class="ac-desc">${esc(a.desc)}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="accomm-summary-bar">
+        <span>💡 最低住宿費用：</span>
+        <strong>${c.cur}${c.accommFrom}／週起</strong>
+        <span class="accomm-twd">≈ 台幣 ${twd.toLocaleString()} 元／週</span>
+      </div>
+    </div>
+    `;
+  }).join('');
+
+  document.getElementById('sec06').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">你要住的地方</div>
+        <div class="sec-title">住宿選項</div>
+        <div class="sec-sub">點選校區查看住宿方案，價格為週費參考起價。寄宿家庭沉浸效果最強，學生宿舍社交最佳，公寓最自由。</div>
+      </div>
+      <div class="content-tabs">${tabs}</div>
+      <div class="tab-panels">${panels}</div>
+    </div>
+  `;
+}
+/* ---------- Section sec_area ---------- */
+function renderSec_area(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_area');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="area-${c.key}" onclick="switchTab('area','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const area = c.area;
+    if(!area) return `<div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+
+    const walkItems = area.walk.map(w => `
+      <div class="walk-item">
+        <div class="walk-icon">${w.icon}</div>
+        <div class="walk-info">
+          <div class="walk-label">${esc(w.label)}</div>
+          <div class="walk-dist">${esc(w.dist)}</div>
+          <div class="walk-desc">${esc(w.desc)}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const nearbyItems = area.nearby.map(n => `
+      <div class="nearby-card">
+        <div class="nearby-name">${esc(n.name)}</div>
+        <div class="nearby-dist">${esc(n.dist)}</div>
+        <div class="nearby-why">${esc(n.why)}</div>
+      </div>
+    `).join('');
+
+    const photoSlots = [1,2,3].map(n => `
+      <div class="area-photo-slot photo-slot"
+           data-campus="${c.key}" data-slot="area-0${n}" data-planned="true"
+           style="background:linear-gradient(135deg,${c.heroFrom},${c.heroTo});aspect-ratio:4/3;">
+        <div class="photo-coming-badge">📷 照片規劃中</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}">
+        <div class="area-layout">
+          <div class="area-left">
+            <div class="area-block">
+              <div class="area-block-title">校門出去怎麼走</div>
+              <div class="walk-grid">${walkItems}</div>
+              <div class="map-note">${esc(area.mapNote)}</div>
+            </div>
+            <div class="area-block">
+              <div class="area-block-title">週末可以去哪裡</div>
+              <div class="nearby-grid">${nearbyItems}</div>
+            </div>
+          </div>
+          <div class="area-right advisor-only">
+            <div class="area-block-title">校區實景<span style="font-size:10px;color:var(--gold);margin-left:8px;font-family:var(--mono);">📷 照片規劃中</span></div>
+            <div class="area-photos">${photoSlots}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">你在那裡的生活圈</div>
+        <div class="sec-title">校區周邊</div>
+        <div class="sec-sub">出了校門，你的生活就在這裡展開。</div>
+      </div>
+      <div class="content-tabs">${tabs}</div>
+      <div class="tab-panels">${panels}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_climate ---------- */
+function renderSec_climate(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_climate');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const moodColors = ['#9DBEE2','#9DBEE2','#8CC4A0','#5BAF7A','#3D9A5E'];
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="climate-${c.key}" onclick="switchTab('climate','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const cl = c.climate;
+    if(!cl) return `<div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+
+    const monthBars = cl.months.map((m, idx) => {
+      const isBest = cl.best.includes(idx);
+      const isAvoid = cl.avoid.includes(idx);
+      return `
+        <div class="climate-col ${isBest?'is-best':''} ${isAvoid?'is-avoid':''}">
+          <div class="climate-icon">${m.icon}</div>
+          <div class="climate-bar-wrap">
+            <div class="climate-bar" style="height:${m.mood*16}px;background:${moodColors[m.mood-1]}"></div>
+          </div>
+          <div class="climate-temp">${esc(m.temp)}</div>
+          <div class="climate-month">${esc(m.m)}</div>
+          ${isBest ? '<div class="climate-dot best-dot"></div>' : ''}
+          ${isAvoid ? '<div class="climate-dot avoid-dot"></div>' : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}">
+        <div class="climate-chart">${monthBars}</div>
+        <div class="climate-legend">
+          <span class="cli-leg"><span class="best-dot"></span>最推薦出發月份</span>
+          <span class="cli-leg"><span class="avoid-dot"></span>建議避開</span>
+        </div>
+        <div class="climate-cards">
+          <div class="climate-card climate-best">
+            <div class="climate-card-label">🌟 最推薦出發</div>
+            <div class="climate-card-text">${esc(cl.bestReason)}</div>
+          </div>
+          <div class="climate-card climate-avoid">
+            <div class="climate-card-label">⚠️ 建議留意</div>
+            <div class="climate-card-text">${esc(cl.avoidReason)}</div>
+          </div>
+          <div class="climate-card climate-note">
+            <div class="climate-card-label">📌 當地人說</div>
+            <div class="climate-card-text">${esc(cl.note)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">幾月去最好？</div>
+        <div class="sec-title">氣候與最佳出發時機</div>
+        <div class="sec-sub">不同季節去同一個城市，體驗差很多。這裡告訴你最值得去的時候。</div>
+      </div>
+      <div class="content-tabs">${tabs}</div>
+      <div class="tab-panels">${panels}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_spend ---------- */
+function renderSec_spend(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_spend');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="spend-${c.key}" onclick="switchTab('spend','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const sp = c.spend;
+    if(!sp) return `<div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+
+    const items = sp.items.map(it => `
+      <div class="spend-item">
+        <div class="spend-icon">${it.icon}</div>
+        <div class="spend-label">${esc(it.label)}</div>
+        <div class="spend-val">${esc(it.val)}</div>
+        <div class="spend-feel">${esc(it.feel)}</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}">
+        <div class="spend-grid">${items}</div>
+        <div class="spend-summary">
+          <div>
+            <div class="spend-summary-label">每月生活費估算（不含住宿）</div>
+            <div class="spend-summary-val">${esc(sp.monthlyTotal)}</div>
+            <div class="spend-summary-twd">${esc(sp.monthlyTwd)}</div>
+          </div>
+          <div>
+            <div class="spend-saving-label">💡 省錢小訣竅</div>
+            <div class="spend-saving-text">${esc(sp.savingTip)}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">錢夠用嗎？</div>
+        <div class="sec-title">在那裡的消費感受</div>
+        <div class="sec-sub">數字是死的，感覺是活的。這些日常消費讓你真正感受當地物價。</div>
+      </div>
+      <div class="content-tabs">${tabs}</div>
+      <div class="tab-panels">${panels}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_flight ---------- */
+function renderSec_flight(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_flight');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const cards = arr.map(c => {
+    const fl = c.flight;
+    if(!fl) return '';
+    return `
+      <div class="flight-card">
+        <div class="flight-flag">${c.flag}</div>
+        <div class="flight-body">
+          <div class="flight-city">${esc(c.name)}</div>
+          <div class="flight-route">${esc(fl.from)} → ${esc(fl.to)}</div>
+          <div class="flight-info-row">
+            <div class="flight-info-item">
+              <div class="fi-label">飛行時間</div>
+              <div class="fi-val">${esc(fl.duration)}</div>
+            </div>
+            <div class="flight-info-item">
+              <div class="fi-label">轉機</div>
+              <div class="fi-val">${esc(fl.type)}</div>
+            </div>
+          </div>
+          <div class="flight-carriers">
+            ${fl.carriers.map(ca => `<span class="flight-carrier-tag">${esc(ca)}</span>`).join('')}
+          </div>
+          <div class="flight-tip">💡 ${esc(fl.tip)}</div>
+          <div class="flight-arrival">🛬 ${esc(fl.airport_to_school)}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">怎麼飛過去？</div>
+        <div class="sec-title">航班資訊</div>
+        <div class="sec-sub">從台灣飛到那裡要多久、怎麼訂、降落後怎麼去學校。</div>
+      </div>
+      <div class="flight-grid">${cards}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_photos ---------- */
+function renderSec_photos(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_photos');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const slotNames = ['life-01','life-02','life-03','area-01','area-02','area-03'];
+  const sizes = ['tall','wide','sq','sq','tall','wide'];
+
+  const masonryItems = arr.flatMap((c) => slotNames.map((slot, si) => `
+    <div class="masonry-item masonry-${sizes[si]} photo-slot"
+         data-campus="${c.key}" data-slot="${slot}" data-planned="true"
+         style="background:linear-gradient(${135 + si*15}deg,${c.heroFrom},${c.heroTo})">
+      <div class="masonry-overlay">
+        <div class="masonry-city">${c.flag} ${esc(c.name)}</div>
+        <div class="masonry-slot-label">${slot.replace('-',' ')}</div>
+      </div>
+      <div class="photo-coming-badge">📷 照片規劃中</div>
+    </div>
+  `)).join('');
+
+  sec.innerHTML = `
+    <div class="wrap-wide">
+      <div class="wrap">
+        <div class="photo-pending-notice">
+          <span>📷</span>
+          <div>
+            <strong>照片牆：規劃中</strong><br>
+            版型已預留，照片備齊後替換 <code>images/</code> 資料夾即可生效。
+            展示模式下此區段自動隱藏，學生不會看到佔位畫面。
+          </div>
+        </div>
+        <div class="sec-h">
+          <div class="sec-eyebrow">真實的樣子</div>
+          <div class="sec-title">在那裡的日常</div>
+          <div class="sec-sub">
+            這些是真實的校區環境與城市生活場景。
+            <span class="photo-plan-note">📷 實景照片規劃中，確認校區後將更新。</span>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-grid">${masonryItems}</div>
+    </div>
+  `;
+}
+
+function parsePricePerWeek(priceStr){
+  if(!priceStr) return 0;
+  // 排除非週費的計費方式（lump sum / per-class / 1-on-1 / 報價）
+  if(/(\/課程|安置費|\/堂|一對一|One-to-One|lump|請洽詢)/i.test(priceStr)) return 0;
+  const m = priceStr.replace(/,/g,'').match(/(\d+(?:\.\d+)?)/);
+  if(!m) return 0;
+  return parseFloat(m[1]);
+}
+
+function parsePricePerWeekFromCourse(co){
+  // 課程名稱也檢查是否含「一對一」/「One-to-One」
+  if(!co) return 0;
+  if(/一對一|One-to-One/i.test(co.n||'')) return 0;
+  return parsePricePerWeek(co.price);
+}
+
+function calcSelections(){
+  // store per-campus selected indexes in DOM data; default to first parsable
+  return null;
+}
+
+const Sec07State = { weeks: 4, picks: {} };
+
+function renderSec07(){
+  const arr = visibleCampuses();
+  if(arr.length === 0){ document.getElementById('sec07').innerHTML = ''; return; }
+  const weekOpts = [1,2,3,4,6,8,10,12,16,20,24];
+
+  // Initialize picks — first parsable course/accomm per campus
+  arr.forEach(c => {
+    if(Sec07State.picks[c.key]) return;
+    const firstCourse = c.courses.findIndex(co => parsePricePerWeekFromCourse(co) > 0);
+    const firstAccomm = c.accomm.findIndex(a => parsePricePerWeek(a.price) > 0);
+    Sec07State.picks[c.key] = {
+      course: firstCourse >= 0 ? firstCourse : 0,
+      accomm: firstAccomm >= 0 ? firstAccomm : 0,
+    };
+  });
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="calc-${c.key}"
+            onclick="switchTab('calc','${c.key}');updateCalcCard(window.CAMPUS_DATA['${c.key}'])">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => `
+    <div class="tab-panel ${i===0?'is-on':''}" id="calc-${c.key}">
+      ${calcCardHTML(c)}
+    </div>
+  `).join('');
+
+  const rateRows = [
+    {sym:'£', rate:40}, {sym:'€', rate:35}, {sym:'USD', rate:32},
+    {sym:'CA$', rate:23}, {sym:'AU$', rate:21},
+  ];
+
+  document.getElementById('sec07').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">現在，我們來算</div>
+        <div class="sec-title">把費用說清楚，而不是猜一個數字</div>
+        <div class="sec-sub">
+          選擇課程、住宿與週數，含台幣換算與生活費估算。
+          <span style="color:var(--rose);font-weight:500;">＊ 試算不含機票、報名費、保險費等一次性費用。</span>
+        </div>
+      </div>
+
+      <div class="calc-shared" style="margin-bottom:20px">
+        <span class="calc-shared-label">週數（所有校區同步）</span>
+        <select class="weeks-select" id="weeksSelect">
+          ${weekOpts.map(w => `<option value="${w}"${w===Sec07State.weeks?' selected':''}>${w} 週</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
+      <div class="tab-panels calc-tab-panels">${panels}</div>
+
+      <div class="calc-rate-note" style="margin-top:12px">
+        匯率參考：${rateRows.map(r => `${r.sym} 1 ≈ TWD ${r.rate}`).join('・')}
+      </div>
+    </div>
+  `;
+
+  const weeksSel = document.getElementById('weeksSelect');
+  if(weeksSel){
+    weeksSel.onchange = () => {
+      Sec07State.weeks = parseInt(weeksSel.value);
+      arr.forEach(c => updateCalcCard(c));
+    };
+  }
+
+  arr.forEach(c => bindCalcCard(c));
+  arr.forEach(c => updateCalcCard(c));
+}
+
+function calcCardHTML(c){
+  const coursesOpts = c.courses.map((co, i) => {
+    const pw = parsePricePerWeekFromCourse(co);
+    if(pw === 0){
+      return `<option value="${i}" disabled style="color:#888">${esc(co.n)}（依堂/課程計費，請另行報價）</option>`;
+    }
+    return `<option value="${i}">${esc(co.n)}（${c.cur}${pw}/週）</option>`;
+  }).join('');
+
+  const accommOpts = c.accomm.map((a, i) => {
+    const pw = parsePricePerWeek(a.price);
+    if(pw === 0){
+      return `<option value="${i}" disabled style="color:#888">${esc(a.n)}（請洽詢報價）</option>`;
+    }
+    return `<option value="${i}">${esc(a.n)}（${c.cur}${pw}/週）</option>`;
+  }).join('');
+
+  const livingMonthly = State.livingMonthly[c.cur] || 800;
+
+  return `
+    <div class="calc-card" data-campus="${c.key}">
+      <div class="calc-head">
+        <div class="calc-city">${esc(c.name)}</div>
+        <div class="calc-flag">${c.flag}</div>
+      </div>
+      <div class="calc-controls">
+        <div class="calc-ctrl-row">
+          <label>課程方案</label>
+          <select data-role="course">${coursesOpts}</select>
+        </div>
+        <div class="calc-ctrl-row">
+          <label>住宿類型</label>
+          <select data-role="accomm">${accommOpts}</select>
+        </div>
+      </div>
+      <div class="calc-breakdown">
+        <div class="calc-line"><span class="calc-line-l">課程費</span><span class="calc-line-v" data-cell="course"></span></div>
+        <div class="calc-line"><span class="calc-line-l">住宿費</span><span class="calc-line-v" data-cell="accomm"></span></div>
+        <div class="calc-divider"></div>
+        <div class="calc-total">
+          <span class="l">小計（<span data-cell="weeks"></span> 週）</span>
+          <span class="v" data-cell="total"></span>
+        </div>
+        <div class="calc-twd" data-cell="twd"></div>
+        <div class="calc-rate-inline">${c.cur} 1 ≈ NT$${State.rates[c.cur]||30}・參考值，以當日匯率為準</div>
+      </div>
+      <div class="calc-living" data-cell="living">生活費計算中…</div>
+      <div class="calc-not-included">
+        ＊ 以上試算不含：機票・簽證費・報名費・材料費・保險費・代辦服務費
+        <span class="calc-ni-cta">完整費用請見報價單</span>
+      </div>
+    </div>
+  `;
+}
+
+function bindCalcCard(c){
+  const root = document.querySelector(`.calc-card[data-campus="${c.key}"]`);
+  if(!root) return;
+  const cSel = root.querySelector('[data-role="course"]');
+  const aSel = root.querySelector('[data-role="accomm"]');
+
+  const pick = Sec07State.picks[c.key];
+  // sync values
+  if(cSel.querySelector(`option[value="${pick.course}"]`)) cSel.value = pick.course;
+  if(aSel.querySelector(`option[value="${pick.accomm}"]`)) aSel.value = pick.accomm;
+
+  cSel.onchange = () => { Sec07State.picks[c.key].course = parseInt(cSel.value); updateCalcCard(c); };
+  aSel.onchange = () => { Sec07State.picks[c.key].accomm = parseInt(aSel.value); updateCalcCard(c); };
+}
+
+function updateCalcCard(c){
+  const root = document.querySelector(`.calc-card[data-campus="${c.key}"]`);
+  if(!root) return;
+  const pick = Sec07State.picks[c.key];
+  const co = c.courses[pick.course] || c.courses.find(x => parsePricePerWeekFromCourse(x));
+  const ac = c.accomm[pick.accomm] || c.accomm.find(x => parsePricePerWeek(x.price));
+  const cpw = parsePricePerWeekFromCourse(co);
+  const apw = parsePricePerWeek(ac?.price || '');
+  const w = Sec07State.weeks;
+
+  const cTot = cpw * w, aTot = apw * w, tot = cTot + aTot;
+  const rate = State.rates[c.cur] || 30;
+  const twd = Math.round(tot * rate);
+
+  // 生活費換算（月 ÷ 4.33 = 週，再乘週數）
+  const monthlyLiving = State.livingMonthly[c.cur] || 800;
+  const weeklyLiving = Math.round(monthlyLiving / 4.33);
+  const totalLiving = weeklyLiving * w;
+  const grandTotal = tot + totalLiving;
+  const grandTwd = Math.round(grandTotal * rate);
+
+  root.querySelector('[data-cell="course"]').textContent = `${c.cur}${cpw.toLocaleString()} × ${w} = ${c.cur}${cTot.toLocaleString()}`;
+  root.querySelector('[data-cell="accomm"]').textContent = `${c.cur}${apw.toLocaleString()} × ${w} = ${c.cur}${aTot.toLocaleString()}`;
+  root.querySelector('[data-cell="weeks"]').textContent = w;
+  root.querySelector('[data-cell="total"]').textContent = `${c.cur}${tot.toLocaleString()}`;
+  root.querySelector('[data-cell="twd"]').textContent = `≈ 台幣 ${twd.toLocaleString()}`;
+
+  const livingEl = root.querySelector('[data-cell="living"]');
+  if(livingEl){
+    livingEl.innerHTML = `
+      <div class="calc-living-row">
+        <span>生活費參考（${w} 週）</span>
+        <span>${c.cur}${weeklyLiving}/週 × ${w} = ${c.cur}${totalLiving.toLocaleString()}</span>
+      </div>
+      <div class="calc-living-row calc-living-grand">
+        <span>課程＋住宿＋生活費總估算</span>
+        <span>${c.cur}${grandTotal.toLocaleString()} ≈ 台幣 ${grandTwd.toLocaleString()}</span>
+      </div>
+      <div class="calc-living-note">
+        生活費以 ${c.cur}${monthlyLiving}/月估算，不含住宿，依個人消費習慣差異較大。
+      </div>
+    `;
+  }
+}
+const Sec08State = { activeKey: null };
+
+function renderSec08(){
+  const arr = visibleCampuses();
+  if(arr.length === 0){
+    document.getElementById('sec08').innerHTML = `<div class="wrap"><div class="sec-h"><div class="sec-title">尚未選擇校區</div></div></div>`;
+    return;
+  }
+  // Pick active tab: keep previous if still valid, else first
+  if(!arr.some(c => c.key === Sec08State.activeKey)){
+    Sec08State.activeKey = arr[0].key;
+  }
+  const tabs = arr.map(c => `
+    <button class="day-tab ${c.key===Sec08State.activeKey?'is-on':''}" data-key="${c.key}">
+      <span>${c.flag}</span><span>${esc(c.name)}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('sec08').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">你在那裡的一天</div>
+        <div class="sec-title">閉眼想像，這就是你的日常</div>
+        <div class="sec-sub">從早晨醒來到晚上睡前，這是你在那裡每一天會發生的事。</div>
+      </div>
+      <div class="day-tab-row" id="dayTabRow">${tabs}</div>
+      <div id="dayTimelineBox"></div>
+    </div>
+  `;
+
+  // Bind tab clicks
+  document.querySelectorAll('#dayTabRow .day-tab').forEach(btn => {
+    btn.onclick = () => {
+      Sec08State.activeKey = btn.dataset.key;
+      document.querySelectorAll('#dayTabRow .day-tab').forEach(b => b.classList.toggle('is-on', b===btn));
+      renderDayTimeline();
+    };
+  });
+
+  renderDayTimeline();
+}
+
+function renderDayTimeline(){
+  const c = window.CAMPUS_DATA[Sec08State.activeKey];
+  if(!c){ document.getElementById('dayTimelineBox').innerHTML = ''; return; }
+  const rows = c.day.map(item => `
+    <div class="day-row">
+      <div class="day-time-col">${esc(item.t)}</div>
+      <div class="day-content-col">
+        <div class="day-title">${esc(item.ti)}</div>
+        <div class="day-desc">${esc(item.d)}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('dayTimelineBox').innerHTML = `<div class="day-timeline-full">${rows}</div>`;
+}
+function renderSec09(){
+  const arr = visibleCampuses();
+  const rows = arr.map((c, idx) => {
+    const reverse = idx % 2 === 1;
+    // Derive tint from heroGlow rgba — set alpha to 0.07 for bg, 0.18 for border
+    const bg = c.heroGlow.replace(/[\d.]+\)$/, '0.07)');
+    const border = c.heroGlow.replace(/[\d.]+\)$/, '0.20)');
+    // Side border colour from heroGlow at 0.55
+    const sideBorder = c.heroGlow.replace(/[\d.]+\)$/, '0.55)');
+    const borderStyle = reverse
+      ? `border-right:3px solid ${sideBorder};padding-right:18px;`
+      : `border-left:3px solid ${sideBorder};padding-left:18px;`;
+    const head = `
+      <div class="persona-col-head-side" style="${borderStyle}">
+        <div class="persona-col-flag">${c.flag}</div>
+        <div>${esc(c.name)}</div>
+        <div class="persona-col-region">${esc(c.region)}</div>
+      </div>`;
+    const cards = `
+      <div class="persona-cards-side">
+        ${c.personasDetail.map(p => `
+          <div class="persona-card" style="background:${bg};border-color:${border}">
+            <div class="persona-role">${esc(p.role)}</div>
+            <div class="persona-why">${esc(p.why)}</div>
+            <div class="persona-tags-row">
+              ${p.tags.map(t => `<span class="persona-mini">${esc(t)}</span>`).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    return `<div class="persona-section-row ${reverse?'is-reverse':''}">${head}${cards}</div>`;
+  }).join('');
+
+  document.getElementById('sec09').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">哪一種你，去哪一座城市</div>
+        <div class="sec-title">在這些故事裡，找到你自己</div>
+        <div class="sec-sub">如果其中一個聽起來像你，那這個校區可能就是答案。</div>
+      </div>
+      <div>${rows}</div>
+    </div>
+  `;
+}
+const CEFR = [
+  {k:'A1', n:'初學者',  w:8,  hrs:'從零開始',     ielts:'—',         toeic:'220 以下',   minHrs:0,   maxHrs:80},
+  {k:'A2', n:'基礎',    w:18, hrs:'80–180 小時',  ielts:'—',         toeic:'225–549',    minHrs:80,  maxHrs:180},
+  {k:'B1', n:'中級',    w:35, hrs:'180–400 小時', ielts:'4.0–5.0',   toeic:'550–784',    minHrs:180, maxHrs:400},
+  {k:'B2', n:'中高級',  w:55, hrs:'400–600 小時', ielts:'5.5–6.5',   toeic:'785–899',    minHrs:400, maxHrs:600},
+  {k:'C1', n:'高級',    w:75, hrs:'600–800 小時', ielts:'7.0–8.0',   toeic:'900–989',    minHrs:600, maxHrs:800},
+  {k:'C2', n:'精通',    w:95, hrs:'1,000+ 小時',  ielts:'8.5–9.0',   toeic:'990',        minHrs:1000,maxHrs:1500},
+];
+
+function renderSec10(){
+  const rows = CEFR.map(l => `
+    <div class="cefr-row" data-anim style="--w:${l.w}%">
+      <div><span class="cefr-badge cefr-${l.k.toLowerCase()}">${l.k}</span></div>
+      <div class="cefr-name">${esc(l.n)}</div>
+      <div class="cefr-bar-wrap"><div class="cefr-bar-fill"></div></div>
+      <div class="cefr-hrs">${esc(l.hrs)}</div>
+      <div class="cefr-test">IELTS ${esc(l.ielts)}<br>多益 ${esc(l.toeic)}</div>
+    </div>
+  `).join('');
+
+  const opts = CEFR.map(l => `<option value="${l.k}">${l.k}（${l.n}）</option>`).join('');
+
+  document.getElementById('sec10').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">學語言要多久？</div>
+        <div class="sec-title">進步的速度，比你想像的快</div>
+        <div class="sec-sub">CEFR 是歐洲共同語言參考標準。每進一個等級約需 200 小時引導學習——密集課程加速這個過程。</div>
+      </div>
+
+      <div class="cefr-tbl">
+        <div class="cefr-row cefr-head">
+          <div>等級</div><div>名稱</div><div>進度（CEFR 對應）</div><div>累計時數</div><div>對應測驗</div>
+        </div>
+        ${rows}
+      </div>
+
+      <div class="cefr-calc">
+        <span class="cefr-calc-l">目前程度</span>
+        <select id="cefrFrom">${opts}</select>
+        <span class="cefr-calc-l">→ 目標程度</span>
+        <select id="cefrTo">${opts}</select>
+        <div class="cefr-calc-result" id="cefrResult">—</div>
+      </div>
+      <div class="cefr-note">以密集課程 22 hr/週 估算；每進一個 CEFR 等級約需 200 小時引導學習。</div>
+    </div>
+  `;
+
+  const fromSel = document.getElementById('cefrFrom');
+  const toSel = document.getElementById('cefrTo');
+  fromSel.value = 'A2';
+  toSel.value = 'B2';
+
+  function updateCefrCalc(){
+    const f = CEFR.find(x => x.k === fromSel.value);
+    const t = CEFR.find(x => x.k === toSel.value);
+    const out = document.getElementById('cefrResult');
+    if(!f || !t) return;
+    if(CEFR.indexOf(t) <= CEFR.indexOf(f)){
+      out.innerHTML = '目標需高於目前程度';
+      return;
+    }
+    const steps = CEFR.indexOf(t) - CEFR.indexOf(f);
+    const hours = steps * 200;
+    const weeks = Math.ceil(hours / 22);
+    out.innerHTML = `建議修讀約 <b>${weeks}</b> 週（${hours} 小時，密集課程 22 hr/週）`;
+  }
+  fromSel.onchange = updateCefrCalc;
+  toSel.onchange = updateCefrCalc;
+  updateCefrCalc();
+}
+const GIFTS = [
+  {e:'🗣️', t:'開口不再猶豫', d:'沉浸式環境讓你習慣「先說再修正」，這種反應速度，在台灣補再久都練不出來。'},
+  {e:'🌍', t:'真正的國際視野', d:'班上來自西班牙、日本、沙烏地、巴西……你第一次真正理解「文化差異」不只是書上的詞。'},
+  {e:'🧭', t:'對自己的認識', d:'一個人在異地解決問題、適應陌生環境，你會發現自己比想像的更能扛事。'},
+  {e:'🤝', t:'跨國人脈與友誼', d:'你的同學將來可能是各國的工程師、設計師、創業者，這段關係有時候是未來職涯裡意想不到的連結。'},
+  {e:'📄', t:'語言成果與紀錄', d:'結業證書搭配考試成績，在履歷上是真實加分，不是「我英文還不錯」的自我感覺良好。'},
+  {e:'🔋', t:'備考的黃金視窗', d:'剛回台灣的 1–2 個月，是英語狀態最好的時候。這時準備多益、雅思、托福，效率遠高於從零開始。'},
+];
+
+function renderSec11(){
+  document.getElementById('sec11').innerHTML = `
+    <div class="wrap">
+      <div class="gift-intro">
+        語言只是入口。<br>
+        <span>你帶回台灣的，比英語多得多。</span>
+      </div>
+      <div class="gift-grid">
+        ${GIFTS.map(g => `
+          <div class="gift-card">
+            <div class="gift-emoji">${g.e}</div>
+            <div class="gift-title">${esc(g.t)}</div>
+            <div class="gift-desc">${esc(g.d)}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+const VISA_BY_FLAG = {
+  '🇬🇧': {country:'英國', detail:'訪客簽 6 個月（不可打工）／ YMS 18–30 歲打工度假', accred:['British Council','English UK']},
+  '🇮🇪': {country:'愛爾蘭', detail:'免簽入境 90 天 / 學生簽（超過 90 天）', accred:['ACELS','MEI']},
+  '🇩🇪': {country:'德國', detail:'申根免簽 90 天 / 語言課學生簽', accred:['FDSV','EAQUALS']},
+  '🇫🇷': {country:'法國', detail:'申根免簽 90 天 / VLS-TS 學生簽', accred:['Qualité FLE','EAQUALS']},
+  '🇲🇹': {country:'馬爾他', detail:'申根免簽 90 天 / 馬爾他學生居留', accred:['ELT Council','EAQUALS']},
+  '🇦🇪': {country:'阿聯酋', detail:'免簽 30–90 天 / 教育簽 6 個月 / 學生簽 1 年', accred:['KHDA','DMI Partner']},
+  '🇨🇦': {country:'加拿大', detail:'eTA 觀光簽 6 個月 / Study Permit', accred:['Languages Canada']},
+  '🇦🇺': {country:'澳洲', detail:'學生簽 62 週 / 觀光簽 12 週 / WHV 17 週', accred:['CRICOS','NEAS']},
+};
+
+function renderSec12(){
+  const arr = visibleCampuses();
+  const flags = [...new Set(arr.map(c => c.flag))];
+  const visaRows = flags.map(f => {
+    const v = VISA_BY_FLAG[f];
+    if(!v) return '';
+    return `<div class="visa-row">
+      <span class="visa-country"><span style="font-size:18px">${f}</span>${esc(v.country)}</span>
+      <span class="visa-val">${esc(v.detail)}</span>
+    </div>`;
+  }).join('');
+
+  // Accreditation: union of country-level accredited bodies only
+  // （EP 全球認證徽章待業主確認後補上）
+  const accredSet = new Set();
+  flags.forEach(f => (VISA_BY_FLAG[f]?.accred || []).forEach(a => accredSet.add(a)));
+
+  document.getElementById('sec12').innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">出發前，我們幫你備好這些</div>
+        <div class="sec-title">這些事，我們已經幫你準備好</div>
+        <div class="sec-sub">你只要決定要去哪一座城市，剩下的我們陪你一步步走完。</div>
+      </div>
+
+      <div class="before-grid">
+        <div class="before-card">
+          <div class="before-eyebrow">簽證懶人包</div>
+          <div class="before-h">台灣護照可以怎麼進去？</div>
+          <div class="visa-list">${visaRows || '<div class="visa-row"><span class="visa-val">尚未選擇校區</span></div>'}</div>
+        </div>
+
+        <div class="before-card">
+          <div class="before-eyebrow">EP 學校認證</div>
+          <div class="before-h">EP 不是補習班，是受國際認證的語言學校</div>
+          <p style="font-size:13px;color:var(--ink3);line-height:1.7">EP 全球各校區依當地國家受對應的官方語言教學機構認可，學員結業證書與成績單在國際升學與職場上具備正式效力。</p>
+          <div class="advisor-only" style="font-size:11px;color:var(--gold);background:var(--gold-l);border-radius:var(--r-sm);padding:6px 10px;margin-bottom:10px;font-family:var(--mono);">
+            ⚠️ 認證徽章待確認後補上，目前僅顯示各國官方認可機構。
+          </div>
+          <div class="accred-row">
+            ${[...accredSet].map(a => `<span class="accred-badge">${esc(a)}</span>`).join('')}
+          </div>
+        </div>
+
+        <div class="before-card">
+          <div class="before-eyebrow">你不是一個人</div>
+          <div class="before-h">出國後，三道安全網</div>
+          <div class="support-list">
+            <div class="support-item">
+              <b>EP Student Experience Manager</b>
+              每個校區的學生體驗主管，處理生活、住宿、學習問題，講中文或英文都行。
+            </div>
+            <div class="support-item">
+              <b>學生大使 Student Ambassador</b>
+              每個月固定舉辦社交活動、城市探索，幫你快速融入。
+            </div>
+            <div class="support-item">
+              <b>放洋顧問遠端支援</b>
+              出發後不消失，台灣時間有問題隨時找我們，銜接升學 / 工作 / 移民也由我們陪你規劃。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+function renderSec13(){
+  document.getElementById('sec13').innerHTML = `
+    <div class="cta-wrap wrap">
+      <div class="cta-line">今天確認校區，<br>我幫你查最近的開課日。</div>
+      <div class="cta-sub">EP 全球校區每週都有新的開課梯次・名額有限・建議提早 4–8 週確認</div>
+      <div class="cta-btns">
+        <a class="btn-primary"
+           href="https://docs.google.com/forms/d/e/1FAIpQLScspZRqWNI1ySr1kjwxtxNVwLN8zHl45jmVBjkc-DzJFKpUbA/viewform"
+           target="_blank" rel="noopener">立即開學費報價單 →</a>
+        <button class="btn-secondary" onclick="document.getElementById('sec02').scrollIntoView({behavior:'smooth'})">回到比較卡片 ↑</button>
+      </div>
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', boot);
+</script>
+
+</body>
+</html>
