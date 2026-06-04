@@ -1222,6 +1222,178 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
   border-radius:var(--r-sm);line-height:1.5;
 }
 
+/* ============== Section sec_costfull — 完整費用總表 ============== */
+.cost-tabs-panels{
+  background:var(--sur);border:1px solid var(--line);
+  border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);
+  padding:24px;
+}
+.cost-table{
+  width:100%;border-collapse:collapse;font-size:13px;
+}
+.cost-table tr{border-bottom:1px solid var(--line)}
+.cost-table tr:last-child{border-bottom:none}
+.cost-table td{padding:11px 4px;vertical-align:middle}
+.cost-table .ct-label{
+  color:var(--ink2);width:38%;
+  display:flex;align-items:center;gap:8px;
+}
+.cost-table .ct-icon{font-size:16px;flex-shrink:0;width:22px;text-align:center}
+.cost-table .ct-raw{
+  font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:right;width:28%;
+}
+.cost-table .ct-twd{
+  font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;
+  text-align:right;width:34%;
+}
+.cost-table tr.ct-total{background:var(--rose-l);font-weight:500}
+.cost-table tr.ct-total td{padding:16px 8px;color:var(--rose-d)}
+.cost-table tr.ct-total .ct-label{color:var(--rose-d);font-weight:700}
+.cost-table tr.ct-total .ct-twd{font-size:17px;color:var(--rose-d);font-weight:700}
+.cost-note{
+  background:var(--gold-l);border:1px solid rgba(196,137,60,0.25);
+  border-radius:var(--r-sm);padding:10px 14px;margin-top:14px;
+  font-size:12px;color:var(--ink3);line-height:1.7;
+}
+.cost-note b{color:var(--ink2)}
+
+/* ============== Section sec_voices — 學員見證 + 國籍比例 ============== */
+.voices-grid{
+  display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:start;
+}
+.testimonials-col{display:flex;flex-direction:column;gap:14px}
+.testimonial-card{
+  background:var(--sur);border:1px solid var(--line);
+  border-left:3px solid var(--rose);
+  border-radius:var(--r);padding:18px 20px;
+}
+.tm-quote{
+  font-family:var(--display);font-style:italic;font-size:18px;
+  color:var(--ink);line-height:1.55;margin-bottom:12px;
+}
+.tm-meta{
+  display:flex;align-items:center;gap:10px;font-size:12px;color:var(--ink3);
+}
+.tm-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--sur2);display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.tm-meta-text{display:flex;flex-direction:column;gap:2px}
+.tm-name{font-weight:500;color:var(--ink2);font-size:13px}
+.tm-detail{font-size:11px;color:var(--ink4);font-family:var(--mono)}
+.tm-link{
+  margin-left:auto;font-size:11px;color:var(--rose);
+  font-family:var(--mono);text-decoration:none;
+}
+.testimonial-card.is-placeholder{
+  border-style:dashed;background:var(--sur2);opacity:0.85;
+}
+.testimonial-card.is-placeholder .tm-quote{color:var(--ink3)}
+
+.nationalities-col{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:20px 22px;
+}
+.nat-col-title{
+  font-size:12px;font-weight:700;color:var(--ink3);
+  text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;
+}
+.nat-col-sub{
+  font-size:11px;color:var(--ink4);margin-bottom:16px;font-family:var(--mono);
+}
+.nat-bars{display:flex;flex-direction:column;gap:9px}
+.nat-row{display:grid;grid-template-columns:1fr 36px;gap:8px;align-items:center}
+.nat-label{
+  font-size:12px;color:var(--ink2);
+  display:flex;align-items:center;gap:6px;
+}
+.nat-flag{font-size:15px}
+.nat-bar{
+  height:7px;background:var(--sur2);border-radius:999px;overflow:hidden;
+  margin-top:3px;
+}
+.nat-bar-fill{
+  height:100%;background:linear-gradient(90deg,var(--rose-m),var(--rose));
+  border-radius:999px;transition:width .6s ease;
+}
+.nat-pct{
+  font-family:var(--mono);font-size:11px;color:var(--ink3);text-align:right;
+}
+.nat-note{
+  margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:10px;color:var(--ink4);line-height:1.6;font-family:var(--mono);
+}
+
+/* ============== Section sec_safety — 退費彈性 + 校方保險 ============== */
+.safety-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:18px;
+}
+.safety-card{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:24px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.safety-card-h{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:12px;border-bottom:1px solid var(--line);
+}
+.safety-card-h .sh-icon{font-size:22px}
+.safety-card-h .sh-title{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:22px;color:var(--ink);
+}
+.safety-list{display:flex;flex-direction:column;gap:11px}
+.safety-item{
+  display:grid;grid-template-columns:22px 1fr;gap:10px;
+  font-size:13px;line-height:1.6;
+}
+.safety-item .si-mark{
+  color:var(--rose);font-weight:600;font-size:14px;
+  display:flex;align-items:flex-start;padding-top:2px;
+}
+.safety-item .si-mark.is-x{color:var(--ink4)}
+.safety-item-text{color:var(--ink2)}
+.safety-item-text b{color:var(--ink);font-weight:500}
+.safety-item-text small{font-size:11px;color:var(--ink3);display:block;margin-top:2px}
+.safety-cta-note{
+  background:var(--sur2);border-radius:var(--r-sm);
+  padding:10px 14px;font-size:12px;color:var(--ink3);
+  line-height:1.65;margin-top:auto;
+}
+.safety-cta-note b{color:var(--ink2)}
+
+/* ============== Section sec_return — 回國銜接服務 ============== */
+.return-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;
+}
+.return-card{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:20px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:border-color .15s,transform .15s;
+}
+.return-card:hover{border-color:var(--rose-m);transform:translateY(-2px)}
+.return-icon{font-size:30px;line-height:1;margin-bottom:4px}
+.return-title{
+  font-family:var(--display);font-style:italic;font-weight:600;
+  font-size:19px;color:var(--ink);
+}
+.return-desc{font-size:13px;color:var(--ink3);line-height:1.65}
+.return-when{
+  margin-top:auto;padding-top:10px;
+  font-size:11px;color:var(--rose);font-family:var(--mono);
+  letter-spacing:0.04em;
+}
+
+/* Advisor-only data-pending hint */
+.data-pending-note{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--gold);background:var(--gold-l);
+  padding:4px 10px;border-radius:4px;
+  font-family:var(--mono);margin-bottom:10px;
+}
+
 /* ============== Section sec_photos masonry ============== */
 .photo-plan-note{
   display:inline-block;font-size:12px;color:var(--rose-d);
@@ -1369,9 +1541,13 @@ section.is-visible,
 </div>
 
 <section id="sec07"></section>
+<section id="sec_costfull"></section>
+<section id="sec_voices"></section>
 <section id="sec09"></section>
 <section id="sec10"></section>
 <section id="sec11"></section>
+<section id="sec_safety"></section>
+<section id="sec_return"></section>
 <section id="sec12"></section>
 <section id="sec13"></section>
 
@@ -2469,6 +2645,141 @@ window.CAMPUS_DATA = {
 })();
 </script>
 
+<!-- ============== CAMPUS_DATA — V3 augmentation (cost / voices / safety / return) ============== -->
+<script id="CAMPUS_DATA_V3">
+(function(){
+  const D = window.CAMPUS_DATA;
+
+  // ============================================================
+  // ★ 國籍比例 — 之後 EP 給數據後直接改這裡 ★
+  //   每個校區 5–8 個主要國籍，加總建議接近 100%（剩下歸 'other'）
+  //   格式：[{flag, name, pct}]
+  // ============================================================
+  const NATIONALITY_DATA = {
+    canary:    [{flag:'🇪🇸',name:'西班牙',pct:24},{flag:'🇧🇷',name:'巴西',pct:18},{flag:'🇮🇹',name:'義大利',pct:14},{flag:'🇸🇦',name:'沙烏地',pct:12},{flag:'🇨🇴',name:'哥倫比亞',pct:10},{flag:'🇹🇼',name:'台灣',pct:6},{flag:'🌏',name:'其他',pct:16}],
+    greenford: [{flag:'🇸🇦',name:'沙烏地',pct:22},{flag:'🇪🇸',name:'西班牙',pct:18},{flag:'🇧🇷',name:'巴西',pct:14},{flag:'🇰🇷',name:'韓國',pct:10},{flag:'🇮🇹',name:'義大利',pct:10},{flag:'🇯🇵',name:'日本',pct:8},{flag:'🇹🇼',name:'台灣',pct:5},{flag:'🌏',name:'其他',pct:13}],
+    birmingham:[{flag:'🇸🇦',name:'沙烏地',pct:20},{flag:'🇪🇸',name:'西班牙',pct:18},{flag:'🇮🇹',name:'義大利',pct:14},{flag:'🇰🇷',name:'韓國',pct:12},{flag:'🇧🇷',name:'巴西',pct:10},{flag:'🇹🇼',name:'台灣',pct:6},{flag:'🌏',name:'其他',pct:20}],
+    leeds:     [{flag:'🇪🇸',name:'西班牙',pct:22},{flag:'🇮🇹',name:'義大利',pct:16},{flag:'🇸🇦',name:'沙烏地',pct:12},{flag:'🇰🇷',name:'韓國',pct:10},{flag:'🇧🇷',name:'巴西',pct:10},{flag:'🇯🇵',name:'日本',pct:8},{flag:'🇹🇼',name:'台灣',pct:6},{flag:'🌏',name:'其他',pct:16}],
+    dublin:    [{flag:'🇧🇷',name:'巴西',pct:28},{flag:'🇪🇸',name:'西班牙',pct:18},{flag:'🇮🇹',name:'義大利',pct:14},{flag:'🇨🇴',name:'哥倫比亞',pct:10},{flag:'🇹🇷',name:'土耳其',pct:8},{flag:'🇹🇼',name:'台灣',pct:5},{flag:'🇯🇵',name:'日本',pct:5},{flag:'🌏',name:'其他',pct:12}],
+    berlin:    [{flag:'🇪🇸',name:'西班牙',pct:18},{flag:'🇮🇹',name:'義大利',pct:16},{flag:'🇸🇦',name:'沙烏地',pct:12},{flag:'🇧🇷',name:'巴西',pct:10},{flag:'🇰🇷',name:'韓國',pct:10},{flag:'🇫🇷',name:'法國',pct:8},{flag:'🇹🇼',name:'台灣',pct:5},{flag:'🌏',name:'其他',pct:21}],
+    paris:     [{flag:'🇩🇪',name:'德國',pct:16},{flag:'🇨🇳',name:'中國',pct:14},{flag:'🇧🇷',name:'巴西',pct:12},{flag:'🇰🇷',name:'韓國',pct:12},{flag:'🇮🇹',name:'義大利',pct:10},{flag:'🇲🇽',name:'墨西哥',pct:8},{flag:'🇹🇼',name:'台灣',pct:6},{flag:'🌏',name:'其他',pct:22}],
+    malta:     [{flag:'🇮🇹',name:'義大利',pct:22},{flag:'🇪🇸',name:'西班牙',pct:18},{flag:'🇧🇷',name:'巴西',pct:14},{flag:'🇸🇦',name:'沙烏地',pct:10},{flag:'🇷🇺',name:'俄語區',pct:10},{flag:'🇹🇷',name:'土耳其',pct:8},{flag:'🇹🇼',name:'台灣',pct:4},{flag:'🌏',name:'其他',pct:14}],
+    dubai:     [{flag:'🇸🇦',name:'沙烏地',pct:24},{flag:'🇪🇬',name:'埃及',pct:14},{flag:'🇮🇳',name:'印度',pct:14},{flag:'🇰🇷',name:'韓國',pct:10},{flag:'🇧🇷',name:'巴西',pct:8},{flag:'🇨🇳',name:'中國',pct:8},{flag:'🇹🇼',name:'台灣',pct:4},{flag:'🌏',name:'其他',pct:18}],
+    toronto:   [{flag:'🇧🇷',name:'巴西',pct:28},{flag:'🇲🇽',name:'墨西哥',pct:16},{flag:'🇰🇷',name:'韓國',pct:12},{flag:'🇯🇵',name:'日本',pct:10},{flag:'🇨🇴',name:'哥倫比亞',pct:8},{flag:'🇨🇳',name:'中國',pct:8},{flag:'🇹🇼',name:'台灣',pct:6},{flag:'🌏',name:'其他',pct:12}],
+    brisbane:  [{flag:'🇰🇷',name:'韓國',pct:22},{flag:'🇯🇵',name:'日本',pct:16},{flag:'🇧🇷',name:'巴西',pct:14},{flag:'🇨🇴',name:'哥倫比亞',pct:12},{flag:'🇨🇱',name:'智利',pct:10},{flag:'🇹🇼',name:'台灣',pct:8},{flag:'🇹🇭',name:'泰國',pct:6},{flag:'🌏',name:'其他',pct:12}],
+  };
+  // ★ DEMO 數據註記：上面比例為合理參考值，並非 EP 官方提供。實際數據由放洋顧問向 EP 取得後更新。
+
+  // ============================================================
+  // 學員見證 — placeholder，待補實際素材
+  // 格式：[{quote, name, detail, ig?}]
+  // ============================================================
+  const TESTIMONIAL_DATA = {
+    canary: [
+      { quote:'CDMP 課程是真的可以寫進履歷的。回台灣後三個月內，我從本土廣告公司跳到外商，薪水多了 25%。', name:'A. Lin', detail:'34 歲・行銷主管・修讀 12 週商業英語+CDMP', ig:'' },
+      { quote:'班上沒有任何台灣人，前兩週很痛苦。第三週開始我發現自己已經習慣用英文做夢了。', name:'M. Chen', detail:'31 歲・自營業主・修讀 8 週標準英語', ig:'' },
+    ],
+    greenford: [
+      { quote:'第一週我以為交不到朋友，第二週開始我們宿舍 6 個人來自 5 個國家，每天晚上一起做飯。', name:'Y. Wang', detail:'23 歲・剛畢業・修讀 12 週標準英語', ig:'' },
+      { quote:'放洋幫我規劃了銜接碩士的時程，從語言課畢業到正式入學完全沒有 gap。', name:'S. Tsai', detail:'24 歲・準備英國碩士・修讀 16 週密集英語', ig:'' },
+    ],
+    birmingham: [
+      { quote:'每個週末殺去倫敦或牛津，火車票 £10。整個英格蘭變成我的後花園。', name:'J. Wu', detail:'26 歲・自由工作者・修讀 8 週密集英語', ig:'' },
+      { quote:'IELTS 從 5.5 進步到 6.5 只花了 10 週。比我在台灣補習補一年還有效。', name:'C. Hsu', detail:'22 歲・準備留學・修讀 10 週 IELTS 班', ig:'' },
+    ],
+    leeds: [
+      { quote:'里茲的藝術氣息讓我重新喜歡上學語言這件事。週末去約克古城散步是我最快樂的時光。', name:'L. Huang', detail:'25 歲・設計師・修讀 8 週標準英語', ig:'' },
+    ],
+    dublin: [
+      { quote:'Work & Study 真的有用。我兼職的咖啡廳老闆把我介紹到一家科技公司實習。', name:'P. Chen', detail:'27 歲・轉職科技業・修讀 25 週 Work & Study', ig:'' },
+      { quote:'住在 Dún Laoghaire 比想像中還好。每天搭 DART 進市區，下班就去海邊。', name:'K. Lin', detail:'29 歲・程式設計師・修讀 16 週密集英語', ig:'' },
+    ],
+    berlin: [
+      { quote:'同時學德文和英文聽起來瘋狂，但柏林讓這件事變得理所當然。', name:'N. Yang', detail:'28 歲・產品設計師・修讀 12 週德英雙修', ig:'' },
+    ],
+    paris: [
+      { quote:'巴黎不是浪漫，是現實。但學會用法文點咖啡的那一刻，浪漫是真的。', name:'I. Lee', detail:'26 歲・時尚產業・修讀 12 週法英雙修', ig:'' },
+    ],
+    malta: [
+      { quote:'學費省了一半，海泳天天有，下課和西班牙、義大利同學去 Gozo 浮潛。', name:'R. Su', detail:'24 歲・打工度假前過渡・修讀 24 週長期方案', ig:'' },
+      { quote:'500 人的校區聽起來很多，但因為每天都遇到新朋友，根本不會孤單。', name:'D. Wang', detail:'21 歲・休學體驗・修讀 16 週標準英語', ig:'' },
+    ],
+    dubai: [
+      { quote:'DMI 認證讓我在中東面試直接過。現在我在杜拜一家行銷公司全職工作。', name:'T. Cheng', detail:'30 歲・行銷顧問・修讀 4 週 CDMP', ig:'' },
+    ],
+    toronto: [
+      { quote:'Pathway 課程讓我從語言銜接到大學申請完全沒有空窗。', name:'F. Liu', detail:'19 歲・申請加拿大大學・修讀 20 週 Pathway', ig:'' },
+      { quote:'多倫多的多元讓「英文」變成大家的共同語言，不是某國的母語。我說錯沒人在意。', name:'B. Chang', detail:'25 歲・轉職規劃・修讀 12 週密集英語', ig:'' },
+    ],
+    brisbane: [
+      { quote:'WHV 邊打工邊上課，咖啡廳給我打工，學費生活費全部 cover。', name:'W. Hsiao', detail:'25 歲・WHV 簽證・修讀 17 週 CRICOS', ig:'' },
+      { quote:'布里斯本是我看過最舒服的城市。每天上學前在 South Bank 喝一杯咖啡。', name:'E. Kuo', detail:'23 歲・準備移民評估・修讀 24 週密集英語', ig:'' },
+    ],
+  };
+
+  // ============================================================
+  // 完整費用估算（4 週基準）— 給家長帶回家看的總表
+  // 機票 / 簽證 / 學生保險 都用 TWD 範圍呈現
+  // ============================================================
+  const COST_EXTRAS = {
+    // 機票（來回，TWD 區間，淡-旺季）
+    flight: {
+      canary:    [30000, 50000], greenford: [30000, 50000],
+      birmingham:[32000, 52000], leeds:     [32000, 52000],
+      dublin:    [33000, 55000],
+      berlin:    [30000, 50000], paris:     [28000, 48000],
+      malta:     [35000, 58000],
+      dubai:     [22000, 38000],
+      toronto:   [35000, 60000],
+      brisbane:  [28000, 50000],
+    },
+    // 學生簽證費（TWD，0 = 短期免簽）
+    visa: {
+      canary:    [0, 0],         greenford: [0, 0],
+      birmingham:[0, 0],         leeds:     [0, 0],
+      dublin:    [0, 0],
+      berlin:    [0, 0],         paris:     [0, 0],
+      malta:     [0, 0],
+      dubai:     [0, 3000],
+      toronto:   [220, 220],     // eTA CA$7 ≈ NT$220
+      brisbane:  [0, 0],         // 觀光 / WHV
+    },
+    visaNote: {
+      canary:'30+ 訪客簽，6 個月免簽免費', greenford:'訪客簽 6 個月免簽免費',
+      birmingham:'訪客簽 6 個月免簽免費', leeds:'訪客簽 6 個月免簽免費',
+      dublin:'90 天內免簽免費', berlin:'申根免簽 90 天', paris:'申根免簽 90 天',
+      malta:'申根免簽 90 天',
+      dubai:'短期免簽；長期教育簽約 NT$3,000',
+      toronto:'eTA 申請費約 NT$220',
+      brisbane:'觀光簽 12 週 / WHV 17 週',
+    },
+    // 學生保險（校方安排，4 週估算，TWD）
+    insurance: {
+      canary:    [5000, 10000], greenford: [5000, 10000],
+      birmingham:[5000, 10000], leeds:     [5000, 10000],
+      dublin:    [4500,  9000],
+      berlin:    [4500,  9000], paris:     [5000, 10000],
+      malta:     [2500,  6000],
+      dubai:     [5000, 12000],
+      toronto:   [3500,  7500],  // CA$21/週 × 4 ≈ NT$1,930（高季更高）
+      brisbane:  [3500,  7000],  // AU$30/週 × 4 ≈ NT$2,520
+    },
+  };
+
+  // 把以上資料掛到每個 campus
+  Object.keys(D).forEach(k => {
+    D[k].nationalities = NATIONALITY_DATA[k] || [];
+    D[k].testimonials  = TESTIMONIAL_DATA[k] || [];
+    D[k].costExtras    = {
+      flight:    COST_EXTRAS.flight[k]    || [30000, 50000],
+      visa:      COST_EXTRAS.visa[k]      || [0, 0],
+      visaNote:  COST_EXTRAS.visaNote[k]  || '依簽證類型而定',
+      insurance: COST_EXTRAS.insurance[k] || [5000, 10000],
+    };
+  });
+})();
+</script>
+
 <!-- ============== App JS ============== -->
 <script>
 'use strict';
@@ -2619,8 +2930,8 @@ const PHASE_CONFIG = [
 const PHASE_MAP = {
   sec01:1, sec02:1, sec03:1, sec04:1, sec_photos:1,
   sec_area:2, sec_flight:2, sec_climate:2, sec_spend:2, sec08:2,
-  sec05:3, sec06:3, sec07:3, sec09:3, sec10:3,
-  sec11:4, sec12:4, sec13:4,
+  sec05:3, sec06:3, sec07:3, sec_costfull:3, sec_voices:3, sec09:3, sec10:3,
+  sec11:4, sec_safety:4, sec_return:4, sec12:4, sec13:4,
 };
 
 function bindPhaseTracker(){
@@ -2702,9 +3013,13 @@ function renderAll(){
   renderStatBreak();
   renderSec06();
   renderSec07();
+  renderSec_costfull();
+  renderSec_voices();
   renderSec09();
   renderSec10();
   renderSec11();
+  renderSec_safety();
+  renderSec_return();
   renderSec12();
   renderSec13();
   applyView();
@@ -3459,6 +3774,358 @@ function renderSec_photos(){
         </div>
       </div>
       <div class="masonry-grid">${masonryItems}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_costfull — 完整費用總表 ---------- */
+function renderSec_costfull(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_costfull');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const w = 4; // 4 週基準
+  const fmtRange = (lo, hi) => lo === hi
+    ? `NT$${lo.toLocaleString()}`
+    : `NT$${lo.toLocaleString()}–${hi.toLocaleString()}`;
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="cost-${c.key}"
+            onclick="switchTab('cost','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const rate = State.rates[c.cur] || 30;
+    // 學費（用 courseFrom 估低；hi 用 courseFrom×1.7 估範圍上緣）
+    const tuLo = c.courseFrom * w;
+    const tuHi = Math.round(c.courseFrom * w * 1.7);
+    // 住宿（accommFrom × w 到 accommFrom × w × 1.7）
+    const acLo = c.accommFrom * w;
+    const acHi = Math.round(c.accommFrom * w * 1.7);
+    // 生活費（spend.monthlyTotal × 1 month；解析範圍）
+    const spend = c.spend || {monthlyTotal:`${c.cur}700–1000`};
+    const spendMatch = spend.monthlyTotal.match(/([\d,]+)\D+([\d,]+)/);
+    const liLo = spendMatch ? parseInt(spendMatch[1].replace(/,/g,'')) : 600;
+    const liHi = spendMatch ? parseInt(spendMatch[2].replace(/,/g,'')) : 1000;
+    // 雜費（取自 fees 陣列，加總）
+    const feesTotal = (c.fees||[]).reduce((s, f) => {
+      const m = f.v?.match(/(\d+)/);
+      return s + (m ? parseInt(m[1]) : 0);
+    }, 0);
+
+    const tuTwdLo = Math.round(tuLo * rate);
+    const tuTwdHi = Math.round(tuHi * rate);
+    const acTwdLo = Math.round(acLo * rate);
+    const acTwdHi = Math.round(acHi * rate);
+    const liTwdLo = Math.round(liLo * rate);
+    const liTwdHi = Math.round(liHi * rate);
+    const feesTwd = Math.round(feesTotal * rate);
+    const [flLo, flHi] = c.costExtras.flight;
+    const [viLo, viHi] = c.costExtras.visa;
+    const [inLo, inHi] = c.costExtras.insurance;
+
+    const totalLo = tuTwdLo + acTwdLo + liTwdLo + feesTwd + flLo + viLo + inLo;
+    const totalHi = tuTwdHi + acTwdHi + liTwdHi + feesTwd + flHi + viHi + inHi;
+
+    return `
+      <div class="tab-panel ${i===0?'is-on':''}" id="cost-${c.key}">
+        <table class="cost-table">
+          <tr>
+            <td class="ct-label"><span class="ct-icon">🎓</span>學費（${w} 週）</td>
+            <td class="ct-raw">${c.cur}${tuLo.toLocaleString()}–${tuHi.toLocaleString()}</td>
+            <td class="ct-twd">${fmtRange(tuTwdLo, tuTwdHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">🏠</span>住宿費（${w} 週）</td>
+            <td class="ct-raw">${c.cur}${acLo.toLocaleString()}–${acHi.toLocaleString()}</td>
+            <td class="ct-twd">${fmtRange(acTwdLo, acTwdHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">✈️</span>來回機票</td>
+            <td class="ct-raw">—</td>
+            <td class="ct-twd">${fmtRange(flLo, flHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">📄</span>簽證費</td>
+            <td class="ct-raw" style="font-size:10px">${esc(c.costExtras.visaNote)}</td>
+            <td class="ct-twd">${viLo===0 && viHi===0 ? '免費' : fmtRange(viLo, viHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">🛡️</span>學生保險（校方安排）</td>
+            <td class="ct-raw" style="font-size:10px">${w} 週估算</td>
+            <td class="ct-twd">${fmtRange(inLo, inHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">🍜</span>生活費（1 個月）</td>
+            <td class="ct-raw">${c.cur}${liLo.toLocaleString()}–${liHi.toLocaleString()}</td>
+            <td class="ct-twd">${fmtRange(liTwdLo, liTwdHi)}</td>
+          </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">📑</span>報名 + 材料 + 電匯</td>
+            <td class="ct-raw">${c.cur}${feesTotal}</td>
+            <td class="ct-twd">${fmtRange(feesTwd, feesTwd)}</td>
+          </tr>
+          <tr class="ct-total">
+            <td class="ct-label"><span class="ct-icon">＝</span>預估總計（4 週）</td>
+            <td class="ct-raw" style="font-size:10px">大概範圍</td>
+            <td class="ct-twd">${fmtRange(totalLo, totalHi)}</td>
+          </tr>
+        </table>
+        <div class="cost-note">
+          <b>＊ 為什麼是範圍？</b>學費依課程強度（標準 / 密集 / 超密集）有差，住宿依房型有差，機票淡旺季差很多。<br>
+          <b>＊ 不含的項目</b>：個人加購保險、英文檢定考試費、出國前體檢、額外旅行費。<br>
+          <b>＊ 本表為 4 週基準</b>，較長修讀請以週數換算（學費 / 住宿 / 保險 / 生活費 × 週數倍率）。
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">給家長帶回家看的版本</div>
+        <div class="sec-title">這趟出國，你大概會花多少</div>
+        <div class="sec-sub">把學費、住宿、機票、簽證、保險、生活費和雜費都列出來，台幣呈現一個合理範圍。</div>
+      </div>
+      <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
+      <div class="tab-panels cost-tabs-panels">${panels}</div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_voices — 學員見證 + 國籍比例 ---------- */
+function renderSec_voices(){
+  const arr = visibleCampuses();
+  const sec = document.getElementById('sec_voices');
+  if(!sec) return;
+  if(arr.length === 0){ sec.innerHTML = ''; return; }
+
+  const tabs = arr.map((c, i) => `
+    <button class="content-tab ${i===0?'is-on':''}" data-tab="voices-${c.key}"
+            onclick="switchTab('voices','${c.key}')">
+      <span>${c.flag}</span>${esc(c.name)}
+    </button>
+  `).join('');
+
+  const panels = arr.map((c, i) => {
+    const tms = c.testimonials || [];
+    const tmCards = tms.map(t => `
+      <div class="testimonial-card is-placeholder">
+        <div class="tm-quote">「${esc(t.quote)}」</div>
+        <div class="tm-meta">
+          <div class="tm-avatar">👤</div>
+          <div class="tm-meta-text">
+            <div class="tm-name">${esc(t.name)}</div>
+            <div class="tm-detail">${esc(t.detail)}</div>
+          </div>
+          ${t.ig ? `<a class="tm-link" href="${esc(t.ig)}" target="_blank">@${esc(t.ig.split('/').pop())}</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    const nats = c.nationalities || [];
+    const sortedNats = [...nats].sort((a,b) => b.pct - a.pct);
+    const natRows = sortedNats.map(n => `
+      <div class="nat-row">
+        <div>
+          <div class="nat-label"><span class="nat-flag">${n.flag}</span>${esc(n.name)}</div>
+          <div class="nat-bar"><div class="nat-bar-fill" style="width:${n.pct}%"></div></div>
+        </div>
+        <div class="nat-pct">${n.pct}%</div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="tab-panel ${i===0?'is-on':''}" id="voices-${c.key}">
+        <div class="voices-grid">
+          <div class="testimonials-col">
+            <div class="advisor-only data-pending-note">⚠️ 學員見證為示範文案，待補實際學員資料</div>
+            ${tmCards || '<div style="color:var(--ink4);font-size:13px;padding:24px;text-align:center">尚未提供學員見證</div>'}
+          </div>
+          <div class="nationalities-col">
+            <div class="nat-col-title">這個校區的同學來自哪裡</div>
+            <div class="nat-col-sub">${esc(c.name)}・過去 12 個月學員國籍組成</div>
+            <div class="nat-bars">${natRows}</div>
+            <div class="nat-note">★ 數據為合理參考值，待 EP 提供當期實際數據後更新。</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">跟你一樣的人都來這裡</div>
+        <div class="sec-title">真實學員怎麼說，班上都是誰</div>
+        <div class="sec-sub">過來人的話 + 班級國籍組成，幫你回答「我會不會班上都是台灣人」這個問題。</div>
+      </div>
+      <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
+      <div class="tab-panels" style="background:var(--sur);border:1px solid var(--line);border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);padding:24px">
+        ${panels}
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_safety — 退費彈性 + 校方保險 ---------- */
+function renderSec_safety(){
+  const sec = document.getElementById('sec_safety');
+  if(!sec) return;
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">萬一情況有變</div>
+        <div class="sec-title">退費彈性與保險說明</div>
+        <div class="sec-sub">出發前或抵達後狀況改變怎麼辦？學生保險涵蓋什麼？這頁說清楚。</div>
+      </div>
+
+      <div class="advisor-only data-pending-note">⚠️ 以下條款為示範框架，實際內容以放洋與 EP 的最終契約為準</div>
+
+      <div class="safety-grid">
+        <!-- 彈性政策 -->
+        <div class="safety-card">
+          <div class="safety-card-h">
+            <span class="sh-icon">🔁</span>
+            <span class="sh-title">退費與彈性政策</span>
+          </div>
+          <div class="safety-list">
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>簽證被拒</b>
+                <small>取得拒簽證明後，扣除已支付學校的不退費項目（通常為報名費），其餘全額退還。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>出發前取消</b>
+                <small>距開課日 30 天以上：扣除報名費；30 天內：依 EP 規定扣除部分學費。具體比例以契約為準。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>抵達後縮短修讀</b>
+                <small>已修讀週數依原價計算，剩餘週數按 EP 規定退費（多數為 70–80%）。需提前 2 週以書面通知。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>延長修讀 / 轉換校區</b>
+                <small>EP 全球校區可轉換，依目的地價差補繳或退費。延長依當地簽證可行性處理。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>暫停修讀</b>
+                <small>因健康、家庭等不可抗力，可申請保留學分 12 個月內復學。需提供證明。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark is-x">✗</span>
+              <div class="safety-item-text">
+                <b>無故中斷</b>
+                <small>非以上原因中斷修讀，剩餘學費不予退還。</small>
+              </div>
+            </div>
+          </div>
+          <div class="safety-cta-note">
+            <b>💡 顧問桌上談</b>：上述為通用條款，個別狀況依你的方案、出發時點、目的地法規會有差異。簽約前我們會逐項對你說明。
+          </div>
+        </div>
+
+        <!-- 保險說明 -->
+        <div class="safety-card">
+          <div class="safety-card-h">
+            <span class="sh-icon">🛡️</span>
+            <span class="sh-title">學生保險說明</span>
+          </div>
+          <div class="safety-list">
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>校方安排的學生保險</b>
+                <small>由 EP 校區依當地法規安排，多數國家含基本醫療、意外、行李遺失、簽證相關責任。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>多數涵蓋項目</b>
+                <small>急診、住院、處方藥、意外身故 / 失能、行李竊盜或遺失（額度依當地保單）。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark is-x">✗</span>
+              <div class="safety-item-text">
+                <b>多數不涵蓋</b>
+                <small>慢性病既有條件、牙科、心理諮商、極限運動意外、自願性中止學業相關費用。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark is-x">✗</span>
+              <div class="safety-item-text">
+                <b>放洋不販售個人遊學保險</b>
+                <small>本平台不代售個人遊學險。如需加保心理諮商、牙科、行李高額理賠等，建議自行向台灣的保險公司投保旅平險或留學險。</small>
+              </div>
+            </div>
+            <div class="safety-item">
+              <span class="si-mark">✓</span>
+              <div class="safety-item-text">
+                <b>理賠流程</b>
+                <small>就醫保留收據與診斷證明 → 校區 SEM 協助文件 → 校方保險窗口送件 → 直接支付或事後申請理賠（依方案）。</small>
+              </div>
+            </div>
+          </div>
+          <div class="safety-cta-note">
+            <b>💡 顧問桌上談</b>：建議家長另外幫學員投保台灣的留學險（含心理諮商、24/7 中文醫療諮詢、高額身故）。我們可以推薦你幾家有經驗的台灣保險公司，但不從中抽成。
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_return — 回國銜接服務 ---------- */
+function renderSec_return(){
+  const sec = document.getElementById('sec_return');
+  if(!sec) return;
+
+  const services = [
+    { icon:'📄', title:'履歷與 LinkedIn 強化', desc:'用留學經歷重寫履歷與 LinkedIn 個人頁，把語言進步、跨文化適應、班級組成寫成具體加分點。', when:'回國後 1 個月內・免費 1 次' },
+    { icon:'📚', title:'考試備考銜接', desc:'多益 / 雅思 / 托福：剛回台灣的 1–2 個月是英文狀態最好的「黃金期」，這時候衝測驗成本最低。我們提供備考策略諮詢。', when:'黃金期 1–2 個月・免費策略諮詢' },
+    { icon:'🎓', title:'海外升學銜接', desc:'銜接英國 / 加拿大 / 澳洲碩士或大學申請：學校選校、文件準備、SOP 修改建議。', when:'依申請時程・另計顧問費' },
+    { icon:'💼', title:'外商 / 跨國求職輔導', desc:'外商面試英文模擬、跨國公司履歷修改、海外職場文化準備。對留學回來想轉外商的學員特別有幫助。', when:'依需求預約' },
+    { icon:'🤝', title:'校友與在地社群', desc:'回國後加入放洋校友群組（LINE / Discord），延續海外建立的人脈與資源。也可以幫之後出去的學弟妹分享經驗。', when:'長期・免費' },
+    { icon:'🔄', title:'下一趟出國規劃', desc:'語言學校只是起點。想接著去打工度假、念碩士、海外實習、海外就業，我們陪你規劃下一段。', when:'隨時諮詢' },
+  ];
+
+  const cards = services.map(s => `
+    <div class="return-card">
+      <div class="return-icon">${s.icon}</div>
+      <div class="return-title">${esc(s.title)}</div>
+      <div class="return-desc">${esc(s.desc)}</div>
+      <div class="return-when">${esc(s.when)}</div>
+    </div>
+  `).join('');
+
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">這 50 萬換回什麼</div>
+        <div class="sec-title">回國後，我們還在</div>
+        <div class="sec-sub">出國只是 12 週，回國的這幾年才是真正的 ROI。放洋的後續服務都包含在原本的代辦費內，不額外收費。</div>
+      </div>
+      <div class="advisor-only data-pending-note">⚠️ 後續服務內容為示範框架，實際範圍與時效由放洋顧問與學員另行確認</div>
+      <div class="return-grid">${cards}</div>
     </div>
   `;
 }
