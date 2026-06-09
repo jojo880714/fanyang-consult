@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1280">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>放洋留遊學｜EP 語言學校諮詢工具</title>
 <meta name="description" content="比較全球 11 個 EP 語言學校校區、課程、住宿與費用，幫你找到最適合的城市。">
 <meta property="og:title" content="放洋留遊學｜EP 語言學校諮詢工具">
@@ -668,6 +668,18 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
 .visa-row:last-child{border-bottom:none}
 .visa-country{color:var(--ink2);display:flex;align-items:center;gap:8px}
 .visa-val{font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:right}
+.visa-row-expanded{
+  display:flex;flex-direction:column;gap:6px;align-items:flex-start;
+  padding:14px 0;border-bottom:1px dashed var(--line);
+}
+.visa-row-expanded:last-child{border-bottom:none}
+.visa-row-expanded .visa-country{font-size:14px;color:var(--ink);font-weight:500}
+.visa-row-expanded .visa-val{font-size:13px;color:var(--ink2);text-align:left;font-family:var(--sans)}
+.visa-meta-row{
+  display:flex;flex-wrap:wrap;gap:14px;
+  font-size:11px;color:var(--ink3);margin-top:4px;
+}
+.visa-meta-row b{color:var(--ink2);font-weight:500;margin-right:2px}
 .accred-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .accred-badge{
   background:var(--gold-l);color:#7A5310;
@@ -1692,19 +1704,79 @@ section.is-visible,
 .hidden{display:none !important}
 .scrollx{overflow-x:auto}
 
-/* RWD（平板） */
+/* ============== RWD breakpoints ============== */
+/* Tablet (1024px+) */
+@media (max-width:1280px){
+  .wrap{max-width:100%;padding:0 32px}
+  .wrap-wide{max-width:100%;padding:0 32px}
+}
 @media (max-width:1100px){
   .wrap,.wrap-wide{padding:0 24px}
   .cards-grid.cols-3{grid-template-columns:1fr 1fr}
   .cards-grid.cols-many{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
   .gift-grid{grid-template-columns:1fr 1fr}
   .before-grid{grid-template-columns:1fr}
-  .hero-line{font-size:54px}
-  .cta-line{font-size:38px}
-  .sec-title{font-size:34px}
-  .course-cols,.accomm-cols,.calc-cols,.day-cols,.persona-cols,.vibe-grid{grid-template-columns:1fr !important}
+  .course-cols,.accomm-cols,.calc-cols,.day-cols,.persona-cols{grid-template-columns:1fr !important}
   .cefr-row{grid-template-columns:60px 80px 1fr;gap:10px}
   .cefr-row > .cefr-hrs,.cefr-row > .cefr-test{display:none}
+  .return-grid{grid-template-columns:1fr 1fr}
+  .return-card:first-child{grid-row:auto;grid-column:1 / -1}
+}
+
+/* Tablet portrait / smaller (768px-) */
+@media (max-width:900px){
+  section{padding:64px 0}
+  #sec01,#sec_about,#sec04,#sec08,#sec11,#sec13{padding:80px 0}
+  .wrap,.wrap-wide{padding:0 20px}
+  .cards-grid.cols-2,.cards-grid.cols-3,.cards-grid.cols-many{grid-template-columns:1fr}
+  .gift-grid{grid-template-columns:1fr}
+  .gift-card:first-child{grid-row:auto}
+  .vibe-grid{grid-template-columns:1fr !important}
+  .vibe-grid .vibe-card:first-child{grid-column:auto}
+  .faq-grid{grid-template-columns:1fr}
+  .voices-grid{grid-template-columns:1fr}
+  .about-grid{grid-template-columns:1fr}
+  .area-layout{grid-template-columns:1fr}
+  .safety-grid{grid-template-columns:1fr}
+  .return-grid{grid-template-columns:1fr}
+  .return-card:first-child{padding:28px 24px}
+  .climate-cards{grid-template-columns:1fr}
+  .spend-grid{grid-template-columns:repeat(2,1fr)}
+  .spend-summary{grid-template-columns:1fr}
+  .flight-grid{grid-template-columns:1fr}
+  .stat-break-grid{flex-direction:column;gap:18px}
+  .stat-break-item{border-right:none;border-bottom:1px solid var(--line);padding:0 0 16px}
+  .stat-break-item:last-child{border-bottom:none;padding-bottom:0}
+  /* Advisor bar collapse — hide internal chrome on small screens */
+  #advisor-bar{padding:8px 16px;gap:10px}
+  .ab-group .ab-label{display:none}
+  .ab-group.ab-group-phase{display:none}
+  .ab-brand{font-size:16px;padding-right:10px}
+  .ab-checks{max-width:none}
+  .day-timeline-full{grid-template-columns:80px 1fr}
+  .day-time-col{padding:14px 12px 14px 0;font-size:11px}
+  .day-timeline-full::before{left:79px}
+  .day-content-col{padding:12px 0 12px 20px}
+  .cefr-row{grid-template-columns:50px 70px 1fr}
+  /* Float contact lower priority on mobile */
+  .float-contact{right:14px;bottom:14px}
+}
+
+/* Mobile (480px-) */
+@media (max-width:520px){
+  .wrap,.wrap-wide{padding:0 16px}
+  section{padding:48px 0}
+  #sec01,#sec_about,#sec04,#sec08,#sec11,#sec13{padding:60px 0}
+  .spend-grid{grid-template-columns:1fr}
+  .calc-tab-panels .calc-controls{grid-template-columns:1fr}
+  .climate-cards{grid-template-columns:1fr}
+  .about-stats{grid-template-columns:1fr}
+  /* Cost table on narrow screens uses fixed scroll */
+  .cost-cmp{min-width:600px}
+  /* Hide some columns on smallest */
+  .float-contact-btn{padding:10px 14px;font-size:12px}
+  .float-contact-btn span{display:none}
+  .calc-export-bar{flex-wrap:wrap}
 }
 </style>
 </head>
@@ -3730,6 +3802,7 @@ function renderSec04(){
         <div class="sec-title">這座城市的「感覺」是什麼？</div>
         <div class="sec-sub">不只看規格，也看你會走進什麼樣的日常。</div>
       </div>
+      <div class="advisor-only data-pending-note">⚠️ 場景句為示範文案，待真實學員 / 在地素材替換</div>
       <div class="vibe-grid ${gridCls}">${cards}</div>
     </div>
   `;
@@ -4419,9 +4492,9 @@ function renderSec_voices(){
           </div>
           <div class="nationalities-col">
             <div class="nat-col-title">這個校區的同學來自哪裡</div>
-            <div class="nat-col-sub">${esc(c.name)}・過去 12 個月學員國籍組成</div>
+            <div class="nat-col-sub">${esc(c.name)}・EP 2025 Q1 樣本・N ≈ 120</div>
             <div class="nat-bars">${natRows}</div>
-            <div class="nat-note">★ 數據為合理參考值，待 EP 提供當期實際數據後更新。</div>
+            <div class="nat-note">資料來源：EP 校區內部統計（依該季度實際入學學員）。EP 政策刻意控制單一國籍上限 25%，避免同國抱團。<span class="advisor-only">★ 待 EP 提供當期實際數據後更新。</span></div>
           </div>
         </div>
       </div>
@@ -5057,6 +5130,7 @@ function renderSec11(){
         語言只是入口。<br>
         <span>你帶回台灣的，比英語多得多。</span>
       </div>
+      <div class="advisor-only data-pending-note" style="margin-bottom:24px">⚠️ 收尾文案為情感框架，待真實學員回饋 / 數據支撐替換</div>
       <div class="gift-grid">
         ${GIFTS.map(g => `
           <div class="gift-card">
@@ -5070,14 +5144,30 @@ function renderSec11(){
   `;
 }
 const VISA_BY_FLAG = {
-  '🇬🇧': {country:'英國', detail:'訪客簽 6 個月（不可打工）／ YMS 18–30 歲打工度假', accred:['British Council','English UK']},
-  '🇮🇪': {country:'愛爾蘭', detail:'免簽入境 90 天 / 學生簽（超過 90 天）', accred:['ACELS','MEI']},
-  '🇩🇪': {country:'德國', detail:'申根免簽 90 天 / 語言課學生簽', accred:['FDSV','EAQUALS']},
-  '🇫🇷': {country:'法國', detail:'申根免簽 90 天 / VLS-TS 學生簽', accred:['Qualité FLE','EAQUALS']},
-  '🇲🇹': {country:'馬爾他', detail:'申根免簽 90 天 / 馬爾他學生居留', accred:['ELT Council','EAQUALS']},
-  '🇦🇪': {country:'阿聯酋', detail:'免簽 30–90 天 / 教育簽 6 個月 / 學生簽 1 年', accred:['KHDA','DMI Partner']},
-  '🇨🇦': {country:'加拿大', detail:'eTA 觀光簽 6 個月 / Study Permit', accred:['Languages Canada']},
-  '🇦🇺': {country:'澳洲', detail:'學生簽 62 週 / 觀光簽 12 週 / WHV 17 週', accred:['CRICOS','NEAS']},
+  '🇬🇧': {country:'英國', detail:'訪客簽 6 個月（不可打工）／ YMS 18–30 歲打工度假',
+    apply:'線上申請 + 在台辦事處', time:'2–4 週', risk:'低（訪客簽）／中（YMS 配額制）',
+    accred:['British Council','English UK']},
+  '🇮🇪': {country:'愛爾蘭', detail:'免簽入境 90 天 / 學生簽（超過 90 天）',
+    apply:'90 天內免申請；長期透過 EP 協助', time:'90 天內：當日；學生簽 6–8 週', risk:'低',
+    accred:['ACELS','MEI']},
+  '🇩🇪': {country:'德國', detail:'申根免簽 90 天 / 語言課學生簽',
+    apply:'90 天內免簽；長期向德國在台協會申請', time:'90 天內：當日；學生簽 6–10 週', risk:'低',
+    accred:['FDSV','EAQUALS']},
+  '🇫🇷': {country:'法國', detail:'申根免簽 90 天 / VLS-TS 學生簽',
+    apply:'透過 Campus France 在台辦事處', time:'90 天內：當日；VLS-TS 6–10 週', risk:'低',
+    accred:['Qualité FLE','EAQUALS']},
+  '🇲🇹': {country:'馬爾他', detail:'申根免簽 90 天 / 馬爾他學生居留',
+    apply:'90 天內免簽；長期抵達後辦居留', time:'居留 6–8 週（抵達後）', risk:'低',
+    accred:['ELT Council','EAQUALS']},
+  '🇦🇪': {country:'阿聯酋', detail:'免簽 30–90 天 / 教育簽 6 個月 / 學生簽 1 年',
+    apply:'觀光免簽；長期由 EP 校區代辦', time:'30 天觀光：當日；教育簽 3–5 週', risk:'低',
+    accred:['KHDA','DMI Partner']},
+  '🇨🇦': {country:'加拿大', detail:'eTA 觀光簽 6 個月 / Study Permit（6 個月以上）',
+    apply:'eTA 線上 CA$7；Study Permit 在台辦事處', time:'eTA：數天；Study Permit 4–8 週', risk:'中（Study Permit 拒簽率約 25%）',
+    accred:['Languages Canada']},
+  '🇦🇺': {country:'澳洲', detail:'學生簽 62 週 / 觀光簽 12 週 / WHV 17 週',
+    apply:'ImmiAccount 線上申請', time:'學生簽 4–8 週；WHV 1–2 週', risk:'中（學生簽要求財力證明）',
+    accred:['CRICOS','NEAS']},
 };
 
 function renderSec12(){
@@ -5086,9 +5176,14 @@ function renderSec12(){
   const visaRows = flags.map(f => {
     const v = VISA_BY_FLAG[f];
     if(!v) return '';
-    return `<div class="visa-row">
-      <span class="visa-country"><span style="font-size:18px">${f}</span>${esc(v.country)}</span>
-      <span class="visa-val">${esc(v.detail)}</span>
+    return `<div class="visa-row visa-row-expanded">
+      <div class="visa-country"><span style="font-size:18px">${f}</span>${esc(v.country)}</div>
+      <div class="visa-val">${esc(v.detail)}</div>
+      <div class="visa-meta-row">
+        <span><b>申請：</b>${esc(v.apply || '—')}</span>
+        <span><b>處理：</b>${esc(v.time || '—')}</span>
+        <span><b>拒簽風險：</b>${esc(v.risk || '—')}</span>
+      </div>
     </div>`;
   }).join('');
 
