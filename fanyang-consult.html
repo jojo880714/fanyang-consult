@@ -4345,8 +4345,8 @@ function renderSec_costfull(){
     const [viLo, viHi] = c.costExtras.visa;
     const [inLo, inHi] = c.costExtras.insurance;
 
-    const totalLo = tuTwdLo + acTwdLo + liTwdLo + feesTwd + flLo + viLo + inLo;
-    const totalHi = tuTwdHi + acTwdHi + liTwdHi + feesTwd + flHi + viHi + inHi;
+    const totalLo = tuTwdLo + acTwdLo + liTwdLo + flLo + viLo + inLo;
+    const totalHi = tuTwdHi + acTwdHi + liTwdHi + flHi + viHi + inHi;
 
     return {
       c, tuLo, tuHi, acLo, acHi, liLo, liHi, feesTotal,
@@ -4375,8 +4375,6 @@ function renderSec_costfull(){
     buildRow('📄', '簽證費', x => `<span class="cost-cell-twd">${x.viLo===0 && x.viHi===0 ? '免費' : fmtRange(x.viLo, x.viHi)}</span><span class="cost-cell-note">${esc(x.c.costExtras.visaNote)}</span>`),
     buildRow('🛡️', '學生保險（校方）', x => `<span class="cost-cell-twd">${fmtRange(x.inLo, x.inHi)}</span><span class="cost-cell-note">${w} 週</span>`),
     buildRow('🍜', '生活費（1 個月）', x => `<span class="cost-cell-twd">${fmtRange(x.liTwdLo, x.liTwdHi)}</span><span class="cost-cell-raw">${x.c.cur}${x.liLo.toLocaleString()}–${x.liHi.toLocaleString()}</span>`),
-    buildRow('📑', '報名+材料+電匯', x => `<span class="cost-cell-twd">${fmtRange(x.feesTwd, x.feesTwd)}</span><span class="cost-cell-raw">${x.c.cur}${x.feesTotal}</span>`),
-    buildRow('🛡️', '放洋代辦服務費', x => `<span class="advisor-only" style="color:var(--gold);font-family:var(--mono);font-size:11px">待業主提供</span><span class="demo-only cost-cell-twd">含於報價單</span>`),
     buildRow('＝', '預估總計（4 週）', x => `<span class="cost-cell-twd">${fmtRange(x.totalLo, x.totalHi)}</span>`, true),
   ].join('');
 
@@ -4627,7 +4625,7 @@ function renderSec_return(){
       <div class="sec-h">
         <div class="sec-eyebrow">這 50 萬換回什麼</div>
         <div class="sec-title">回國後，我們還在</div>
-        <div class="sec-sub">出國只是 12 週，回國的這幾年才是真正的 ROI。放洋的後續服務都包含在原本的代辦費內，不額外收費。</div>
+        <div class="sec-sub">出國只是 12 週，回國的這幾年才是真正的 ROI。放洋的後續服務內容待業主提供正式版後更新。</div>
       </div>
       <div class="advisor-only data-pending-note">⚠️ 後續服務內容為示範框架，實際範圍與時效由放洋顧問與學員另行確認</div>
       <div class="return-grid">${cards}</div>
