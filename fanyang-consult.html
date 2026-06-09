@@ -715,6 +715,36 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
 
 /* ============== Refactor v2 — new modules ============== */
 
+/* Tab / spread mode toggle (shared across all tabbed sections) */
+.tabs-mode-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;gap:14px;flex-wrap:wrap;
+}
+.tabs-mode-switch{
+  display:inline-flex;background:var(--sur2);
+  border-radius:var(--r-sm);padding:3px;gap:2px;
+}
+.tabs-mode-switch button{
+  background:transparent;color:var(--ink3);
+  padding:5px 12px;border-radius:var(--r-sm);
+  font-size:11px;font-family:var(--sans);
+  display:inline-flex;align-items:center;gap:5px;
+  cursor:pointer;border:none;transition:all .15s;
+}
+.tabs-mode-switch button.is-on{background:var(--sur);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,0.06)}
+.tabs-mode-switch button:active{transform:scale(0.97)}
+.tabs-mode-switch .lc{color:currentColor}
+.spread-mode .content-tabs{display:none}
+.spread-mode .tab-panel{display:block !important;margin-bottom:24px}
+.spread-mode .tab-panel:last-child{margin-bottom:0}
+.spread-mode .tab-panel::before{
+  content:attr(data-spread-label);
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--display);font-size:18px;font-weight:600;
+  color:var(--ink);margin-bottom:12px;
+  padding-bottom:8px;border-bottom:1px solid var(--line);
+}
+
 /* Generic content tabs (sec05/06/area/climate/spend) */
 .content-tabs{
   display:flex;gap:6px;margin-bottom:24px;
@@ -1235,40 +1265,95 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
   border-radius:var(--r-sm);line-height:1.5;
 }
 
-/* ============== Section sec_costfull — 完整費用總表 ============== */
-.cost-tabs-panels{
+/* ============== Section sec_costfull — 完整費用並排表 ============== */
+.cost-cmp-wrap{
   background:var(--sur);border:1px solid var(--line);
-  border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);
-  padding:24px;
+  border-radius:var(--r-lg);overflow:hidden;
 }
-.cost-table{
-  width:100%;border-collapse:collapse;font-size:13px;
+.cost-cmp-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cost-cmp{
+  width:100%;border-collapse:collapse;font-size:13px;min-width:760px;
 }
-.cost-table tr{border-bottom:1px solid var(--line)}
-.cost-table tr:last-child{border-bottom:none}
-.cost-table td{padding:11px 4px;vertical-align:middle}
-.cost-table .ct-label{
-  color:var(--ink2);width:38%;
-  display:flex;align-items:center;gap:8px;
+.cost-cmp th,.cost-cmp td{
+  padding:12px 16px;text-align:left;vertical-align:middle;
+  border-bottom:1px solid var(--line);
 }
-.cost-table .ct-icon{font-size:16px;flex-shrink:0;width:22px;text-align:center}
-.cost-table .ct-raw{
-  font-family:var(--mono);font-size:12px;color:var(--ink3);text-align:right;width:28%;
+.cost-cmp thead th{
+  background:var(--sur2);font-weight:500;font-size:13px;
+  border-bottom:1px solid var(--line2);white-space:nowrap;
 }
-.cost-table .ct-twd{
-  font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500;
-  text-align:right;width:34%;
+.cost-cmp thead th.cost-col{text-align:right}
+.cost-cmp thead th .ch-flag{font-size:18px;margin-right:6px}
+.cost-cmp tbody tr:last-child td{border-bottom:none}
+.cost-cmp tbody tr.cost-total-row{background:var(--sur2)}
+.cost-cmp tbody tr.cost-total-row td{font-weight:700;padding:18px 16px}
+.cost-cmp .cost-row-label{
+  position:sticky;left:0;background:var(--sur);z-index:2;
+  color:var(--ink3);font-size:12px;letter-spacing:0.04em;
+  display:flex;align-items:center;gap:8px;min-width:160px;
+  border-right:1px solid var(--line);
 }
-.cost-table tr.ct-total{background:var(--sur2);font-weight:500}
-.cost-table tr.ct-total td{padding:16px 8px;color:var(--ink)}
-.cost-table tr.ct-total .ct-label{color:var(--ink);font-weight:700}
-.cost-table tr.ct-total .ct-twd{font-size:17px;color:var(--ink);font-weight:700}
+.cost-cmp tbody tr.cost-total-row .cost-row-label{background:var(--sur2);color:var(--ink)}
+.cost-cmp thead th.cost-row-label-head{
+  background:var(--sur2);min-width:160px;color:var(--ink3);
+  font-size:11px;text-transform:uppercase;letter-spacing:0.06em;
+  border-right:1px solid var(--line);
+}
+.cost-cell{text-align:right;min-width:140px}
+.cost-cell-raw{font-family:var(--mono);font-size:11px;color:var(--ink4);display:block;margin-top:2px}
+.cost-cell-twd{font-family:var(--mono);font-size:13px;color:var(--ink);font-weight:500}
+.cost-cell-note{font-size:10px;color:var(--ink4);display:block;margin-top:2px}
+.cost-cmp tbody tr.cost-total-row .cost-cell-twd{font-size:16px;color:var(--ink)}
 .cost-note{
-  background:var(--gold-l);border:1px solid rgba(196,137,60,0.25);
-  border-radius:var(--r-sm);padding:10px 14px;margin-top:14px;
+  background:var(--sur2);border:1px solid var(--line);
+  border-radius:var(--r-sm);padding:12px 16px;margin-top:14px;
   font-size:12px;color:var(--ink3);line-height:1.7;
 }
 .cost-note b{color:var(--ink2)}
+.next-dates-bar{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;align-items:center;
+  font-size:12px;color:var(--ink3);
+}
+.next-dates-bar strong{color:var(--ink);font-weight:500}
+.next-dates-bar .nd-pill{
+  font-family:var(--mono);background:var(--sur2);
+  padding:4px 10px;border-radius:var(--r-sm);
+  color:var(--ink2);
+}
+
+/* Calc export buttons */
+.calc-export-bar{
+  display:flex;gap:8px;margin-top:14px;justify-content:flex-end;
+}
+.calc-export-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--sur2);color:var(--ink2);border:1px solid var(--line);
+  padding:8px 14px;border-radius:var(--r-sm);
+  font-size:12px;font-family:var(--sans);cursor:pointer;
+  transition:all .15s;
+}
+.calc-export-btn:hover{background:var(--sur);border-color:var(--line2)}
+.calc-export-btn:active{transform:scale(0.97)}
+.calc-export-btn .lc{color:var(--ink3)}
+.calc-export-toast{
+  position:fixed;bottom:80px;right:24px;
+  background:var(--ink);color:#fff;
+  padding:12px 18px;border-radius:var(--r-sm);
+  font-size:13px;z-index:70;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+  opacity:0;transform:translateY(8px);
+  transition:opacity .25s,transform .25s;
+  pointer-events:none;
+}
+.calc-export-toast.is-show{opacity:1;transform:translateY(0)}
+
+@media print{
+  #advisor-bar,.float-contact,#sec01,#sec_about,#sec_photos,#sec_area,#sec_climate,#sec_spend,
+  #sec_flight,#sec08,#sec_voices,#sec09,#sec10,#sec11,#sec_safety,#sec_return,#sec_faq,
+  #sec13,.section-break,.stat-break,.calc-export-bar,.advisor-only,.empty-state{display:none !important}
+  body{background:#fff}
+  section{padding:24px 0;opacity:1;transform:none}
+}
 
 /* ============== Section sec_voices — 學員見證 + 國籍比例 ============== */
 .voices-grid{
@@ -3661,7 +3746,7 @@ function renderSec05(){
     </button>
   `).join('');
   const panels = arr.map((c, i) => `
-    <div class="tab-panel ${i===0?'is-on':''}" id="course-${c.key}">
+    <div class="tab-panel ${i===0?'is-on':''}" id="course-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
       <div class="course-compact-grid">
         ${c.courses.map(cr => `
           <div class="course-compact ${cr.sp?'is-special':''}">
@@ -3685,9 +3770,9 @@ function renderSec05(){
       <div class="sec-h">
         <div class="sec-eyebrow">你要上的課</div>
         <div class="sec-title">課程方案</div>
-        <div class="sec-sub">點選校區查看課程選項，★ 為特色課程。</div>
+        <div class="sec-sub">點選校區查看課程選項。「並排」可一次看全部校區。</div>
       </div>
-      <div class="content-tabs">${tabs}</div>
+      ${tabsModeBar('sec05', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
   `;
@@ -3701,6 +3786,29 @@ function switchTab(group, key){
   document.getElementById(`${group}-${key}`)?.classList.add('is-on');
 }
 window.switchTab = switchTab;
+
+/* Tab / spread mode toggle (per-section state) */
+function tabsModeBar(sectionId, tabsHTML){
+  // 提供「並排檢視 / 標籤切換」切換條，配合 .spread-mode 父類別
+  return `
+    <div class="tabs-mode-bar">
+      <div>${tabsHTML}</div>
+      <div class="tabs-mode-switch" data-target="${sectionId}">
+        <button class="is-on" onclick="setTabsMode('${sectionId}','tab')">${icon('compass','12')}<span>標籤</span></button>
+        <button onclick="setTabsMode('${sectionId}','spread')">${icon('library','12')}<span>並排</span></button>
+      </div>
+    </div>
+  `;
+}
+function setTabsMode(sectionId, mode){
+  const sec = document.getElementById(sectionId);
+  if(!sec) return;
+  sec.classList.toggle('spread-mode', mode === 'spread');
+  sec.querySelectorAll(`.tabs-mode-switch[data-target="${sectionId}"] button`).forEach((b, i) => {
+    b.classList.toggle('is-on', (i === 0 && mode === 'tab') || (i === 1 && mode === 'spread'));
+  });
+}
+window.setTabsMode = setTabsMode;
 
 function toggleCourseDetail(btn){
   const detail = btn.closest('.course-compact').querySelector('.cc-detail');
@@ -3725,7 +3833,7 @@ function renderSec06(){
   const panels = arr.map((c, i) => {
     const twd = Math.round(c.accommFrom * (State.rates[c.cur]||30) / 1000) * 1000;
     return `
-    <div class="tab-panel ${i===0?'is-on':''}" id="accomm-${c.key}">
+    <div class="tab-panel ${i===0?'is-on':''}" id="accomm-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
       <div class="accomm-compact-grid">
         ${c.accomm.map(a => `
           <div class="accomm-compact">
@@ -3751,9 +3859,9 @@ function renderSec06(){
       <div class="sec-h">
         <div class="sec-eyebrow">你要住的地方</div>
         <div class="sec-title">住宿選項</div>
-        <div class="sec-sub">點選校區查看住宿方案，價格為週費參考起價。寄宿家庭沉浸效果最強，學生宿舍社交最佳，公寓最自由。</div>
+        <div class="sec-sub">點選校區查看住宿方案，價格為週費參考起價。「並排」可一次比較全部。</div>
       </div>
-      <div class="content-tabs">${tabs}</div>
+      ${tabsModeBar('sec06', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
   `;
@@ -3773,7 +3881,7 @@ function renderSec_area(){
 
   const panels = arr.map((c, i) => {
     const area = c.area;
-    if(!area) return `<div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+    if(!area) return `<div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
 
     const walkItems = area.walk.map(w => `
       <div class="walk-item">
@@ -3803,7 +3911,7 @@ function renderSec_area(){
     `).join('');
 
     return `
-      <div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}">
+      <div class="tab-panel ${i===0?'is-on':''}" id="area-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
         <div class="area-layout">
           <div class="area-left">
             <div class="area-block">
@@ -3832,7 +3940,7 @@ function renderSec_area(){
         <div class="sec-title">校區周邊</div>
         <div class="sec-sub">出了校門，你的生活就在這裡展開。</div>
       </div>
-      <div class="content-tabs">${tabs}</div>
+      ${tabsModeBar('sec_area', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
   `;
@@ -3855,7 +3963,7 @@ function renderSec_climate(){
 
   const panels = arr.map((c, i) => {
     const cl = c.climate;
-    if(!cl) return `<div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+    if(!cl) return `<div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
 
     const monthBars = cl.months.map((m, idx) => {
       const isBest = cl.best.includes(idx);
@@ -3875,7 +3983,7 @@ function renderSec_climate(){
     }).join('');
 
     return `
-      <div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}">
+      <div class="tab-panel ${i===0?'is-on':''}" id="climate-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
         <div class="climate-chart">${monthBars}</div>
         <div class="climate-legend">
           <span class="cli-leg"><span class="best-dot"></span>最推薦出發月份</span>
@@ -3904,9 +4012,9 @@ function renderSec_climate(){
       <div class="sec-h">
         <div class="sec-eyebrow">幾月去最好？</div>
         <div class="sec-title">氣候與最佳出發時機</div>
-        <div class="sec-sub">不同季節去同一個城市，體驗差很多。這裡告訴你最值得去的時候。</div>
+        <div class="sec-sub">不同季節去同一個城市，體驗差很多。「並排」可同時比較全部校區的氣候曲線。</div>
       </div>
-      <div class="content-tabs">${tabs}</div>
+      ${tabsModeBar('sec_climate', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
   `;
@@ -3927,7 +4035,7 @@ function renderSec_spend(){
 
   const panels = arr.map((c, i) => {
     const sp = c.spend;
-    if(!sp) return `<div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
+    if(!sp) return `<div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}"><p style="color:var(--ink3);padding:20px">資料準備中</p></div>`;
 
     const items = sp.items.map(it => `
       <div class="spend-item">
@@ -3939,7 +4047,7 @@ function renderSec_spend(){
     `).join('');
 
     return `
-      <div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}">
+      <div class="tab-panel ${i===0?'is-on':''}" id="spend-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
         <div class="spend-grid">${items}</div>
         <div class="spend-summary">
           <div>
@@ -3961,9 +4069,9 @@ function renderSec_spend(){
       <div class="sec-h">
         <div class="sec-eyebrow">錢夠用嗎？</div>
         <div class="sec-title">在那裡的消費感受</div>
-        <div class="sec-sub">數字是死的，感覺是活的。這些日常消費讓你真正感受當地物價。</div>
+        <div class="sec-sub">數字是死的，感覺是活的。這些日常消費讓你真正感受當地物價。「並排」可比較多校區。</div>
       </div>
-      <div class="content-tabs">${tabs}</div>
+      ${tabsModeBar('sec_spend', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
   `;
@@ -4148,7 +4256,7 @@ function renderSec_faq(){
   `;
 }
 
-/* ---------- Section sec_costfull — 完整費用總表 ---------- */
+/* ---------- Section sec_costfull — 完整費用並排表 ---------- */
 function renderSec_costfull(){
   const arr = visibleCampuses();
   const sec = document.getElementById('sec_costfull');
@@ -4160,14 +4268,8 @@ function renderSec_costfull(){
     ? `NT$${lo.toLocaleString()}`
     : `NT$${lo.toLocaleString()}–${hi.toLocaleString()}`;
 
-  const tabs = arr.map((c, i) => `
-    <button class="content-tab ${i===0?'is-on':''}" data-tab="cost-${c.key}"
-            onclick="switchTab('cost','${c.key}')">
-      <span>${c.flag}</span>${esc(c.name)}
-    </button>
-  `).join('');
-
-  const panels = arr.map((c, i) => {
+  // 計算每個校區的所有 cost line items
+  const costs = arr.map(c => {
     const rate = State.rates[c.cur] || 30;
     // 學費（用 courseFrom 估低；hi 用 courseFrom×1.7 估範圍上緣）
     const tuLo = c.courseFrom * w;
@@ -4200,62 +4302,42 @@ function renderSec_costfull(){
     const totalLo = tuTwdLo + acTwdLo + liTwdLo + feesTwd + flLo + viLo + inLo;
     const totalHi = tuTwdHi + acTwdHi + liTwdHi + feesTwd + flHi + viHi + inHi;
 
-    return `
-      <div class="tab-panel ${i===0?'is-on':''}" id="cost-${c.key}">
-        <table class="cost-table">
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('🎓','16')}</span>學費（${w} 週）</td>
-            <td class="ct-raw">${c.cur}${tuLo.toLocaleString()}–${tuHi.toLocaleString()}</td>
-            <td class="ct-twd">${fmtRange(tuTwdLo, tuTwdHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('🏠','16')}</span>住宿費（${w} 週）</td>
-            <td class="ct-raw">${c.cur}${acLo.toLocaleString()}–${acHi.toLocaleString()}</td>
-            <td class="ct-twd">${fmtRange(acTwdLo, acTwdHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('✈️','16')}</span>來回機票</td>
-            <td class="ct-raw">—</td>
-            <td class="ct-twd">${fmtRange(flLo, flHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('📄','16')}</span>簽證費</td>
-            <td class="ct-raw" style="font-size:10px">${esc(c.costExtras.visaNote)}</td>
-            <td class="ct-twd">${viLo===0 && viHi===0 ? '免費' : fmtRange(viLo, viHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('🛡️','16')}</span>學生保險（校方安排）</td>
-            <td class="ct-raw" style="font-size:10px">${w} 週估算</td>
-            <td class="ct-twd">${fmtRange(inLo, inHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('🍜','16')}</span>生活費（1 個月）</td>
-            <td class="ct-raw">${c.cur}${liLo.toLocaleString()}–${liHi.toLocaleString()}</td>
-            <td class="ct-twd">${fmtRange(liTwdLo, liTwdHi)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('📑','16')}</span>報名 + 材料 + 電匯</td>
-            <td class="ct-raw">${c.cur}${feesTotal}</td>
-            <td class="ct-twd">${fmtRange(feesTwd, feesTwd)}</td>
-          </tr>
-          <tr>
-            <td class="ct-label"><span class="ct-icon">${iconHTML('🛡️','16')}</span>放洋代辦服務費</td>
-            <td class="ct-raw" style="font-size:10px">單一固定報價</td>
-            <td class="ct-twd"><span class="advisor-only" style="color:var(--gold);font-family:var(--mono);font-size:11px">待業主提供</span><span class="demo-only" style="font-family:var(--mono);font-size:13px">含於最終報價單</span></td>
-          </tr>
-          <tr class="ct-total">
-            <td class="ct-label"><span class="ct-icon">＝</span>預估總計（4 週）</td>
-            <td class="ct-raw" style="font-size:10px">含代辦費</td>
-            <td class="ct-twd">${fmtRange(totalLo, totalHi)}</td>
-          </tr>
-        </table>
-        <div class="cost-note">
-          <b>＊ 為什麼是範圍？</b>學費依課程強度（標準 / 密集 / 超密集）有差，住宿依房型有差，機票淡旺季差很多。<br>
-          <b>＊ 不含的項目</b>：個人加購保險、英文檢定考試費、出國前體檢、額外旅行費。<br>
-          <b>＊ 本表為 4 週基準</b>，較長修讀請以週數換算（學費 / 住宿 / 保險 / 生活費 × 週數倍率）。
-        </div>
-      </div>
-    `;
+    return {
+      c, tuLo, tuHi, acLo, acHi, liLo, liHi, feesTotal,
+      tuTwdLo, tuTwdHi, acTwdLo, acTwdHi, liTwdLo, liTwdHi, feesTwd,
+      flLo, flHi, viLo, viHi, inLo, inHi, totalLo, totalHi,
+    };
+  });
+
+  const headRow = `<tr>
+    <th class="cost-row-label-head">項目</th>
+    ${costs.map(x => `<th class="cost-col"><span class="ch-flag">${x.c.flag}</span>${esc(x.c.name)}</th>`).join('')}
+  </tr>`;
+
+  // 每個 row 是一個 cost item
+  const buildRow = (icon, label, getCell, totalRow) => `
+    <tr${totalRow?' class="cost-total-row"':''}>
+      <td class="cost-row-label">${iconHTML(icon,'14')}${esc(label)}</td>
+      ${costs.map(x => `<td class="cost-cell">${getCell(x)}</td>`).join('')}
+    </tr>
+  `;
+
+  const rows = [
+    buildRow('🎓', `學費（${w} 週）`, x => `<span class="cost-cell-twd">${fmtRange(x.tuTwdLo, x.tuTwdHi)}</span><span class="cost-cell-raw">${x.c.cur}${x.tuLo.toLocaleString()}–${x.tuHi.toLocaleString()}</span>`),
+    buildRow('🏠', `住宿費（${w} 週）`, x => `<span class="cost-cell-twd">${fmtRange(x.acTwdLo, x.acTwdHi)}</span><span class="cost-cell-raw">${x.c.cur}${x.acLo.toLocaleString()}–${x.acHi.toLocaleString()}</span>`),
+    buildRow('✈️', '來回機票', x => `<span class="cost-cell-twd">${fmtRange(x.flLo, x.flHi)}</span>`),
+    buildRow('📄', '簽證費', x => `<span class="cost-cell-twd">${x.viLo===0 && x.viHi===0 ? '免費' : fmtRange(x.viLo, x.viHi)}</span><span class="cost-cell-note">${esc(x.c.costExtras.visaNote)}</span>`),
+    buildRow('🛡️', '學生保險（校方）', x => `<span class="cost-cell-twd">${fmtRange(x.inLo, x.inHi)}</span><span class="cost-cell-note">${w} 週</span>`),
+    buildRow('🍜', '生活費（1 個月）', x => `<span class="cost-cell-twd">${fmtRange(x.liTwdLo, x.liTwdHi)}</span><span class="cost-cell-raw">${x.c.cur}${x.liLo.toLocaleString()}–${x.liHi.toLocaleString()}</span>`),
+    buildRow('📑', '報名+材料+電匯', x => `<span class="cost-cell-twd">${fmtRange(x.feesTwd, x.feesTwd)}</span><span class="cost-cell-raw">${x.c.cur}${x.feesTotal}</span>`),
+    buildRow('🛡️', '放洋代辦服務費', x => `<span class="advisor-only" style="color:var(--gold);font-family:var(--mono);font-size:11px">待業主提供</span><span class="demo-only cost-cell-twd">含於報價單</span>`),
+    buildRow('＝', '預估總計（4 週）', x => `<span class="cost-cell-twd">${fmtRange(x.totalLo, x.totalHi)}</span>`, true),
+  ].join('');
+
+  // 開課日（advisor-only placeholder until業主提供）
+  const datesByCampus = costs.map(x => {
+    const dates = x.c.nextDates || ['2026/01/12','2026/02/09','2026/03/09'];
+    return `<span><strong>${x.c.flag} ${esc(x.c.name)}</strong>：${dates.map(d => `<span class="nd-pill">${esc(d)}</span>`).join('')}</span>`;
   }).join('');
 
   sec.innerHTML = `
@@ -4263,10 +4345,25 @@ function renderSec_costfull(){
       <div class="sec-h">
         <div class="sec-eyebrow">給家長帶回家看的版本</div>
         <div class="sec-title">這趟出國，你大概會花多少</div>
-        <div class="sec-sub">把學費、住宿、機票、簽證、保險、生活費和雜費都列出來，台幣呈現一個合理範圍。</div>
+        <div class="sec-sub">所有費用項目並排呈現，台幣範圍一眼看完。</div>
       </div>
-      <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
-      <div class="tab-panels cost-tabs-panels">${panels}</div>
+      <div class="cost-cmp-wrap">
+        <div class="cost-cmp-scroll">
+          <table class="cost-cmp">
+            <thead>${headRow}</thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+      <div class="next-dates-bar">
+        <span class="advisor-only data-pending-note">⚠️ 開課日為示範，待 EP 提供 2026 全年行事曆後更新</span>
+        <strong>📅 最近開課日：</strong>${datesByCampus}
+      </div>
+      <div class="cost-note">
+        <b>＊ 為什麼是範圍？</b>學費依課程強度（標準 / 密集 / 超密集）有差，住宿依房型有差，機票淡旺季差很多。<br>
+        <b>＊ 不含的項目</b>：個人加購保險、英文檢定考試費、出國前體檢、額外旅行費。<br>
+        <b>＊ 本表為 4 週基準</b>，較長修讀請以週數換算（學費 / 住宿 / 保險 / 生活費 × 週數倍率）。
+      </div>
     </div>
   `;
 }
@@ -4314,7 +4411,7 @@ function renderSec_voices(){
     `).join('');
 
     return `
-      <div class="tab-panel ${i===0?'is-on':''}" id="voices-${c.key}">
+      <div class="tab-panel ${i===0?'is-on':''}" id="voices-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
         <div class="voices-grid">
           <div class="testimonials-col">
             <div class="advisor-only data-pending-note">⚠️ 學員見證為示範文案，待補實際學員資料</div>
@@ -4338,7 +4435,7 @@ function renderSec_voices(){
         <div class="sec-title">真實學員怎麼說，班上都是誰</div>
         <div class="sec-sub">過來人的話 + 班級國籍組成，幫你回答「我會不會班上都是台灣人」這個問題。</div>
       </div>
-      <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
+      ${tabsModeBar('sec_voices', `<div class="content-tabs" style="margin-bottom:0">${tabs}</div>`)}
       <div class="tab-panels" style="background:var(--sur);border:1px solid var(--line);border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);padding:24px">
         ${panels}
       </div>
@@ -4552,7 +4649,7 @@ function renderSec07(){
   `).join('');
 
   const panels = arr.map((c, i) => `
-    <div class="tab-panel ${i===0?'is-on':''}" id="calc-${c.key}">
+    <div class="tab-panel ${i===0?'is-on':''}" id="calc-${c.key}" data-spread-label="${c.flag} ${esc(c.name)}">
       ${calcCardHTML(c)}
     </div>
   `).join('');
@@ -4583,6 +4680,12 @@ function renderSec07(){
       <div class="content-tabs" style="margin-bottom:0">${tabs}</div>
       <div class="tab-panels calc-tab-panels">${panels}</div>
 
+      <div class="calc-export-bar">
+        <button class="calc-export-btn" onclick="copyCalcResult()">${icon('copy','14')}<span>複製明細</span></button>
+        <button class="calc-export-btn" onclick="copyCalcLink()">${icon('link','14')}<span>複製連結</span></button>
+        <button class="calc-export-btn" onclick="window.print()">${icon('printer','14')}<span>列印</span></button>
+      </div>
+
       <div class="calc-rate-note" style="margin-top:12px">
         匯率參考：${rateRows.map(r => `${r.sym} 1 ≈ TWD ${r.rate}`).join('・')}
       </div>
@@ -4600,6 +4703,54 @@ function renderSec07(){
   arr.forEach(c => bindCalcCard(c));
   arr.forEach(c => updateCalcCard(c));
 }
+
+function showToast(msg){
+  let t = document.querySelector('.calc-export-toast');
+  if(!t){
+    t = document.createElement('div');
+    t.className = 'calc-export-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(() => t.classList.add('is-show'));
+  setTimeout(() => t.classList.remove('is-show'), 2200);
+}
+function copyCalcResult(){
+  const arr = visibleCampuses();
+  const w = Sec07State.weeks;
+  const lines = ['【放洋留遊學・費用試算】', `估算週數：${w} 週`, ''];
+  arr.forEach(c => {
+    const pick = Sec07State.picks[c.key];
+    const co = c.courses[pick.course];
+    const ac = c.accomm[pick.accomm];
+    const cpw = parsePricePerWeekFromCourse(co);
+    const apw = parsePricePerWeek(ac?.price||'');
+    const tot = (cpw + apw) * w;
+    const twd = Math.round(tot * (State.rates[c.cur]||30));
+    const monthlyLiving = State.livingMonthly[c.cur] || 800;
+    const weeklyLiving = Math.round(monthlyLiving / 4.33);
+    const grandTwd = Math.round((tot + weeklyLiving * w) * (State.rates[c.cur]||30));
+    lines.push(`▌ ${c.flag} ${c.name}`);
+    lines.push(`  課程：${co?.n||'-'}（${c.cur}${cpw}/週）`);
+    lines.push(`  住宿：${ac?.n||'-'}（${c.cur}${apw}/週）`);
+    lines.push(`  小計：${c.cur}${tot.toLocaleString()} ≈ NT$${twd.toLocaleString()}`);
+    lines.push(`  含生活費總估算：≈ NT$${grandTwd.toLocaleString()}`);
+    lines.push('');
+  });
+  lines.push('＊ 本試算不含機票、簽證、報名費、保險、代辦服務費等一次性費用。');
+  lines.push('＊ 完整費用以放洋報價單為準。');
+  navigator.clipboard.writeText(lines.join('\n')).then(() => showToast('已複製到剪貼簿'));
+}
+function copyCalcLink(){
+  const arr = visibleCampuses();
+  const url = new URL(location.href);
+  url.searchParams.set('campuses', arr.map(c => c.key).join(','));
+  url.searchParams.set('style', State.style);
+  url.searchParams.set('weeks', Sec07State.weeks);
+  navigator.clipboard.writeText(url.toString()).then(() => showToast('已複製分享連結'));
+}
+window.copyCalcResult = copyCalcResult;
+window.copyCalcLink = copyCalcLink;
 
 function calcCardHTML(c){
   const coursesOpts = c.courses.map((co, i) => {
