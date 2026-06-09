@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1280">
 <title>放洋留遊學｜EP 語言學校諮詢工具</title>
+<meta name="description" content="比較全球 11 個 EP 語言學校校區、課程、住宿與費用，幫你找到最適合的城市。">
+<meta property="og:title" content="放洋留遊學｜EP 語言學校諮詢工具">
+<meta property="og:description" content="比較全球 11 個 EP 語言學校校區、課程、住宿與費用。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jojo880714.github.io/fanyang-consult/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A1A1E'/%3E%3Cpath d='M10 9h12v3h-9v4h7v3h-7v7h-3V9z' fill='%23C8436A'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
@@ -155,8 +161,8 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
 }
 .hero-eyebrow{
   position:absolute;top:24px;right:32px;
-  font-family:var(--mono);font-size:11px;letter-spacing:0.16em;
-  color:rgba(255,255,255,0.5);text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.08em;
+  color:rgba(255,255,255,0.5);
 }
 .hero-line{
   font-family:var(--display);font-style:normal;font-weight:700;
@@ -1369,9 +1375,12 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
 }
 .safety-cta-note b{color:var(--ink2)}
 
-/* ============== Section sec_return — 回國銜接服務 ============== */
+/* ============== Section sec_return — 回國銜接服務（非對稱 2-1-2-1） ============== */
 .return-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:14px;
 }
 .return-card{
   background:var(--sur);border:1px solid var(--line);
@@ -1379,11 +1388,20 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
   display:flex;flex-direction:column;gap:8px;
   transition:border-color .15s,transform .15s;
 }
-.return-card:hover{border-color:var(--ink4);transform:translateY(-2px)}
-.return-icon{font-size:30px;line-height:1;margin-bottom:4px}
+.return-card:hover{border-color:var(--line2);transform:translateY(-1px)}
+.return-card:first-child{
+  grid-row:1 / 3;background:var(--ink);
+  border-color:transparent;padding:36px 32px;color:#fff;
+}
+.return-card:first-child .return-icon{color:rgba(255,255,255,0.92)}
+.return-card:first-child .return-title{font-size:26px;color:#fff}
+.return-card:first-child .return-desc{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.8}
+.return-card:first-child .return-when{color:rgba(255,255,255,0.5)}
+.return-card:not(:first-child){padding:18px}
+.return-icon{font-size:30px;line-height:1;margin-bottom:4px;color:var(--ink)}
 .return-title{
   font-family:var(--display);font-style:normal;font-weight:600;
-  font-size:19px;color:var(--ink);
+  font-size:18px;color:var(--ink);
 }
 .return-desc{font-size:13px;color:var(--ink3);line-height:1.65}
 .return-when{
@@ -1391,6 +1409,45 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
   font-size:11px;color:var(--ink3);font-family:var(--mono);
   letter-spacing:0.04em;
 }
+
+/* Empty state — when visibleCampuses()===0 */
+.empty-state{
+  background:var(--sur);border:1px dashed var(--line2);
+  border-radius:var(--r-lg);
+  padding:48px 32px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  color:var(--ink3);
+}
+.empty-state .lc{color:var(--ink4);width:36px;height:36px}
+.empty-state-title{font-size:16px;font-weight:500;color:var(--ink2)}
+.empty-state-desc{font-size:13px;color:var(--ink3);max-width:420px;line-height:1.7}
+
+/* Active / pressed states (skill audit: physical click feedback) */
+.btn-primary:active,
+.btn-secondary:active,
+.ab-pill:active,
+.ab-phase:active,
+.content-tab:active,
+.weeks-pill:active,
+.cc-expand:active,
+.day-tab:active{transform:scale(0.97)}
+
+/* Focus ring (keyboard a11y) */
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.ab-pill:focus-visible,
+.ab-phase:focus-visible,
+.content-tab:focus-visible,
+.weeks-pill:focus-visible,
+.day-tab:focus-visible,
+.weeks-select:focus-visible,
+.calc-ctrl-row select:focus-visible{
+  outline:2px solid var(--rose-m);outline-offset:2px;
+}
+
+/* Testimonial bottom-align meta */
+.testimonial-card{display:flex;flex-direction:column;gap:12px}
+.testimonial-card .tm-meta{margin-top:auto}
 
 /* Advisor-only data-pending hint */
 .data-pending-note{
@@ -2922,6 +2979,17 @@ function ageBadgeClass(age){
 function esc(s){
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function emptyState(title, desc, iconName){
+  const ic = iconName || 'compass';
+  return `
+    <div class="empty-state">
+      ${icon(ic,'36')}
+      <div class="empty-state-title">${esc(title)}</div>
+      <div class="empty-state-desc">${esc(desc)}</div>
+    </div>
+  `;
+}
+
 function maxFromVisible(field){
   const arr = visibleCampuses();
   if(arr.length===0) return 1;
@@ -3162,15 +3230,19 @@ function renderSec01(){
 function renderSec02(){
   const arr = visibleCampuses();
   const cls = gridColClass(arr.length);
-  const cards = arr.map(c => renderCard(c, State.style)).join('');
+  const cards = arr.length === 0
+    ? emptyState('還沒選校區', '從顧問列勾選 1 個以上校區，這裡會顯示比較卡片。下方所有區段也會同步出現該城市的內容。', 'compass')
+    : `<div class="cards-grid ${cls}">${arr.map(c => renderCard(c, State.style)).join('')}</div>`;
+  const eyebrow = arr.length === 0 ? '從顧問列開始' : (arr.length === 1 ? '關於這座城市' : '比較這幾座城市');
+  const title = arr.length === 0 ? '請先勾選校區' : (arr.length === 1 ? '你的這座城市' : '同時比較這些校區');
   document.getElementById('sec02').innerHTML = `
     <div class="wrap">
       <div class="sec-h">
-        <div class="sec-eyebrow">${arr.length === 1 ? '關於這座城市' : '比較這幾座城市'}</div>
-        <div class="sec-title">${arr.length === 1 ? '你的這座城市' : '同時比較這些校區'}</div>
+        <div class="sec-eyebrow">${eyebrow}</div>
+        <div class="sec-title">${title}</div>
         <div class="sec-sub">同樣的 EP 體系，不同的城市性格。用顧問列切換 A / B / C / D 看不同的呈現重點。</div>
       </div>
-      <div class="cards-grid ${cls}">${cards}</div>
+      ${cards}
     </div>
   `;
 }
@@ -3306,7 +3378,15 @@ function accommTypeLabel(t){
 function renderSec03(){
   const arr = visibleCampuses();
   if(arr.length === 0){
-    document.getElementById('sec03').innerHTML = `<div class="wrap"><div class="sec-h"><div class="sec-title">沒有勾選的校區</div></div></div>`;
+    document.getElementById('sec03').innerHTML = `
+      <div class="wrap">
+        <div class="sec-h">
+          <div class="sec-eyebrow">數字並排，一目瞭然</div>
+          <div class="sec-title">比較表</div>
+        </div>
+        ${emptyState('尚未勾選校區', '在顧問列勾選 2 個以上校區，這裡會自動顯示對照表格。', 'users')}
+      </div>
+    `;
     return;
   }
   if(arr.length === 1){
@@ -3314,12 +3394,9 @@ function renderSec03(){
       <div class="wrap">
         <div class="sec-h">
           <div class="sec-eyebrow">數字並排，一目瞭然</div>
-          <div class="sec-title">選擇 2 個以上校區來比較</div>
-          <div class="sec-sub">目前只選了一個校區。在顧問列勾選更多校區，這裡會自動顯示對照表格。</div>
+          <div class="sec-title">需要 2 個以上校區才能比較</div>
         </div>
-        <div style="background:var(--sur2);border:1px dashed var(--line2);border-radius:var(--r-lg);padding:32px;text-align:center;font-size:13px;color:var(--ink4);">
-          ＋ 在上方顧問列勾選第二個校區，即可開始比較
-        </div>
+        ${emptyState('再勾選一個校區', '比較表至少需要兩座校區並排。在顧問列勾選第二個校區，這裡會自動展開。', 'users')}
       </div>
     `;
     return;
@@ -4430,7 +4507,11 @@ const Sec08State = { activeKey: null };
 function renderSec08(){
   const arr = visibleCampuses();
   if(arr.length === 0){
-    document.getElementById('sec08').innerHTML = `<div class="wrap"><div class="sec-h"><div class="sec-title">尚未選擇校區</div></div></div>`;
+    document.getElementById('sec08').innerHTML = `
+      <div class="wrap">
+        <div class="sec-h"><div class="sec-eyebrow">你在那裡的一天</div><div class="sec-title">在那裡的一天</div></div>
+        ${emptyState('尚未勾選校區', '勾選校區後，這裡會顯示那座城市的一日時間軸。', 'compass')}
+      </div>`;
     return;
   }
   // Pick active tab: keep previous if still valid, else first
