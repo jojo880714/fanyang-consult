@@ -1645,6 +1645,17 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
   font-family:var(--mono);margin-bottom:10px;
 }
 
+/* 「僅供參考」disclaimer banner — 學員 + 顧問都看得到 */
+.estimate-disclaimer{
+  display:flex;align-items:flex-start;gap:10px;
+  background:var(--sur2);border-left:3px solid var(--ink4);
+  border-radius:var(--r-sm);padding:10px 14px;
+  margin-bottom:18px;
+  font-size:12px;color:var(--ink3);line-height:1.7;
+}
+.estimate-disclaimer .lc{color:var(--ink4);margin-top:2px;flex-shrink:0}
+.estimate-disclaimer b{color:var(--ink2);font-weight:500}
+
 /* ============== Section sec_photos masonry ============== */
 .photo-plan-note{
   display:inline-block;font-size:12px;color:var(--ink);
@@ -4087,6 +4098,7 @@ function renderSec_climate(){
         <div class="sec-title">氣候與最佳出發時機</div>
         <div class="sec-sub">不同季節去同一個城市，體驗差很多。「並排」可同時比較全部校區的氣候曲線。</div>
       </div>
+      <div class="estimate-disclaimer">${icon('flame','16')}<div><b>僅供參考</b>：氣候資料為一般歷年平均值，非官方氣象局數據。實際當年天氣請以當地氣象單位公布為準。</div></div>
       ${tabsModeBar('sec_climate', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
@@ -4144,6 +4156,7 @@ function renderSec_spend(){
         <div class="sec-title">在那裡的消費感受</div>
         <div class="sec-sub">數字是死的，感覺是活的。這些日常消費讓你真正感受當地物價。「並排」可比較多校區。</div>
       </div>
+      <div class="estimate-disclaimer">${icon('flame','16')}<div><b>僅供參考</b>：消費數字為示意參考值，依當地時期、消費習慣、匯率波動會有差異。實際物價以你在當地的實際體驗為準。</div></div>
       ${tabsModeBar('sec_spend', `<div class="content-tabs">${tabs}</div>`)}
       <div class="tab-panels">${panels}</div>
     </div>
@@ -4193,6 +4206,7 @@ function renderSec_flight(){
         <div class="sec-title">航班資訊</div>
         <div class="sec-sub">從台灣飛到那裡要多久、怎麼訂、降落後怎麼去學校。</div>
       </div>
+      <div class="estimate-disclaimer">${icon('flame','16')}<div><b>僅供參考</b>：航班時間 / 航空公司 / 票價區間為一般參考值，實際以訂票時的航班動態與當下票價為準。建議用 Skyscanner / Google Flights 比價。</div></div>
       <div class="flight-grid">${cards}</div>
     </div>
   `;
@@ -4432,6 +4446,7 @@ function renderSec_costfull(){
         <span class="advisor-only data-pending-note">⚠️ 開課日為示範，待 EP 提供 2026 全年行事曆後更新</span>
         <strong>📅 最近開課日：</strong>${datesByCampus}
       </div>
+      <div class="estimate-disclaimer">${icon('flame','16')}<div><b>僅供參考</b>：機票 / 簽證費 / 學生保險的台幣金額為示意估算，實際以當期報價為準。詳細費用以放洋報價單為主。</div></div>
       <div class="cost-note">
         <b>＊ 為什麼是範圍？</b>學費依課程強度（標準 / 密集 / 超密集）有差，住宿依房型有差，機票淡旺季差很多。<br>
         <b>＊ 不含的項目</b>：個人加購保險、英文檢定考試費、出國前體檢、額外旅行費。<br>
@@ -4492,9 +4507,9 @@ function renderSec_voices(){
           </div>
           <div class="nationalities-col">
             <div class="nat-col-title">這個校區的同學來自哪裡</div>
-            <div class="nat-col-sub">${esc(c.name)}・EP 2025 Q1 樣本・N ≈ 120</div>
+            <div class="nat-col-sub">${esc(c.name)}・參考分布</div>
             <div class="nat-bars">${natRows}</div>
-            <div class="nat-note">資料來源：EP 校區內部統計（依該季度實際入學學員）。EP 政策刻意控制單一國籍上限 25%，避免同國抱團。<span class="advisor-only">★ 待 EP 提供當期實際數據後更新。</span></div>
+            <div class="nat-note">★ 本比例為示意參考值，<b>非 EP 官方公布數據</b>。實際國籍組成依當期入學學員不同，請以該校區公布為準。</div>
           </div>
         </div>
       </div>
