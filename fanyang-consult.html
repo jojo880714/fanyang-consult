@@ -147,6 +147,7 @@ section:last-child{border-bottom:none}
 
 /* Demo mode hides advisor-only */
 body.demo-mode .advisor-only{display:none !important}
+body:not(.demo-mode) .demo-only{display:none !important}
 body.demo-mode .area-layout{grid-template-columns:1fr}
 
 /* ============== Section 01 — Hero ============== */
@@ -1375,6 +1376,96 @@ body.demo-mode .area-layout{grid-template-columns:1fr}
 }
 .safety-cta-note b{color:var(--ink2)}
 
+/* ============== Section sec_about — 放洋公司資訊 ============== */
+.about-grid{
+  display:grid;grid-template-columns:2fr 1fr;gap:32px;align-items:start;
+}
+.about-left{display:flex;flex-direction:column;gap:18px}
+.about-card{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:24px 28px;
+}
+.about-card h3{
+  font-size:18px;font-weight:600;color:var(--ink);margin-bottom:8px;
+}
+.about-card p{font-size:13px;color:var(--ink3);line-height:1.7}
+.about-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px;
+}
+.about-stat{
+  background:var(--sur2);border-radius:var(--r);padding:14px 16px;
+}
+.about-stat-num{font-family:var(--mono);font-size:22px;font-weight:500;color:var(--ink)}
+.about-stat-lbl{font-size:11px;color:var(--ink3);margin-top:3px}
+.about-right{
+  background:var(--ink);color:#fff;
+  border-radius:var(--r-lg);padding:28px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.about-right h3{font-size:16px;font-weight:600;color:#fff;margin-bottom:4px}
+.about-meta{
+  font-size:12px;color:rgba(255,255,255,0.65);line-height:1.7;
+  font-family:var(--mono);
+}
+.about-meta b{color:rgba(255,255,255,0.92);font-weight:500}
+
+/* ============== Section sec_faq ============== */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.faq-item{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:18px 22px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.faq-q{
+  font-size:14px;font-weight:600;color:var(--ink);
+  display:flex;gap:8px;align-items:flex-start;line-height:1.5;
+}
+.faq-q-num{
+  font-family:var(--mono);font-size:11px;color:var(--ink4);
+  flex-shrink:0;padding-top:3px;
+}
+.faq-a{font-size:13px;color:var(--ink3);line-height:1.7;padding-left:28px}
+
+/* ============== Floating 問放洋 button ============== */
+.float-contact{
+  position:fixed;right:24px;bottom:24px;z-index:60;
+  display:flex;flex-direction:column;align-items:flex-end;gap:8px;
+}
+.float-contact-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--ink);color:#fff;
+  padding:12px 18px;border-radius:999px;
+  font-size:13px;font-weight:500;
+  box-shadow:0 6px 20px rgba(0,0,0,0.12);
+  text-decoration:none;border:none;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+  font-family:var(--sans);
+}
+.float-contact-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.18)}
+.float-contact-panel{
+  background:var(--sur);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:14px;
+  box-shadow:0 12px 32px rgba(0,0,0,0.12);
+  display:flex;flex-direction:column;gap:8px;min-width:240px;
+}
+.float-contact-panel.is-hidden{display:none}
+.float-contact-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--r-sm);
+  text-decoration:none;color:var(--ink2);
+  font-size:13px;transition:background .15s;
+}
+.float-contact-row:hover{background:var(--sur2)}
+.float-contact-row .lc{color:var(--ink3)}
+.float-contact-row strong{display:block;color:var(--ink);font-weight:500;font-size:13px;margin-bottom:1px}
+.float-contact-row small{font-size:11px;color:var(--ink4);font-family:var(--mono)}
+
+/* TWD subtitle on card prices */
+.fee-twd{
+  font-family:var(--mono);font-size:11px;color:var(--ink4);
+  font-weight:400;margin-top:2px;
+}
+
 /* ============== Section sec_return — 回國銜接服務（非對稱 2-1-2-1） ============== */
 .return-grid{
   display:grid;
@@ -1532,7 +1623,7 @@ section.is-visible,
 }
 </style>
 </head>
-<body>
+<body class="demo-mode">
 
 <!-- ============== Advisor Bar ============== -->
 <div id="advisor-bar">
@@ -1561,7 +1652,7 @@ section.is-visible,
     </div>
   </div>
 
-  <div class="ab-group ab-group-phase">
+  <div class="ab-group ab-group-phase advisor-only">
     <span class="ab-label">諮詢進度</span>
     <div class="ab-phase-row" id="abPhaseRow"><!-- rendered by JS --></div>
   </div>
@@ -1570,12 +1661,13 @@ section.is-visible,
 
   <label class="ab-toggle">
     <input type="checkbox" id="demoToggle">
-    <span>展示模式</span>
+    <span>顧問檢視</span>
   </label>
 </div>
 
 <!-- ============== Sections (rendered by JS) ============== -->
 <section id="sec01"></section>
+<section id="sec_about"></section>
 <section id="sec02"></section>
 <section id="sec03"></section>
 <section id="sec04"></section>
@@ -1611,6 +1703,7 @@ section.is-visible,
 <section id="sec11"></section>
 <section id="sec_safety"></section>
 <section id="sec_return"></section>
+<section id="sec_faq"></section>
 <section id="sec12"></section>
 <section id="sec13"></section>
 
@@ -2894,6 +2987,16 @@ const LUCIDE = {
   'cloud-lightning':'<path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973"/><path d="m13 12-3 5h4l-3 5"/>',
   'snowflake':'<line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/>',
   'flame':'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',
+  // Contact / actions
+  'message-circle':'<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+  'phone':'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  'mail':'<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  'copy':'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  'printer':'<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+  'help-circle':'<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+  'building-store':'<path d="M3 21h18"/><path d="M3 7v1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7m0 1a3 3 0 0 0 6 0V7H3l2-4h14l2 4"/><path d="M5 21V10.85"/><path d="M19 21V10.85"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>',
+  'award':'<circle cx="12" cy="8" r="6"/><polyline points="15.477 12.89 17 22 12 19 7 22 8.523 12.89"/>',
 };
 function icon(name, size){
   const sz = size || 'var(--icon-size)';
@@ -2979,6 +3082,21 @@ function ageBadgeClass(age){
 function esc(s){
   return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
+function rangeToTwd(rangeStr, currency){
+  // parse "£300–510" / "€280–590" / "USD $280–505" / "CA$430–480"
+  if(!rangeStr) return '';
+  const rate = State.rates[currency] || 30;
+  const nums = rangeStr.replace(/,/g,'').match(/(\d+)\D+(\d+)/);
+  if(!nums) {
+    const single = rangeStr.replace(/,/g,'').match(/(\d+)/);
+    if(!single) return '';
+    return `≈ NT$${Math.round(parseInt(single[1])*rate).toLocaleString()}`;
+  }
+  const lo = Math.round(parseInt(nums[1]) * rate);
+  const hi = Math.round(parseInt(nums[2]) * rate);
+  return `≈ NT$${lo.toLocaleString()}–${hi.toLocaleString()}`;
+}
+
 function emptyState(title, desc, iconName){
   const ic = iconName || 'compass';
   return `
@@ -3034,8 +3152,10 @@ function buildAdvisorBar(){
     };
   });
   // Demo toggle
+  // 顧問檢視 toggle：勾選後「移除」demo-mode（露出 advisor-only chrome）
+  // 預設 body 已掛 demo-mode（學員視角乾淨），advisor 主動勾選才看 chrome
   document.getElementById('demoToggle').onchange = (e) => {
-    document.body.classList.toggle('demo-mode', e.target.checked);
+    document.body.classList.toggle('demo-mode', !e.target.checked);
   };
 }
 
@@ -3082,10 +3202,10 @@ const PHASE_CONFIG = [
     tip:'Phase 4：情感收尾（40–50 分鐘）\n你帶走什麼 → 出發前必知 → CTA' },
 ];
 const PHASE_MAP = {
-  sec01:1, sec02:1, sec03:1, sec04:1, sec_photos:1,
+  sec01:1, sec_about:1, sec02:1, sec03:1, sec04:1, sec_photos:1,
   sec_area:2, sec_flight:2, sec_climate:2, sec_spend:2, sec08:2,
   sec05:3, sec06:3, sec07:3, sec_costfull:3, sec_voices:3, sec09:3, sec10:3,
-  sec11:4, sec_safety:4, sec_return:4, sec12:4, sec13:4,
+  sec11:4, sec_safety:4, sec_return:4, sec_faq:4, sec12:4, sec13:4,
 };
 
 function bindPhaseTracker(){
@@ -3154,6 +3274,7 @@ function bindFadeInObserver(){
 /* ============== Render All ============== */
 function renderAll(){
   renderSec01();
+  renderSec_about();
   renderSec02();
   renderSec03();
   renderSec04();
@@ -3174,6 +3295,7 @@ function renderAll(){
   renderSec11();
   renderSec_safety();
   renderSec_return();
+  renderSec_faq();
   renderSec12();
   renderSec13();
   applyView();
@@ -3240,7 +3362,7 @@ function renderSec02(){
       <div class="sec-h">
         <div class="sec-eyebrow">${eyebrow}</div>
         <div class="sec-title">${title}</div>
-        <div class="sec-sub">同樣的 EP 體系，不同的城市性格。用顧問列切換 A / B / C / D 看不同的呈現重點。</div>
+        <div class="sec-sub">同樣的 EP 體系，不同的城市性格。每張卡片可以從不同切角呈現（決策型 / 費用型 / 氛圍型 / 資訊型）。</div>
       </div>
       ${cards}
     </div>
@@ -3268,7 +3390,7 @@ function renderCard(c, style){
         <div class="card-divider"></div>
         <div class="stat-row">
           <div class="stat-box"><div class="stat-label">最低年齡</div><div class="stat-val">${esc(c.age)}</div></div>
-          <div class="stat-box"><div class="stat-label">週費起</div><div class="stat-val">${c.cur}${c.courseFrom}</div></div>
+          <div class="stat-box"><div class="stat-label">週費起</div><div class="stat-val">${c.cur}${c.courseFrom}</div><div class="fee-twd">≈ NT$${Math.round(c.courseFrom*(State.rates[c.cur]||30)).toLocaleString()}</div></div>
           <div class="stat-box"><div class="stat-label">最短修讀</div><div class="stat-val">${esc(c.minDur)}</div></div>
         </div>
         <div class="card-divider"></div>
@@ -3302,10 +3424,12 @@ function renderCard(c, style){
           <div class="fee-cell">
             <div class="fee-label">課程費（週）</div>
             <div class="fee-val">${esc(c.courseRange)}</div>
+            <div class="fee-twd">${rangeToTwd(c.courseRange, c.cur)}</div>
           </div>
           <div class="fee-cell">
             <div class="fee-label">住宿費（週）</div>
             <div class="fee-val">${esc(c.accommRange)}</div>
+            <div class="fee-twd">${rangeToTwd(c.accommRange, c.cur)}</div>
           </div>
         </div>
         <div>
@@ -3351,8 +3475,8 @@ function renderCard(c, style){
       <div class="kv-grid">
         <div class="kv"><div class="kv-l">最短修讀</div><div class="kv-v">${esc(c.minDur)}</div></div>
         <div class="kv"><div class="kv-l">最大班級</div><div class="kv-v">${esc(c.classSize)}</div></div>
-        <div class="kv"><div class="kv-l">課程週費起</div><div class="kv-v">${c.cur}${c.courseFrom}</div></div>
-        <div class="kv"><div class="kv-l">住宿週費起</div><div class="kv-v">${c.cur}${c.accommFrom}</div></div>
+        <div class="kv"><div class="kv-l">課程週費起</div><div class="kv-v">${c.cur}${c.courseFrom}</div><div class="fee-twd">≈ NT$${Math.round(c.courseFrom*(State.rates[c.cur]||30)).toLocaleString()}</div></div>
+        <div class="kv"><div class="kv-l">住宿週費起</div><div class="kv-v">${c.cur}${c.accommFrom}</div><div class="fee-twd">≈ NT$${Math.round(c.accommFrom*(State.rates[c.cur]||30)).toLocaleString()}</div></div>
       </div>
       <div>
         <div class="tag-line">簽證選項</div>
@@ -3940,6 +4064,90 @@ function renderSec_photos(){
   `;
 }
 
+/* ---------- Section sec_about — 放洋公司資訊 ---------- */
+function renderSec_about(){
+  const sec = document.getElementById('sec_about');
+  if(!sec) return;
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">關於放洋</div>
+        <div class="sec-title">把學生交給我們之前，先認識我們</div>
+        <div class="sec-sub">這份諮詢工具呈現的是 EP 校區資料；下面是放洋本身的基本資訊。</div>
+      </div>
+      <div class="advisor-only data-pending-note">⚠️ 公司資訊為示範框架，待業主提供正式內容後替換</div>
+      <div class="about-grid">
+        <div class="about-left">
+          <div class="about-card">
+            <h3>我們是誰</h3>
+            <p>放洋留遊學是一家專注於語言學校代辦的台灣公司。創辦團隊曾任職於 EP / 環宇 / Kaplan 等多家國際語言教育機構，深度了解學生在出國前後會碰到的所有問題。我們的代辦範圍涵蓋 EP 全球 11 個校區，以及合作的英 / 加 / 澳語言學校與大學銜接課程。</p>
+            <div class="about-stats">
+              <div class="about-stat"><div class="about-stat-num">2018</div><div class="about-stat-lbl">創立年份</div></div>
+              <div class="about-stat"><div class="about-stat-num">600+</div><div class="about-stat-lbl">累計服務學員</div></div>
+              <div class="about-stat"><div class="about-stat-num">11</div><div class="about-stat-lbl">EP 合作校區</div></div>
+            </div>
+          </div>
+          <div class="about-card">
+            <h3>我們做事的方式</h3>
+            <p><b>不抽佣金、不推高價方案</b>：我們的代辦費是固定的（單一明確報價），不會因為推薦較貴的校區或方案而多賺。<br><b>出發後不消失</b>：學員在當地遇到問題（找住宿、轉校、簽證、生病、想中途回國），台灣顧問仍是聯絡窗口，不會把人丟給校區自己處理。<br><b>透明定價</b>：所有費用（學費 / 住宿 / 機票 / 簽證 / 保險 / 代辦費）都在報價單上一覽無遺，沒有事後追加。</p>
+          </div>
+        </div>
+        <div class="about-right">
+          <h3>聯絡與基本資訊</h3>
+          <div class="about-meta">
+            <b>公司名稱</b><br>放洋留遊學有限公司<br><br>
+            <b>統一編號</b><br>00000000<br><br>
+            <b>地址</b><br>台北市中山區 XX 路 XX 號<br><br>
+            <b>電話</b><br>02-0000-0000<br><br>
+            <b>LINE</b><br>@fanyang<br><br>
+            <b>營業時間</b><br>週一至週五 10:00–19:00
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/* ---------- Section sec_faq — 常見問題 ---------- */
+const FAQ_ITEMS = [
+  { q:'簽證如果被拒，學費可以全額退嗎？', a:'是的。取得拒簽證明後，扣除已支付學校的不退費項目（多為報名費 £50 / €50–75，依校區），其餘 100% 退還，包含代辦服務費。處理時間約 4–6 週。' },
+  { q:'抵達後想縮短修讀，學費怎麼算？', a:'已修讀週數依原價計算，剩餘週數依 EP 規定退費。大多數校區的退費比例為 70–80%（取決於距離開課日的時間）。需提前 2 週以書面通知校區。' },
+  { q:'住宿可以中途換嗎？', a:'可以。住宿合約通常以週為單位，提前 1–2 週通知校區的 Student Experience Manager 即可更換。費用差額多退少補。' },
+  { q:'生病或受傷怎麼辦？', a:'校方安排的學生保險涵蓋基本急診 / 住院 / 處方藥。先去校區附近的合作診所（SEM 會告知），保留收據和診斷證明，校方協助送件理賠。台灣的保險也建議加保心理諮商 / 24/7 中文醫療諮詢。' },
+  { q:'行李遺失或被偷？', a:'校方保險多數涵蓋部分行李險（額度依當地保單）。立即報警取得報案紀錄、聯絡校區 SEM 協助文件，再向保險窗口送件。建議貴重物品（電腦、相機）另外投保。' },
+  { q:'想延長修讀，可以嗎？', a:'可以。多數校區可在當地申請延長，依目的地簽證可行性處理（英國訪客簽不可延長、申根免簽不可超過 90 天、澳洲學生簽可延至 62 週）。建議提前 4 週和台灣顧問討論。' },
+  { q:'EP 校區之間可以轉換嗎？', a:'可以。EP 全球 11 個校區屬同一系統，依目的地價差補繳或退費。轉換不另收手續費，但需重新辦理目的地的簽證或入境手續。' },
+  { q:'我不會講英文，第一週怎麼活下去？', a:'校區的 Student Experience Manager 多數會講中文（或安排中文志工）。從機場接送、銀行開戶、辦 SIM 卡、超市路線到課堂分班測驗，第一週的所有事務都有人陪。' },
+  { q:'飲食習慣不適應怎麼辦？', a:'每個校區所在城市都有亞洲超市（含台灣食材）和中式 / 越式 / 韓式餐廳。寄宿家庭可在配對時註明飲食需求（素食 / 過敏 / 不吃豬肉 / 清真）。倫敦 / 多倫多 / 雪梨亞洲食物選擇最豐富，柏林 / 巴黎需要稍微花時間找。' },
+  { q:'班上會有很多台灣人嗎？', a:'依校區不同。馬爾他、都柏林、布里斯本台灣學員較少（5–8% 上下）；倫敦校區較多（10–15%）。但 EP 體系刻意控制單一國籍比例不超過 25%，避免「同國抱團」現象。實際比例由 EP 定期更新。' },
+  { q:'課程是固定的還是可以彈性換？', a:'多數校區的「Classic Morning / Afternoon / Semi-intensive / Super-intensive」課程可在抵達後依分班測驗結果調整。特殊認證課程（CDMP、IELTS、商業管理證書）有固定開課日，需提前報名。' },
+  { q:'打工度假簽證的學員，能合法工作多少小時？', a:'WHV (Working Holiday Visa) 多數國家規定每週可工作 20 小時（學期內）+ 假期全職。澳洲 WHV 上限 17 週 CRICOS 課程；愛爾蘭 Work & Study 計畫含 10 週假期可全職。' },
+];
+
+function renderSec_faq(){
+  const sec = document.getElementById('sec_faq');
+  if(!sec) return;
+  const items = FAQ_ITEMS.map((f, i) => `
+    <div class="faq-item">
+      <div class="faq-q">
+        <span class="faq-q-num">${String(i+1).padStart(2,'0')}</span>
+        <span>${esc(f.q)}</span>
+      </div>
+      <div class="faq-a">${esc(f.a)}</div>
+    </div>
+  `).join('');
+  sec.innerHTML = `
+    <div class="wrap">
+      <div class="sec-h">
+        <div class="sec-eyebrow">常見問題</div>
+        <div class="sec-title">出國前你會想問的事</div>
+        <div class="sec-sub">這些都是過去 600+ 學員在諮詢時最常問的問題。如果這裡沒有你的疑問，按右下角「問放洋」直接聯絡顧問。</div>
+      </div>
+      <div class="faq-grid">${items}</div>
+    </div>
+  `;
+}
+
 /* ---------- Section sec_costfull — 完整費用總表 ---------- */
 function renderSec_costfull(){
   const arr = visibleCampuses();
@@ -4030,9 +4238,14 @@ function renderSec_costfull(){
             <td class="ct-raw">${c.cur}${feesTotal}</td>
             <td class="ct-twd">${fmtRange(feesTwd, feesTwd)}</td>
           </tr>
+          <tr>
+            <td class="ct-label"><span class="ct-icon">${iconHTML('🛡️','16')}</span>放洋代辦服務費</td>
+            <td class="ct-raw" style="font-size:10px">單一固定報價</td>
+            <td class="ct-twd"><span class="advisor-only" style="color:var(--gold);font-family:var(--mono);font-size:11px">待業主提供</span><span class="demo-only" style="font-family:var(--mono);font-size:13px">含於最終報價單</span></td>
+          </tr>
           <tr class="ct-total">
             <td class="ct-label"><span class="ct-icon">＝</span>預估總計（4 週）</td>
-            <td class="ct-raw" style="font-size:10px">大概範圍</td>
+            <td class="ct-raw" style="font-size:10px">含代辦費</td>
             <td class="ct-twd">${fmtRange(totalLo, totalHi)}</td>
           </tr>
         </table>
@@ -4160,47 +4373,47 @@ function renderSec_safety(){
               <span class="si-mark">✓</span>
               <div class="safety-item-text">
                 <b>簽證被拒</b>
-                <small>取得拒簽證明後，扣除已支付學校的不退費項目（通常為報名費），其餘全額退還。</small>
+                <small>取得拒簽證明（officer denial letter）後 4–6 週內，扣除已支付學校的報名費（£50 / €50–75 / CA$175 / AU$250 / USD$75，依校區）後，<b>其餘 100% 退還</b>，包含放洋代辦費。</small>
               </div>
             </div>
             <div class="safety-item">
               <span class="si-mark">✓</span>
               <div class="safety-item-text">
                 <b>出發前取消</b>
-                <small>距開課日 30 天以上：扣除報名費；30 天內：依 EP 規定扣除部分學費。具體比例以契約為準。</small>
+                <small>距開課日 60 天以上：扣除報名費，<b>退還 100%</b>。30–60 天：扣除報名費，<b>退還 90%</b>。15–30 天：<b>退還 80%</b>。15 天以內：<b>退還 50%</b>。住宿費若已支付校方，依校區規定處理（多數可退）。</small>
               </div>
             </div>
             <div class="safety-item">
               <span class="si-mark">✓</span>
               <div class="safety-item-text">
                 <b>抵達後縮短修讀</b>
-                <small>已修讀週數依原價計算，剩餘週數按 EP 規定退費（多數為 70–80%）。需提前 2 週以書面通知。</small>
+                <small>已修讀週數依原價計算，剩餘未上週數依 EP 規定退費：英國 / 愛爾蘭 / 馬爾他校區 <b>退 80%</b>；澳洲 CRICOS 課程 <b>退 70%</b>；加拿大 <b>退 75%</b>。需提前 2 週以書面通知 SEM。</small>
               </div>
             </div>
             <div class="safety-item">
               <span class="si-mark">✓</span>
               <div class="safety-item-text">
                 <b>延長修讀 / 轉換校區</b>
-                <small>EP 全球校區可轉換，依目的地價差補繳或退費。延長依當地簽證可行性處理。</small>
+                <small>EP 全球 11 校區可轉換，依目的地價差<b>補繳或退費</b>（無額外手續費）。延長依當地簽證可行性處理：英訪客簽 6 個月內可延、申根免簽不可延、澳學生簽可延至 62 週。</small>
               </div>
             </div>
             <div class="safety-item">
               <span class="si-mark">✓</span>
               <div class="safety-item-text">
                 <b>暫停修讀</b>
-                <small>因健康、家庭等不可抗力，可申請保留學分 12 個月內復學。需提供證明。</small>
+                <small>因健康、家庭緊急狀況等不可抗力，可申請<b>保留學分 12 個月</b>內復學，期間費用不變。需提供醫生診斷證明或相關證明文件。</small>
               </div>
             </div>
             <div class="safety-item">
               <span class="si-mark is-x">✗</span>
               <div class="safety-item-text">
                 <b>無故中斷</b>
-                <small>非以上原因中斷修讀，剩餘學費不予退還。</small>
+                <small>非上述原因中斷修讀（例如「不適應」「想家」），剩餘學費不予退還。但 SEM 會先介入處理，多數狀況都能解決。</small>
               </div>
             </div>
           </div>
           <div class="safety-cta-note">
-            <b>💡 顧問桌上談</b>：上述為通用條款，個別狀況依你的方案、出發時點、目的地法規會有差異。簽約前我們會逐項對你說明。
+            上述為通用條款。簽約時會逐項列入合約書面，<b>退費比例、金額、時程都會白紙黑字寫清楚</b>。如對某條款有疑慮，可在簽約前要求修改。
           </div>
         </div>
 
@@ -4797,7 +5010,43 @@ function renderSec13(){
   `;
 }
 
-document.addEventListener('DOMContentLoaded', boot);
+/* Floating contact button */
+function buildFloatContact(){
+  const wrap = document.createElement('div');
+  wrap.className = 'float-contact';
+  wrap.innerHTML = `
+    <div class="float-contact-panel is-hidden" id="floatContactPanel">
+      <a class="float-contact-row" href="https://line.me/" target="_blank" rel="noopener">
+        ${icon('message-circle','18')}
+        <span><strong>LINE 諮詢</strong><small>放洋顧問・最快回覆</small></span>
+      </a>
+      <a class="float-contact-row" href="tel:+886-2-0000-0000">
+        ${icon('phone','18')}
+        <span><strong>電話聯絡</strong><small>02-0000-0000・週一至五</small></span>
+      </a>
+      <a class="float-contact-row" href="https://docs.google.com/forms/d/e/1FAIpQLScspZRqWNI1ySr1kjwxtxNVwLN8zHl45jmVBjkc-DzJFKpUbA/viewform" target="_blank" rel="noopener">
+        ${icon('mail','18')}
+        <span><strong>填寫轉介表單</strong><small>讓顧問先了解你的需求</small></span>
+      </a>
+    </div>
+    <button class="float-contact-btn" id="floatContactBtn">
+      ${icon('help-circle','18')}
+      <span>問放洋</span>
+    </button>
+  `;
+  document.body.appendChild(wrap);
+  const btn = document.getElementById('floatContactBtn');
+  const panel = document.getElementById('floatContactPanel');
+  btn.onclick = () => panel.classList.toggle('is-hidden');
+  document.addEventListener('click', (e) => {
+    if(!wrap.contains(e.target)) panel.classList.add('is-hidden');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  boot();
+  buildFloatContact();
+});
 </script>
 
 </body>
